@@ -1,0 +1,57 @@
+{
+  "name": "autoclip",
+  "version": "1.0.1",
+  "description": "Personal long-form video clipping studio",
+  "main": "electron-main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yashcursed-a11y/autoclip.git"
+  },
+  "scripts": {
+    "start": "electron electron-main.js",
+    "app": "electron electron-main.js",
+    "build:exe": "electron-builder --win",
+    "server": "node server.js",
+    "check": "node --check server.js && node --check public/app.js && node --check electron-main.js",
+    "test": "node test/e2e.test.js"
+  },
+  "build": {
+    "appId": "com.autoclip.pro",
+    "productName": "AutoClip",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "AutoClip"
+    },
+    "files": [
+      "**/*",
+      "!dist/**",
+      "!work/**"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "dependencies": {
+    "electron-updater": "^6.8.11",
+    "express": "^5.3.0",
+    "googleapis": "^189.0.0",
+    "multer": "^2.5.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "electron": "^45.2.2",
+    "electron-builder": "^26.18.0"
+  }
+}

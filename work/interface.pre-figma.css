@@ -1,0 +1,62 @@
+/* Native, offline typography. Caption samples retain their creative fonts. */
+:root {
+  --font-ui:'Segoe UI Variable Text','Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-heading:'Segoe UI Variable Display','Segoe UI',-apple-system,sans-serif;
+  --font-mono:Consolas,'SFMono-Regular',monospace;
+  --font-main:var(--font-ui);
+}
+body.studio-obsidian,body.dark-theme { font-family:var(--font-ui); font-size:13px; font-weight:400; letter-spacing:0; line-height:1.5; text-rendering:auto; }
+:is(button,input,select,textarea,summary) { font-family:var(--font-ui); letter-spacing:0; }
+:is(button,.pill-btn,.status-pill,.card-btn,.ct-btn,.editor-tool,.editor-tab,.tab,.count-pill,.pos-btn) { font-weight:500 !important; }
+:is(h1,h2,h3,h4,.brand-title,.brand-text) { font-family:var(--font-heading); font-weight:600 !important; }
+:is(label,.hint,.muted,.project-title,.project-meta,.section-title-wrap p) { font-family:var(--font-ui); }
+.hero h1 { font-weight:600; letter-spacing:-.045em; }
+.brand-title { letter-spacing:-.035em; }
+.rail-btn .rail-label { font-size:11px; font-weight:500; }
+.topbar-right > * { font-size:11px !important; }
+.project-title { font-size:12px; } .project-meta { font-size:11px; }
+.settings-grid label,.sub-grid label,.cps-control-group label { font-size:12px; font-weight:500; }
+.hint { font-size:11px; line-height:1.6; }
+.section-title-wrap h2 { font-size:19px; }
+.template-card strong { font-size:13px; font-weight:600; }
+.template-card small { font-size:12px; }
+.editor-shell #jobTitle { font-family:var(--font-heading); font-size:15px; font-weight:600; }
+.editor-shell #jobSub { font-size:11px; color:#90a1b3; }
+.editor-shell .workspace-controls button { font-size:12px; min-height:32px; padding:7px 12px; }
+.editor-shell .editor-toolbar { background:#14191f; }
+.editor-shell .editor-toolbar .editor-tab,.editor-shell .editor-tool { font-size:12px; padding:7px 11px; }
+.editor-library-heading,.editor-inspector-title { font-size:13px; font-weight:600; }
+.editor-library-tabs button { font-size:12px; }
+.editor-shell .candidates-header button { font-size:11px !important; }
+.editor-shell .candidate-card { background:#171d25; border-color:#ffffff0c; border-radius:8px; }
+.editor-shell .candidate-card.active-preview { background:#14252d; border-color:#00f0ff50; }
+.editor-shell .card-title-input { font-family:var(--font-ui) !important; font-size:13px !important; font-weight:600 !important; line-height:1.45; }
+.editor-shell .card-hook { font-size:12px; color:#9bafc1; line-height:1.5; }
+.editor-shell .card-timing label { font-size:11px; }
+.editor-shell .card-actions button { font-size:11px; min-height:27px; }
+.editor-shell .score-badge,.editor-shell .part-badge,.editor-shell .breakdown-pill { font-size:10px; font-weight:500; }
+.editor-shell .sub-grid label { font-size:12px; }
+.editor-shell .sub-grid input,.editor-shell .sub-grid select { font-family:var(--font-ui); font-size:12px; min-height:32px; }
+.editor-shell .ct-btn { font-size:11px; padding:6px 8px; }
+.editor-shell .track-header { font-size:11px; }
+.editor-shell .clip-range-title { font-family:var(--font-ui); font-size:11px; font-weight:500; }
+.editor-shell .canvas-header-bar button { font-size:11px; }
+.editor-shell .editor-save-status { font-size:11px; }
+.editor-playback output,.ct-timecode,.ruler-tick,#cpsTimecode { font-family:var(--font-mono); font-variant-numeric:tabular-nums; }
+.editor-return-button { font-family:var(--font-ui); }
+.cps-card-info strong { font-size:13px; font-weight:600; }
+.cps-card-info small,.cps-panel-desc { font-size:12px; }
+.cps-panel-title { font-size:11px; letter-spacing:.04em; }
+.modal-card :is(h3,h4) { font-weight:600 !important; }
+.modal-card .muted { font-size:12px !important; }
+/* Keep GPU compositing focused on video, rather than decorative panels. */
+.app-rail,.studio-topbar,.panel,.editor-toolbar,.candidates-column,.inspector-column { backdrop-filter:none; }
+.candidate-card,.template-card,.cps-preset-card { transition:border-color .15s ease,background-color .15s ease; }
+.candidate-card { content-visibility:auto; contain-intrinsic-size:auto 240px; }
+.editor-shell .candidate-card { contain-intrinsic-size:auto 240px; }
+.yashcursed-footer-glow,.yashcursed-badge,.lava-glow-btn { animation:none !important; text-shadow:none; }
+@media(max-width:1200px) {
+ .editor-shell .editor-toolbar .editor-tab { font-size:11px; padding:7px 8px; }
+ .editor-shell .editor-save-status { display:none; }
+ .editor-shell .ct-btn { font-size:11px; padding:5px 6px; }
+}

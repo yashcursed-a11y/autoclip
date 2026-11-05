@@ -1,0 +1,1 @@
+{"version":"visual-framing-v1","source":{"width":960,"height":320,"fps":12},"duration":9,"aspect":"9:16","policy":"group_fit","sampleCount":0,"segments":[{"start":0,"end":9,"layout":"fit","crops":[],"faceCount":0}],"speechDetection":"not-needed","warning":"Full-picture layout selected; no speaker detection is required."}

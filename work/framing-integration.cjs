@@ -1,0 +1,24 @@
+const assert=require('assert'),fs=require('fs/promises'),path=require('path'),cp=require('child_process');
+const {getAdaptiveFramingPlan,buildAdaptiveFramingGraph,validatePlan}=require('../lib/auto-framing');
+const {buildSmartCallouts,appendSmartCallouts}=require('../lib/smart-text');
+const {generateAssSubtitles}=require('../lib/caption');
+(async()=>{
+ const source=path.resolve('work/framing-tests/people-layouts.mp4');
+ const plan=await getAdaptiveFramingPlan(source,0,9,'9:16','adaptive');
+ assert.deepStrictEqual(plan.segments.map(s=>s.layout),['single','duo','fit']);
+ const t=Date.now();const cached=await getAdaptiveFramingPlan(source,0,9,'9:16','adaptive');assert.deepStrictEqual(plan,cached);const cacheMs=Date.now()-t;
+ const clip={start:0,end:9},transcript={segments:[{start:0,end:3,text:'Remember the first important lesson today.'},{start:4,end:8,text:'This secret actually changed everything for us.'}]};
+ const rows=buildSmartCallouts(clip,transcript,'punchy');assert(rows.length>0);assert(rows.every(r=>r.start>=0&&r.end<=9));
+ assert.strictEqual(buildSmartCallouts(clip,{segments:[]}).length,0);
+ let ass=generateAssSubtitles(clip,transcript,{captionStyle:{fontSize:30}},180,320);ass=appendSmartCallouts(ass,rows,180,320,'pill');
+ assert(ass.includes('Style: SmartText'));assert(ass.includes('Dialogue: 1'));
+ await fs.writeFile('work/framing-tests/test.ass',ass);
+ const graph=buildAdaptiveFramingGraph(plan,180,320)+";[v_framed]subtitles='work/framing-tests/test.ass'[v]";
+ const result=cp.spawnSync('ffmpeg',['-y','-v','error','-i',source,'-filter_complex',graph,'-map','[v]','-t','9','-an','-c:v','libx264','-preset','ultrafast','-pix_fmt','yuv420p','work/framing-tests/adaptive-export.mp4'],{encoding:'utf8',timeout:60000,windowsHide:true});
+ assert.strictEqual(result.status,0,result.stderr);
+ const probe=JSON.parse(cp.execFileSync('ffprobe',['-v','error','-show_entries','stream=width,height:format=duration','-of','json','work/framing-tests/adaptive-export.mp4'],{encoding:'utf8'}));
+ assert.strictEqual(probe.streams[0].width,180);assert(Math.abs(Number(probe.format.duration)-9)<.2);
+ assert.throws(()=>validatePlan({...plan,segments:[{start:0,end:9,layout:'single',crops:[{x:-1,y:0,width:10,height:10}]}]}));
+ const group=await getAdaptiveFramingPlan(source,0,9,'9:16','group_fit');assert.strictEqual(group.sampleCount,0);
+ console.log(JSON.stringify({layouts:plan.segments.map(s=>s.layout),samples:plan.sampleCount,cacheMs,callouts:rows.length,export:probe,invalidCropRejected:true,groupModeSkipsDetection:true},null,2));
+})().catch(e=>{console.error(e);process.exitCode=1});

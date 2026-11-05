@@ -1,0 +1,17 @@
+[
+  {
+    "Algorithm": "SHA256",
+    "Hash": "2BED3C0AE0E41092864957C924DD847A5DD0F0A42D07A5EB3FD67E5759A26658",
+    "Path": "C:\\Users\\intel\\Documents\\Codex\\2026-11-02\\im-x20\\lib\\analyzer.js"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "50459B36E0F13AD93DAE62BE5295AA6EBD6048F0FA84014E4293359F52C0544B",
+    "Path": "C:\\Users\\intel\\Documents\\Codex\\2026-11-02\\im-x20\\server.js"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "BD2C7C60D6C8B3F932E0A597FF4932FDC1836F2AC6CF2218A8BDE4056346F3F8",
+    "Path": "C:\\Users\\intel\\Documents\\Codex\\2026-11-02\\im-x20\\electron-main.js"
+  }
+]

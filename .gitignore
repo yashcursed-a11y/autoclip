@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Work & Generated Media
+work/data/
+outputs/
+*.mp4
+*.mkv
+*.webm
+*.mov
+*.wav
+*.ass
+*.tmp
+
+# Secrets & OAuth Credentials
+config/google-oauth.json
+google-oauth.json
+google-token.json
+.env
+.env.*
+
+# Logs & Cache
+*.log
+.cache/
+__pycache__/
+*.pyc
+
+dist/
+models/
