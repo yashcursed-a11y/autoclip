@@ -886,6 +886,115 @@ app.post('/api/jobs/url', async (req, res) => {
   }
 });
 
+// MAX AUTOMATE: YouTube Channel Auto-Clipper Endpoints
+const { fetchChannelVideos, normalizeChannelUrl } = require('./lib/downloader');
+
+// 1. Channel Video Preview
+app.post('/api/automate/channel-preview', async (req, res) => {
+  try {
+    const { channelUrl, count = 5 } = req.body || {};
+    if (!channelUrl) return res.status(400).json({ error: 'Please enter a YouTube Channel URL or @handle.' });
+
+    const result = await fetchChannelVideos(channelUrl, count);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 2. BOOM: Auto-launch channel clipping batch
+app.post('/api/automate/launch', async (req, res) => {
+  try {
+    const { channelUrl, count = 5, clipsPerVideo = 5, options = {} } = req.body || {};
+    if (!channelUrl) return res.status(400).json({ error: 'Please enter a YouTube Channel URL or @handle.' });
+
+    const channelData = await fetchChannelVideos(channelUrl, count);
+    const videos = channelData.videos || [];
+    if (!videos.length) {
+      return res.status(404).json({ error: 'No videos found for this channel.' });
+    }
+
+    const createdJobs = [];
+
+    // Helper to start job processing
+    async function startJob(video) {
+      const jobId = crypto.randomUUID();
+      const jobOptions = {
+        ...options,
+        clipCount: Math.max(1, Math.min(100, Number(clipsPerVideo) || 5)),
+        streamQuality: options.streamQuality || 'turbo',
+        autoProcess: true
+      };
+
+      const initialJob = {
+        id: jobId,
+        sourceType: 'url',
+        sourceUrl: video.url,
+        sourceName: video.title,
+        sourcePath: '',
+        thumbnail: video.thumbnail,
+        channelTitle: channelData.channelTitle,
+        duration: video.duration || 0,
+        options: jobOptions,
+        status: 'downloading',
+        progress: { percent: 0, message: `[${channelData.channelTitle}] Queued for Auto-Clipping...` },
+        clips: [],
+        outputs: [],
+        createdAt: new Date().toISOString()
+      };
+
+      await saveJob(initialJob);
+      createdJobs.push(initialJob);
+
+      // Launch background execution
+      (async () => {
+        let downloadResult = null;
+        try {
+          downloadResult = await downloadUrl(video.url, (p) => {
+            updateJob(jobId, { progress: p }).catch(() => {});
+          }, null, jobOptions);
+
+          const info = await getVideoInfo(downloadResult.filePath);
+          await updateJob(jobId, {
+            sourceName: downloadResult.rawTitle || downloadResult.title || video.title,
+            sourcePath: downloadResult.filePath,
+            duration: Math.round(info.duration) || video.duration,
+            width: info.width,
+            height: info.height,
+            audioOnly: Boolean(downloadResult.audioOnly),
+            status: 'downloaded',
+            progress: { percent: 100, message: 'Downloaded. Starting Whisper transcription & viral detection...' }
+          });
+
+          await processVideo(jobId, jobOptions);
+        } catch (dlErr) {
+          if (downloadResult?.filePath && fs.existsSync(downloadResult.filePath)) {
+            try { fs.unlinkSync(downloadResult.filePath); } catch {}
+          }
+          await updateJob(jobId, {
+            status: 'failed',
+            error: dlErr.message,
+            progress: { percent: 0, message: dlErr.message }
+          }).catch(() => {});
+        }
+      })();
+    }
+
+    for (const v of videos) {
+      await startJob(v);
+    }
+
+    res.json({
+      success: true,
+      channelTitle: channelData.channelTitle,
+      queuedCount: createdJobs.length,
+      jobs: createdJobs
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Trigger Transcription & Best-Moment Analysis manually
 app.post('/api/jobs/:id/process', async (req, res) => {
   try {

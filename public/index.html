@@ -22,6 +22,12 @@
           <span class="rail-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 10-12h-7l1-8Z"/></svg></span>
         </a>
         <div class="rail-nav">
+          <button type="button" id="railMaxAutomateBtn" class="rail-btn" title="⚡ MAX AUTOMATE: YouTube Channel Auto-Clipper" style="color: #ff9900;">
+            <span class="rail-icon" aria-hidden="true" style="color: #ff9900;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </span>
+            <span class="rail-label" style="font-weight: 800; color: #ffaa00;">MAX</span>
+          </button>
           <button type="button" id="railIngestBtn" class="rail-btn active" title="Page 1: Ingest Video / New Project">
             <span class="rail-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/></svg></span>
             <span class="rail-label">New</span>
@@ -114,6 +120,7 @@
         <div class="source-tabs">
           <button class="tab active" data-tab="file">📁 Upload Video File</button>
           <button class="tab" data-tab="url">🔗 Stream / Video URL (yt-dlp)</button>
+          <button class="tab" data-tab="max" id="maxTabBtn" style="background: linear-gradient(135deg, rgba(255, 140, 0, 0.18), rgba(255, 60, 0, 0.18)); border: 1px solid rgba(255, 150, 0, 0.5); color: #ffaa00; font-weight: 800;">⚡ MAX AUTOMATE (Channel Clipper)</button>
         </div>
 
         <div id="filePane">
@@ -138,6 +145,104 @@
               </select>
             </div>
             <small class="hint">⚡ Fast multi-fragment download with real-time speed & ETA. Optimized for long streams.</small>
+          
+        <!-- MAX AUTOMATE TAB PANE -->
+        <div id="maxPane" class="hidden" style="margin-top: 14px;">
+          <div style="background: radial-gradient(circle at top, rgba(255, 140, 0, 0.12), rgba(18, 20, 26, 0.95)); border: 1px solid rgba(255, 150, 0, 0.35); border-radius: 12px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 30px rgba(255, 140, 0, 0.1);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 14px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 24px;">⚡</span>
+                <div>
+                  <h3 style="margin: 0; font-size: 17px; font-weight: 900; color: #ffaa00; letter-spacing: -0.01em;">MAX AUTOMATE: YouTube Channel Auto-Clipper</h3>
+                  <p class="muted" style="margin: 2px 0 0 0; font-size: 12px;">Paste any YouTube Channel URL &bull; Choose video count &bull; BOOM: auto-transcribe &amp; slice best clips!</p>
+                </div>
+              </div>
+              <span style="padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; background: rgba(255, 140, 0, 0.15); border: 1px solid rgba(255, 140, 0, 0.4); color: #ffaa00;">100% AUTONOMOUS</span>
+            </div>
+
+            <!-- Field 1: Paste Channel Link -->
+            <div style="margin-bottom: 16px;">
+              <label for="maxChannelUrl" style="display: block; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #cbd5e1; margin-bottom: 6px;">
+                1. Paste YouTube Channel Link
+              </label>
+              <div style="display: flex; gap: 10px;">
+                <input id="maxChannelUrl" type="text" placeholder="https://www.youtube.com/@MrBeast or @mkbhd or channel link" style="flex: 1; padding: 12px 14px; border-radius: 8px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.18); color: #fff; font-size: 13px; font-weight: 600;">
+                <button type="button" id="maxInspectBtn" class="pill-btn" style="padding: 10px 18px; font-size: 12px; font-weight: 700; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; white-space: nowrap;">
+                  🔍 Inspect Channel
+                </button>
+              </div>
+              <!-- Channel quick test sample pills -->
+              <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+                <span style="font-size: 11px; color: #94a3b8;">Try sample channel:</span>
+                <button type="button" class="max-sample-btn count-pill" data-channel="@mkbhd" style="padding: 3px 10px; font-size: 11px;">@mkbhd</button>
+                <button type="button" class="max-sample-btn count-pill" data-channel="@MrBeast" style="padding: 3px 10px; font-size: 11px;">@MrBeast</button>
+                <button type="button" class="max-sample-btn count-pill" data-channel="@lexfridman" style="padding: 3px 10px; font-size: 11px;">@lexfridman</button>
+                <button type="button" class="max-sample-btn count-pill" data-channel="@hubermanlab" style="padding: 3px 10px; font-size: 11px;">@hubermanlab</button>
+              </div>
+            </div>
+
+            <!-- Field 2: Video Count & Clips Per Video -->
+            <div style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 14px; margin-bottom: 20px;">
+              <div>
+                <label style="display: block; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #cbd5e1; margin-bottom: 6px;">
+                  2. How Many Videos You Wanna Clip?
+                </label>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <input id="maxVideoCount" type="number" min="1" max="50" value="5" style="width: 70px; padding: 10px; border-radius: 8px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.18); color: #fff; font-size: 14px; font-weight: 800; text-align: center;">
+                  <div class="clip-count-pills" style="margin: 0; display: flex; gap: 4px;">
+                    <button type="button" class="max-count-pill count-pill" data-val="3">3</button>
+                    <button type="button" class="max-count-pill count-pill active" data-val="5">5</button>
+                    <button type="button" class="max-count-pill count-pill" data-val="10">10</button>
+                    <button type="button" class="max-count-pill count-pill" data-val="15">15</button>
+                    <button type="button" class="max-count-pill count-pill" data-val="25">25</button>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label for="maxClipsPerVideo" style="display: block; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #cbd5e1; margin-bottom: 6px;">
+                  Clips Per Video
+                </label>
+                <select id="maxClipsPerVideo" style="width: 100%; padding: 10px; border-radius: 8px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.18); color: #fff; font-size: 12px; font-weight: 700;">
+                  <option value="3">3 Top Hooks</option>
+                  <option value="5" selected>5 Best Moments</option>
+                  <option value="10">10 Highlights</option>
+                  <option value="15">15 Viral Cuts</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="maxQuality" style="display: block; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #cbd5e1; margin-bottom: 6px;">
+                  Download Mode
+                </label>
+                <select id="maxQuality" style="width: 100%; padding: 10px; border-radius: 8px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.18); color: #fff; font-size: 12px; font-weight: 700;">
+                  <option value="turbo" selected>⚡ Turbo (480p) - Fast</option>
+                  <option value="720p">🎬 HD (720p)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Field 3: THE BOOM BUTTON -->
+            <div style="margin-bottom: 16px;">
+              <button type="button" id="maxBoomBtn" class="pill-btn lava-glow-btn" style="width: 100%; font-size: 16px; font-weight: 900; padding: 16px 24px; background: linear-gradient(135deg, #ff8800, #ff2200); color: #fff; border: none; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; border-radius: 10px; box-shadow: 0 0 35px rgba(255, 100, 0, 0.45); transition: all 0.2s ease;">
+                💥 BOOM! AUTOMATE CLIPPING NOW
+              </button>
+            </div>
+
+            <!-- Field 4: Live Channel & Batch Feed -->
+            <div id="maxBatchContainer" class="hidden" style="margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08);">
+              <div id="maxBatchHeader" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div>
+                  <h4 id="maxChannelTitleText" style="margin: 0; font-size: 15px; font-weight: 800; color: #fff;">Channel Videos</h4>
+                  <p id="maxBatchMetaText" class="muted" style="margin: 2px 0 0 0; font-size: 11px;">Queueing and processing videos...</p>
+                </div>
+                <div id="maxBatchCountBadge" style="padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 800; background: rgba(255,255,255,0.08); color: #ffaa00;">0 / 0 Videos</div>
+              </div>
+
+              <!-- Grid of Videos in this Batch -->
+              <div id="maxVideoGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; max-height: 480px; overflow-y: auto; padding-right: 4px;">
+              </div>
+            </div>
           </div>
         </div>
       </div>
