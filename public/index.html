@@ -16,9 +16,7 @@
   <link rel="stylesheet" href="/app-zoom.css">
   <link rel="stylesheet" href="/studio-chrome.css">
   <link rel="stylesheet" href="/studio-noir.css">
-  <link rel="stylesheet" href="/workspace-rebuild.css">
-  <link rel="stylesheet" href="/silver-surge.css">
-  <link rel="stylesheet" href="/phone-feed.css">
+<link rel="stylesheet" href="/phone-feed.css">
   <link rel="stylesheet" href="/pro-studio.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +32,7 @@
           <span class="rail-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 10-12h-7l1-8Z"/></svg></span>
         </a>
         <div class="rail-nav">
-          <button type="button" id="railMaxAutomateBtn" class="rail-btn" title="⚡ MAX AUTOMATE: YouTube Channel Auto-Clipper" style="color: #ff9900;">
+          <button type="button" id="railMaxAutomateBtn" class="rail-btn" title=" MAX AUTOMATE: YouTube Channel Auto-Clipper" style="color: #ff9900;">
             <span class="rail-icon" aria-hidden="true" style="color: #ff9900;">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             </span>
@@ -97,7 +95,7 @@
           <button id="btnGithubUpdate" class="status-pill" title="GitHub Auto-Update Hub" style="display:inline-flex; align-items:center; gap:6px; cursor:pointer; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; font-weight:600; font-size: 11px; padding: 4px 10px; border-radius: 6px;"><span id="ghPillText">v1.0.2</span><span id="ghUpdateDot" style="width:6px; height:6px; border-radius:50%; background:#22c55e;"></span></button>
           <button id="topbarAiMcpBtn" class="status-pill" title="Model Context Protocol (MCP) Server" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; font-weight: 600; font-size: 11px; padding: 4px 10px; border-radius: 6px;">MCP Server</button>
           <button id="licenseStatusBtn" class="status-pill" style="background: rgba(232, 141, 40, 0.1); border: 1px solid rgba(232, 141, 40, 0.3); color: #ffaa33; font-weight: 700; font-size: 11px; padding: 4px 10px; border-radius: 6px;">
-            <span id="licensePillIcon">⚡</span>
+            <span id="licensePillIcon"></span>
             <span id="licensePillText">Pro Pass</span>
           </button>
           <button id="sysStatusBtn" class="status-pill" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-weight: 600; font-size: 11px; padding: 4px 10px; border-radius: 6px;">● System: Ready</button>
@@ -133,16 +131,16 @@
       <!-- Step 1: Video Source -->
       <div class="source-card">
         <div class="source-tabs">
-          <button class="tab active" data-tab="file">📁 Local Footage</button>
-          <button class="tab" data-tab="url">🔗 Stream / Video Link</button>
-          <button class="tab" data-tab="max" id="maxTabBtn">⚡ Channel Batch</button>
+          <button class="tab active" data-tab="file">Local Footage</button>
+          <button class="tab" data-tab="url">Stream / Video Link</button>
+          <button class="tab" data-tab="max" id="maxTabBtn">Channel Batch</button>
         </div>
 
         <div id="filePane">
           <label class="drop-zone" id="dropZone" style="border: 1px dashed rgba(255,255,255,0.15); background: rgba(13,15,21,0.6); border-radius: 10px; padding: 36px 20px; transition: all 140ms ease;">
             <input id="videoFile" type="file" accept="video/*">
-            <div class="drop-icon" style="font-size: 28px; margin-bottom: 8px;">📁</div>
-            <strong style="font-size: 14px; font-weight: 700; color: #f1f5f9;">Select or drag footage here</strong>
+            <div class="drop-icon" style="font-size: 28px; margin-bottom: 8px;"></div>
+            <strong style="font-size: 14px; font-weight: 700; color: #f1f5f9;">Drop video footage or click to browse</strong>
             <small style="color: #64748b; font-size: 11px; margin-top: 4px;">Supports MP4, MOV, MKV, WebM, AVI up to 100 GB</small>
             <b id="fileName" style="font-family: var(--pro-font-mono, monospace); font-size: 11px; color: var(--pro-accent-amber, #e88d28); margin-top: 8px;">No file selected</b>
           </label>
@@ -152,18 +150,18 @@
           <div class="url-input-wrap">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
               <label for="videoUrl" style="margin: 0; font-weight: 700;">Paste Video or Live Stream Link</label>
-              <span style="font-size: 11px; padding: 2px 8px; border-radius: 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; font-weight: 700;">🔴 Live Stream Enabled</span>
+              <span style="font-size: 11px; padding: 2px 8px; border-radius: 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; font-weight: 700;"> Live Stream Enabled</span>
             </div>
             <input id="videoUrl" type="url" placeholder="https://www.youtube.com/watch?v=... or YouTube Live / Twitch / Kick / direct MP4">
             <div class="stream-quality-row" style="margin-top: 8px; display: flex; align-items: center; gap: 10px; font-size: 13px;">
-              <label for="streamQuality" style="color: var(--text-muted); white-space: nowrap;">⚡ Stream Mode:</label>
+              <label for="streamQuality" style="color: var(--text-muted); white-space: nowrap;"> Stream Mode:</label>
               <select id="streamQuality" class="compact-select" style="padding: 4px 10px; background: #16181d; border: 1px solid #2e3440; border-radius: 6px; color: #fff; font-size: 12px; flex: 1;">
-                <option value="turbo" selected>⚡ Turbo Fast (360p / 480p H.264) — Recommended for 1-6h Streams &amp; VODs (~800 MB, fast)</option>
-                <option value="live">🔴 Live Stream Capture (YouTube Live from start, Twitch, Kick — HLS MPEG-TS)</option>
-                <option value="720p">🎬 High Definition (720p HD) (~2.5-4 GB, full clarity)</option>
+                <option value="turbo" selected> Turbo Fast (360p / 480p H.264) — Recommended for 1-6h Streams &amp; VODs (~800 MB, fast)</option>
+                <option value="live"> Live Stream Capture (YouTube Live from start, Twitch, Kick — HLS MPEG-TS)</option>
+                <option value="720p"> High Definition (720p HD) (~2.5-4 GB, full clarity)</option>
               </select>
             </div>
-            <small class="hint">🔴 Live Streams supported: Starts from broadcast beginning on YouTube Live (--live-from-start). High-speed multi-fragment download with real-time speed &amp; byte tracker.</small>
+            <small class="hint"> Live Streams supported: Starts from broadcast beginning on YouTube Live (--live-from-start). High-speed multi-fragment download with real-time speed &amp; byte tracker.</small>
           </div>
         </div>
 
@@ -360,19 +358,19 @@
           <label>
             Framing Preset
             <select id="framingPresetSelect">
-              <option value="auto">⚡ Auto-Detect Stream Format (Gaming Split / FaceTime Stack / Chat)</option>
-              <option value="gaming_split">🎮 Gaming Split (Facecam Top + Gameplay Bottom)</option>
-              <option value="face_stack">👥 Duo FaceTime (One Face Above & One Below)</option>
-              <option value="smart" selected>🎯 Smart Crop (Centered with motion focus)</option>
-              <option value="face">👤 Speaker / Face Track (OpenCV tracking with safe fallback)</option>
-              <option value="blur">🌫️ Blurred Canvas (Full video blurred behind fit video)</option>
-              <option value="split">📱 Split Screen (Stacked webcam & gameplay)</option>
-              <option value="color">⬛ Black / Solid Background Padding</option>
+              <option value="auto"> Auto-Detect Stream Format (Gaming Split / FaceTime Stack / Chat)</option>
+              <option value="gaming_split"> Gaming Split (Facecam Top + Gameplay Bottom)</option>
+              <option value="face_stack"> Duo FaceTime (One Face Above & One Below)</option>
+              <option value="smart" selected> Smart Crop (Centered with motion focus)</option>
+              <option value="face"> Speaker / Face Track (OpenCV tracking with safe fallback)</option>
+              <option value="blur"> Blurred Canvas (Full video blurred behind fit video)</option>
+              <option value="split"> Split Screen (Stacked webcam & gameplay)</option>
+              <option value="color"> Black / Solid Background Padding</option>
             </select>
           </label>
           <div class="framing-launch-row">
             <button type="button" id="openFramingModalBtn" class="pill-btn primary-pill wm-screen-btn">
-              📱 Move & Preview Framing on Screen (Interactive Canvas)
+               Move & Preview Framing on Screen (Interactive Canvas)
             </button>
             <div id="framingPreviewBadge" class="wm-coord-badge">
               <span>Framing:</span>
@@ -388,12 +386,12 @@
         <label>
           Caption Preset
           <select id="captionPresetSelect">
-            <option value="lemon-milk-speed" selected>🍋 Lemon Milk Bold (iShowSpeed &amp; Deagzzz Viral Pop)</option>
-            <option value="viral-pop">🔥 Viral Pop (Neon yellow, pop animation, uppercase)</option>
-            <option value="clean-podcast">🎙️ Clean Podcast (Subtle cyan highlight, clean phrase)</option>
-            <option value="gaming-energy">⚡ Gaming Energy (Impact font, red/orange fire glow)</option>
-            <option value="minimal">✨ Minimal (Elegant white text, subtle shadow)</option>
-            <option value="cinematic">🎬 Cinematic (Classic serif, golden accents)</option>
+            <option value="lemon-milk-speed" selected> Lemon Milk Bold (iShowSpeed &amp; Deagzzz Viral Pop)</option>
+            <option value="viral-pop"> Viral Pop (Neon yellow, pop animation, uppercase)</option>
+            <option value="clean-podcast"> Clean Podcast (Subtle cyan highlight, clean phrase)</option>
+            <option value="gaming-energy"> Gaming Energy (Impact font, red/orange fire glow)</option>
+            <option value="minimal"> Minimal (Elegant white text, subtle shadow)</option>
+            <option value="cinematic"> Cinematic (Classic serif, golden accents)</option>
           </select>
         </label>
         <label>
@@ -424,11 +422,11 @@
         <div class="watermark-card-header">
           <label class="check-inline watermark-toggle">
             <input id="enableWatermark" type="checkbox">
-            <span><strong>🏷️ Add Chooseable Watermark to Reels / Clips</strong></span>
+            <span><strong> Add Chooseable Watermark to Reels / Clips</strong></span>
           </label>
           <div id="wmTypeSwitch" class="wm-type-switch hidden">
-            <button type="button" class="wm-tab active" data-wmtype="text">✍️ Text Handle</button>
-            <button type="button" class="wm-tab" data-wmtype="image">🖼️ Logo Image</button>
+            <button type="button" class="wm-tab active" data-wmtype="text"> Text Handle</button>
+            <button type="button" class="wm-tab" data-wmtype="image"> Logo Image</button>
           </div>
         </div>
 
@@ -444,9 +442,9 @@
                 <label>
                   Font Size (<span id="wmFontSizeLabel">36px</span>)
                   <div class="slider-with-nudgers">
-                    <button type="button" class="nudge-btn" id="wmFontDown" title="Zoom Out Text">🔍-</button>
+                    <button type="button" class="nudge-btn" id="wmFontDown" title="Zoom Out Text"></button>
                     <input id="watermarkFontSize" type="range" min="16" max="120" value="36">
-                    <button type="button" class="nudge-btn" id="wmFontUp" title="Zoom In Text">🔍+</button>
+                    <button type="button" class="nudge-btn" id="wmFontUp" title="Zoom In Text"></button>
                   </div>
                 </label>
                 <label>
@@ -470,29 +468,29 @@
                 <label>
                   Logo Scale (<span id="wmScaleLabel">22%</span>)
                   <div class="slider-with-nudgers">
-                    <button type="button" class="nudge-btn" id="wmScaleDown" title="Zoom Out Logo">🔍-</button>
+                    <button type="button" class="nudge-btn" id="wmScaleDown" title="Zoom Out Logo"></button>
                     <input id="watermarkImageScale" type="range" min="5" max="80" value="22">
-                    <button type="button" class="nudge-btn" id="wmScaleUp" title="Zoom In Logo">🔍+</button>
+                    <button type="button" class="nudge-btn" id="wmScaleUp" title="Zoom In Logo"></button>
                   </div>
                 </label>
                 <div id="wmImagePreviewContainer" class="wm-thumb-box hidden">
                   <div class="wm-thumb-row">
                     <img id="wmImageThumb" src="" alt="Logo Thumbnail">
                     <span id="wmImageName" class="thumb-name">logo.png</span>
-                    <button type="button" id="removeBgBtn" class="pill-btn primary-pill bg-action-btn">✨ Remove Background</button>
+                    <button type="button" id="removeBgBtn" class="pill-btn primary-pill bg-action-btn"> Remove Background</button>
                     <button type="button" id="clearWmImageBtn" class="pill-btn danger-sm">Remove</button>
                   </div>
                   <!-- Background Remover Controls -->
                   <div id="bgRemoverPanel" class="bg-remover-panel hidden">
                     <div class="bg-rem-header">
-                      <span><strong>🪄 Background Remover (Make Transparent PNG)</strong></span>
+                      <span><strong> Background Remover (Make Transparent PNG)</strong></span>
                       <small id="bgRemStatus" class="muted">Clean solid background</small>
                     </div>
                     <div class="bg-rem-modes">
-                      <button type="button" class="count-pill bg-mode-btn active" data-mode="auto">🪄 Auto Detect</button>
-                      <button type="button" class="count-pill bg-mode-btn" data-mode="flood" data-color="#ffffff">⚪ Remove White</button>
-                      <button type="button" class="count-pill bg-mode-btn" data-mode="flood" data-color="#000000">⚫ Remove Black</button>
-                      <button type="button" class="count-pill bg-mode-btn" data-mode="color" data-color="#ffffff">🎨 All Match</button>
+                      <button type="button" class="count-pill bg-mode-btn active" data-mode="auto"> Auto Detect</button>
+                      <button type="button" class="count-pill bg-mode-btn" data-mode="flood" data-color="#ffffff"> Remove White</button>
+                      <button type="button" class="count-pill bg-mode-btn" data-mode="flood" data-color="#000000"> Remove Black</button>
+                      <button type="button" class="count-pill bg-mode-btn" data-mode="color" data-color="#ffffff"> All Match</button>
                     </div>
                     <div class="bg-rem-row">
                       <label style="flex: 1; margin: 0;">
@@ -500,7 +498,7 @@
                         <input id="bgTolRange" type="range" min="10" max="85" value="35">
                       </label>
                       <button type="button" id="applyBgRemoveBtn" class="primary-btn" style="padding: 6px 14px; font-size: 12px; margin-top: 6px;">
-                        ✨ Clean Logo Now
+                         Clean Logo Now
                       </button>
                     </div>
                   </div>
@@ -533,7 +531,7 @@
           <!-- Interactive Screen Placement Button & Indicator -->
           <div class="wm-screen-launch-row">
             <button type="button" id="openWmModalBtn" class="pill-btn primary-pill wm-screen-btn">
-              🎯 Move & Place Watermark on Screen (Interactive Canvas)
+               Move & Place Watermark on Screen (Interactive Canvas)
             </button>
             <div id="wmCoordBadge" class="wm-coord-badge">
               <span>Position:</span>
@@ -570,7 +568,7 @@
       <div class="advanced-discovery-card" id="advancedDiscoveryCard">
         <div class="advanced-card-header" id="toggleAdvancedDiscoveryBtn">
           <div class="adv-header-left">
-            <span class="adv-badge">⚙️ ADVANCED DISCOVERY</span>
+            <span class="adv-badge"> ADVANCED DISCOVERY</span>
             <strong>Advanced Clip Discovery & AI Tuning</strong>
             <small class="hint" style="margin: 0; color: #94a3b8;">Viral threshold, hook sensitivity, emotion profile, dead-air filter & reaction overlays</small>
           </div>
@@ -595,20 +593,20 @@
             <label>
               Hook Sensitivity
               <select id="advHookSensitivity">
-                <option value="aggressive" selected>🔥 Ultra Aggressive (Maximize first 3s curiosity & shock)</option>
-                <option value="balanced">⚖️ Balanced (Natural punchy story lead-in)</option>
-                <option value="contextual">🎙️ Contextual (Allow 2-3s setup context)</option>
+                <option value="aggressive" selected> Ultra Aggressive (Maximize first 3s curiosity & shock)</option>
+                <option value="balanced"> Balanced (Natural punchy story lead-in)</option>
+                <option value="contextual"> Contextual (Allow 2-3s setup context)</option>
               </select>
               <small class="hint">Weights opening sentences & questions</small>
             </label>
             <label>
               Emotion & Audio Energy Bias
               <select id="advEnergyBias">
-                <option value="auto" selected>✨ Dynamic Auto (Balances all emotional peaks)</option>
-                <option value="high_voltage">⚡ High Voltage (Shouts, screams, audio spikes & action)</option>
-                <option value="comedy">😂 Comedy & Punchlines (Laughter, jokes, bro moments)</option>
-                <option value="wisdom">💡 Deep Insights (Revelations, secrets, explanations)</option>
-                <option value="conflict">🥊 Heated Conflict (Debates, arguments, drama)</option>
+                <option value="auto" selected> Dynamic Auto (Balances all emotional peaks)</option>
+                <option value="high_voltage"> High Voltage (Shouts, screams, audio spikes & action)</option>
+                <option value="comedy"> Comedy & Punchlines (Laughter, jokes, bro moments)</option>
+                <option value="wisdom"> Deep Insights (Revelations, secrets, explanations)</option>
+                <option value="conflict"> Heated Conflict (Debates, arguments, drama)</option>
               </select>
               <small class="hint">Biases scoring toward chosen vibe</small>
             </label>
@@ -632,7 +630,7 @@
               </label>
               <label class="check-label">
                 <input id="advAutoMemes" type="checkbox" checked>
-                <span><strong>🎭 Auto-Insert Reaction Memes &amp; B-Roll Overlays:</strong> Injects viral visual pop-ins and sound effects at punchline moments</span>
+                <span><strong> Auto-Insert Reaction Memes &amp; B-Roll Overlays:</strong> Injects viral visual pop-ins and sound effects at punchline moments</span>
               </label>
             </div>
           </div>
@@ -672,10 +670,10 @@
     <!-- Empty State when no job is active -->
     <div id="studioEmptyState" class="studio-empty-state">
       <div class="empty-state-card">
-        <span class="empty-icon">🎬</span>
+        <span class="empty-icon"></span>
         <h3>No Video Project Loaded</h3>
         <p>Import a stream/video from the Ingest page or pick an analyzed project from your library to start editing.</p>
-        <button type="button" id="emptyToIngestBtn" class="primary-btn lava-glow-btn">✨ Ingest / Create New Project</button>
+        <button type="button" id="emptyToIngestBtn" class="primary-btn lava-glow-btn"> Ingest / Create New Project</button>
       </div>
     </div>
 
@@ -688,21 +686,21 @@
           <p id="jobSub" class="muted">12 min video · 5 candidates ranked by AI</p>
         </div>
         <div class="workspace-controls">
-          <button type="button" id="openPhoneCaptionFromHeaderBtn" class="pill-btn lava-glow-btn">📱 Phone Caption Studio</button>
+          <button type="button" id="openPhoneCaptionFromHeaderBtn" class="pill-btn lava-glow-btn"> Phone Caption Studio</button>
           <div class="mode-switch studio-clip-mode-switch">
-            <button type="button" id="modeAiClips" class="mode-btn active" title="View AI-discovered ranked highlights">🤖 AI Clips</button>
-            <button type="button" id="modeManualRaw" class="mode-btn" title="Manual Mode: Full raw video with no pre-made clips, freely cut, split, and trim">✂️ Manual Cut Mode</button>
+            <button type="button" id="modeAiClips" class="mode-btn active" title="View AI-discovered ranked highlights"> AI Clips</button>
+            <button type="button" id="modeManualRaw" class="mode-btn" title="Manual Mode: Full raw video with no pre-made clips, freely cut, split, and trim"> Manual Cut Mode</button>
           </div>
           <div class="mode-switch hidden" style="display:none;">
-            <button id="modeQuick" class="mode-btn active">⚡ Quick Mode</button>
-            <button id="modeEditor" class="mode-btn">🛠️ Editor Mode</button>
+            <button id="modeQuick" class="mode-btn active"> Quick Mode</button>
+            <button id="modeEditor" class="mode-btn"> Editor Mode</button>
           </div>
           <button id="renderBtn" class="primary-btn render-btn">Render Selected Clips</button>
           <button id="btnSwitchToPhoneFeed" type="button" class="pill-btn lava-glow-btn" title="Preview clips in TikTok / Reels 9:16 phone scroll feed" style="font-weight: 700; font-size: 12px; background: linear-gradient(135deg, rgba(255, 60, 0, 0.2), rgba(255, 120, 0, 0.2)); border: 1px solid rgba(255, 100, 0, 0.5); color: #ffaa00;">
-            📱 Phone Feed Review
+             Phone Feed Review
           </button>
           <button id="workspaceAutoPilotBtn" class="pill-btn primary-pill" title="Auto-render top clips & schedule across channels in 1 click">
-            🚀 Auto-Pilot Schedule
+             Auto-Pilot Schedule
           </button>
           <button id="cancelBtn" class="pill-btn hidden">Cancel</button>
         </div>
@@ -789,20 +787,20 @@
             <!-- Gaming Split Screen Visual HUD Simulation -->
             <div id="gamingSplitPreviewHud" class="gaming-split-preview-hud hidden">
               <div class="gaming-top-cam-box">
-                <span class="gaming-tag">🔴 STREAMER FACECAM</span>
+                <span class="gaming-tag"> STREAMER FACECAM</span>
               </div>
               <div class="gaming-split-divider">
-                <span>🎮 GAMEPLAY ACTION</span>
+                <span> GAMEPLAY ACTION</span>
               </div>
             </div>
 
             <!-- Podcast Duo FaceTime Stack HUD Simulation -->
             <div id="podcastStackPreviewHud" class="podcast-stack-preview-hud hidden">
               <div class="podcast-top-host-box">
-                <span class="podcast-tag">🎙️ HOST</span>
+                <span class="podcast-tag"> HOST</span>
               </div>
               <div class="podcast-split-divider">
-                <span class="podcast-tag">👥 GUEST / CO-HOST</span>
+                <span class="podcast-tag"> GUEST / CO-HOST</span>
               </div>
             </div>
 
@@ -832,9 +830,9 @@
           <div id="editorSubPanels" class="editor-sub-panels">
             <div class="editor-tabs">
               <button class="editor-tab active" data-subtab="captions">📝 Caption Studio</button>
-              <button class="editor-tab" data-subtab="framing">🖼️ Framing & Canvas</button>
-              <button class="editor-tab" data-subtab="watermark">🏷️ Watermark</button>
-              <button class="editor-tab" data-subtab="overlays">🎭 B-Roll & Memes</button>
+              <button class="editor-tab" data-subtab="framing"> Framing & Canvas</button>
+              <button class="editor-tab" data-subtab="watermark"> Watermark</button>
+              <button class="editor-tab" data-subtab="overlays"> B-Roll & Memes</button>
               <button class="editor-tab" data-subtab="transcript">📜 Full Transcript</button>
             </div>
 
@@ -842,10 +840,10 @@
             <div id="subCaptions" class="sub-panel">
               <div class="sub-grid">
                 <div style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(255, 60, 0, 0.15), rgba(255, 120, 0, 0.08)); border: 1px solid rgba(255, 80, 0, 0.4); border-radius: 10px; padding: 12px; margin-bottom: 6px; text-align: center;">
-                  <strong style="color: #ffaa40; font-size: 13px; display: block; margin-bottom: 4px;">📱 Real-Time Phone Visualizer</strong>
+                  <strong style="color: #ffaa40; font-size: 13px; display: block; margin-bottom: 4px;"> Real-Time Phone Visualizer</strong>
                   <p style="font-size: 11px; color: #9ca3af; margin-bottom: 8px;">View actual mobile phone on screen, test 6 viral typography styles &amp; drag captions directly on device.</p>
                   <button type="button" id="openPhoneCaptionStudioBtn" class="pill-btn lava-glow-btn" style="width: 100%; justify-content: center; font-size: 12px; padding: 7px 12px; font-weight: 700;">
-                    📱 Open Phone Screen Visualizer
+                     Open Phone Screen Visualizer
                   </button>
                 </div>
                 <label>
@@ -886,7 +884,7 @@
                 </label>
                 <label class="check-inline">
                   <input id="editCapEmoji" type="checkbox" checked>
-                  <span>Auto-detect keyword emojis (🔥, 💰, 🤯, 🏆)</span>
+                  <span>Auto-detect keyword emojis (, 💰, 🤯, 🏆)</span>
                 </label>
                 <label class="check-inline">
                   <input id="editCapProfanity" type="checkbox" checked>
@@ -901,13 +899,13 @@
                 <label>
                   Framing Mode
                   <select id="editFramingMode">
-                    <option value="smart" selected>🎯 Smart Center Crop</option>
-                    <option value="gaming_split">🎮 Gaming Split (Streamer Facecam + Gameplay)</option>
-                    <option value="face_stack">🎙️ Podcast Duo Stack (2-Host Vertical FaceTime)</option>
-                    <option value="face">👤 Speaker Tracking (OpenCV)</option>
+                    <option value="smart" selected> Smart Center Crop</option>
+                    <option value="gaming_split"> Gaming Split (Streamer Facecam + Gameplay)</option>
+                    <option value="face_stack"> Podcast Duo Stack (2-Host Vertical FaceTime)</option>
+                    <option value="face"> Speaker Tracking (OpenCV)</option>
                     <option value="blur">🌊 Blurred Canvas Background</option>
                     <option value="split">📐 Generic 50/50 Split</option>
-                    <option value="color">⬛ Solid Black Pad</option>
+                    <option value="color"> Solid Black Pad</option>
                   </select>
                 </label>
                 <label>
@@ -923,7 +921,7 @@
                 <!-- Specialized Streamer Gaming Split Controls -->
                 <div id="gamingControlsWrap" class="framing-subgroup hidden" style="grid-column: 1 / -1; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 10px; padding: 12px; margin: 4px 0;">
                   <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                    <strong style="color: #d8ff3e; font-size: 12px; letter-spacing: 0.5px;">🎮 STREAMER GAMING SETUP (Speed / Kai / Twitch)</strong>
+                    <strong style="color: #d8ff3e; font-size: 12px; letter-spacing: 0.5px;"> STREAMER GAMING SETUP (Speed / Kai / Twitch)</strong>
                     <span style="font-size: 10px; background: rgba(216, 255, 62, 0.15); color: #d8ff3e; padding: 2px 6px; border-radius: 4px; font-weight: 700;">PRO</span>
                   </div>
                   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
@@ -950,7 +948,7 @@
                 <!-- Specialized Podcast & Interview Duo Stack Controls -->
                 <div id="podcastControlsWrap" class="framing-subgroup hidden" style="grid-column: 1 / -1; background: rgba(0, 242, 254, 0.08); border: 1px solid rgba(0, 242, 254, 0.3); border-radius: 10px; padding: 12px; margin: 4px 0;">
                   <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                    <strong style="color: #00f2fe; font-size: 12px; letter-spacing: 0.5px;">🎙️ PODCAST & INTERVIEW SETUP (2-Host Duo)</strong>
+                    <strong style="color: #00f2fe; font-size: 12px; letter-spacing: 0.5px;"> PODCAST & INTERVIEW SETUP (2-Host Duo)</strong>
                     <span style="font-size: 10px; background: rgba(0, 242, 254, 0.15); color: #00f2fe; padding: 2px 6px; border-radius: 4px; font-weight: 700;">DUO</span>
                   </div>
                   <div style="display: grid; grid-template-columns: 1fr; gap: 8px;">
@@ -959,7 +957,7 @@
                       <input id="editPodcastSpeaker" type="text" placeholder="e.g. TIMMY TALKS • EPISODE 4">
                     </label>
                     <button type="button" id="applyCleanPodcastStyleBtn" class="pill-btn mini-pill" style="background: rgba(0,255,200,0.15); border: 1px solid rgba(0,255,200,0.4); color: #00ffc8; font-weight: 700; width: 100%;">
-                      ✨ 1-Click Apply Clean Podcast Captions Preset
+                       1-Click Apply Clean Podcast Captions Preset
                     </button>
                   </div>
                 </div>
@@ -1004,7 +1002,7 @@
                 </label>
                 <div class="framing-launch-row" style="grid-column: 1 / -1; margin-top: 8px;">
                   <button type="button" id="editOpenFramingModalBtn" class="pill-btn primary-pill wm-screen-btn">
-                    📱 Move & Preview Framing on Screen
+                     Move & Preview Framing on Screen
                   </button>
                   <div id="editFramingPreviewBadge" class="wm-coord-badge">
                     <span>Framing:</span>
@@ -1040,7 +1038,7 @@
                   <div id="editWmThumbRow" class="wm-thumb-row hidden" style="margin-top: 8px;">
                     <img id="editWmThumb" src="" alt="Logo" class="wm-thumb-small">
                     <span id="editWmThumbName" class="thumb-name">logo.png</span>
-                    <button type="button" id="editRemoveBgBtn" class="pill-btn primary-pill bg-action-btn">✨ Remove Background</button>
+                    <button type="button" id="editRemoveBgBtn" class="pill-btn primary-pill bg-action-btn"> Remove Background</button>
                   </div>
                 </div>
                 <label>
@@ -1063,9 +1061,9 @@
                 <label>
                   Font / Logo Size (<span id="editWmSizeVal">36px</span>)
                   <div class="slider-with-nudgers">
-                    <button type="button" class="nudge-btn" id="editWmSizeDown" title="Zoom Out">🔍-</button>
+                    <button type="button" class="nudge-btn" id="editWmSizeDown" title="Zoom Out"></button>
                     <input id="editWmSize" type="range" min="10" max="120" value="36">
-                    <button type="button" class="nudge-btn" id="editWmSizeUp" title="Zoom In">🔍+</button>
+                    <button type="button" class="nudge-btn" id="editWmSizeUp" title="Zoom In"></button>
                   </div>
                 </label>
                 <label>
@@ -1078,7 +1076,7 @@
                 </label>
                 <div class="wm-screen-launch-row" style="grid-column: 1 / -1; margin-top: 8px;">
                   <button type="button" id="editOpenWmModalBtn" class="pill-btn primary-pill wm-screen-btn">
-                    🎯 Move & Place Watermark on Screen
+                     Move & Place Watermark on Screen
                   </button>
                   <div id="editWmCoordBadge" class="wm-coord-badge">
                     <span>Position:</span>
@@ -1094,7 +1092,7 @@
                 <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
                   <label class="check-inline" style="margin: 0;">
                     <input id="editAutoMemes" type="checkbox" checked>
-                    <span><strong>🤖 Auto-Detect & Insert Memes at Punchlines</strong></span>
+                    <span><strong> Auto-Detect & Insert Memes at Punchlines</strong></span>
                   </label>
                   <label class="check-inline" style="margin: 0;">
                     <input id="editMemeSoundEnabled" type="checkbox" checked>
@@ -1118,7 +1116,7 @@
                 <!-- Custom B-Roll / File Upload -->
                 <div style="background: rgba(0,0,0,0.25); border: 1px dashed rgba(255,255,255,0.15); border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
                   <div>
-                    <strong style="font-size: 13px; display: block;">📁 Custom B-Roll Clip or Meme</strong>
+                    <strong style="font-size: 13px; display: block;"> Custom B-Roll Clip or Meme</strong>
                     <small class="hint" style="margin: 0;">Upload your own video clip (MP4), animated GIF, or PNG image</small>
                   </div>
                   <label class="primary-btn" style="padding: 6px 14px; font-size: 12px; cursor: pointer; margin: 0;">
@@ -1153,7 +1151,7 @@
             <div id="subBeast" class="sub-panel hidden">
               <div style="background: radial-gradient(circle at top left, rgba(255, 68, 0, 0.15), rgba(20, 20, 25, 0.95)); border: 1px solid rgba(255, 68, 0, 0.4); border-radius: 10px; padding: 14px; margin-bottom: 12px;">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                  <strong style="color: #ff5500; font-size: 13px;">🦁 Beast Editing Engine v2.0</strong>
+                  <strong style="color: #ff5500; font-size: 13px;"> Beast Editing Engine v2.0</strong>
                   <span class="beast-score-num" id="beastCurrentScoreBadge">BEAST MODE</span>
                 </div>
                 <p style="font-size: 11px; color: #9ca3af; margin-bottom: 12px; line-height: 1.4;">
@@ -1167,7 +1165,7 @@
                   </label>
                   <select id="beastMusicSelect" style="width: 100%; padding: 8px 10px; border-radius: 6px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,100,0,0.4); color: #fff; font-size: 12px;">
                     <option value="">🚫 None (Original Dialogue Only)</option>
-                    <option value="beast_phonk_pulse.mp3" selected>⚡ Beast Phonk Pulse (130 BPM Hype &amp; Rage)</option>
+                    <option value="beast_phonk_pulse.mp3" selected> Beast Phonk Pulse (130 BPM Hype &amp; Rage)</option>
                     <option value="suspense_tension_drone.mp3">🌪️ Suspense &amp; Tension Drone (180° Twists &amp; Revelations)</option>
                     <option value="lofi_viral_groove.mp3">☕ Lofi Viral Storytelling (Daniel Bitton Chill Groove)</option>
                   </select>
@@ -1211,7 +1209,7 @@
 
                 <!-- 1-Click Beast Preset Button -->
                 <button type="button" id="applyBeastPresetBtn" class="pill-btn lava-glow-btn" style="width: 100%; justify-content: center; font-size: 12px; padding: 9px; font-weight: 800;">
-                  ⚡ 1-Click Apply Full Beast Editing Setup
+                   1-Click Apply Full Beast Editing Setup
                 </button>
               </div>
             </div>
@@ -1235,7 +1233,7 @@
             <button type="button" id="seekStartBtn" class="ct-btn mini" title="Jump to active clip start">⏮ Start</button>
             <div class="ct-divider"></div>
             <button type="button" id="loadMasterVideoBtn" class="ct-btn mini" style="background: rgba(6,182,212,0.15); color: #38bdf8; border-color: rgba(56,189,248,0.4);" title="Load full raw video to cut from scratch">Full recording</button>
-            <button type="button" id="restoreAiClipsBtn" class="ct-btn mini hidden" style="background: rgba(216,255,62,0.15); color: #d8ff3e; border-color: rgba(216,255,62,0.4);" title="Restore AI discovered clips">🤖 AI Clips</button>
+            <button type="button" id="restoreAiClipsBtn" class="ct-btn mini hidden" style="background: rgba(216,255,62,0.15); color: #d8ff3e; border-color: rgba(216,255,62,0.4);" title="Restore AI discovered clips"> AI Clips</button>
           </div>
           <div class="ct-center">
             <button type="button" id="togglePlayBtn" class="ct-play-btn">▶ Play</button>
@@ -1255,10 +1253,10 @@
           <!-- Track Headers (Left fixed 100px) -->
           <div class="tracks-headers-col">
             <div class="track-header ruler-header">⏱️ Time</div>
-            <div class="track-header video-header">🎬 Video</div>
+            <div class="track-header video-header"> Video</div>
             <div class="track-header caption-header">💬 Subtitles</div>
             <div class="track-header audio-header">🔊 Waveform</div>
-            <div class="track-header overlay-header">🎭 Stickers</div>
+            <div class="track-header overlay-header"> Stickers</div>
           </div>
 
           <!-- Track Lanes Area (Scrollable / Zoomable) -->
@@ -1311,22 +1309,22 @@
       <div class="pfeed-header-left">
         <button type="button" id="pfeedBackToStudioBtn" class="pill-btn mini-pill">← Back to Studio Timeline</button>
         <div class="pfeed-title-wrap">
-          <h2>📱 Mobile Feed Review</h2>
+          <h2> Mobile Feed Review</h2>
           <span class="pfeed-sub">Vertical TikTok &amp; Reels scroll simulator with active word-pop subtitles</span>
         </div>
       </div>
       <div class="pfeed-header-right">
         <span id="pfeedTotalBadge" class="pfeed-clip-count-badge">0 Clips</span>
-        <button type="button" onclick="window.switchAppView('studio')" class="pill-btn mini-pill">🎬 Studio Editor</button>
+        <button type="button" onclick="window.switchAppView('studio')" class="pill-btn mini-pill"> Studio Editor</button>
       </div>
     </div>
 
     <!-- Empty State -->
     <div id="pfeedEmptyState" class="pfeed-empty-state hidden">
-      <div class="pfeed-empty-icon">📱</div>
+      <div class="pfeed-empty-icon"></div>
       <h3>No Clips Ready to Preview</h3>
       <p>Import a video in the Ingest tab or run moment analysis in Clip Studio to generate candidates.</p>
-      <button type="button" onclick="window.switchAppView('ingest')" class="primary-btn lava-glow-btn">📁 Import Video</button>
+      <button type="button" onclick="window.switchAppView('ingest')" class="primary-btn lava-glow-btn"> Import Video</button>
     </div>
 
     <!-- 3-Column Workspace Grid -->
@@ -1420,7 +1418,7 @@
         </div>
 
         <button type="button" onclick="document.querySelector('.pfeed-clip-slide [data-action=render-single]')?.click()" class="primary-btn lava-glow-btn" style="width: 100%; justify-content: center; padding: 10px; font-weight: 800;">
-          🚀 Render Active Clip (9:16)
+           Render Active Clip (9:16)
         </button>
       </div>
     </div>
@@ -1441,7 +1439,7 @@
       </div>
       <div class="cps-header-right">
         <button type="button" id="cpsApplyAllBtn" class="primary-btn lava-glow-btn" style="padding: 7px 18px; font-size: 12px; font-weight: 700;">
-          ✨ Apply Style to All Clips &amp; Return
+           Apply Style to All Clips &amp; Return
         </button>
       </div>
     </div>
@@ -1451,7 +1449,7 @@
       <!-- Left: Visual Preset Cards Gallery -->
       <div class="cps-presets-sidebar">
         <div class="cps-panel-title">
-          <span>🎨 VIRAL CAPTION PRESETS</span>
+          <span> VIRAL CAPTION PRESETS</span>
           <span class="cps-badge">6 STYLES</span>
         </div>
         <p class="cps-panel-desc">Click any card below to apply and preview live on the phone screen.</p>
@@ -1465,7 +1463,7 @@
               <span class="sample-dim">TODAY</span>
             </div>
             <div class="cps-card-info">
-              <strong>💥 Viral Pop (Hormozi)</strong>
+              <strong> Viral Pop (Hormozi)</strong>
               <small>Bold yellow active word, all-caps, explosive punch</small>
             </div>
           </div>
@@ -1478,7 +1476,7 @@
               <span class="sample-dim">BUTTON!</span>
             </div>
             <div class="cps-card-info">
-              <strong>⚡ MrBeast Electric</strong>
+              <strong> MrBeast Electric</strong>
               <small>Neon lime &amp; cyan glow, high energy pulse</small>
             </div>
           </div>
@@ -1489,7 +1487,7 @@
               <span>The secret to scale is focus.</span>
             </div>
             <div class="cps-card-info">
-              <strong>🎙️ Minimal Podcast</strong>
+              <strong> Minimal Podcast</strong>
               <small>Clean Inter typography, subtle dark backdrop</small>
             </div>
           </div>
@@ -1524,7 +1522,7 @@
               <span class="sample-black-box">Never give up on your dream</span>
             </div>
             <div class="cps-card-info">
-              <strong>⬛ Cinematic Box</strong>
+              <strong> Cinematic Box</strong>
               <small>Classic high-contrast dark bounding box</small>
             </div>
           </div>
@@ -1560,7 +1558,7 @@
               </div>
               <div class="pt-bottom-meta">
                 <strong>@autoclip_creator</strong>
-                <p id="cpsPhoneClipTitle">The craziest moment from stream today 🔥</p>
+                <p id="cpsPhoneClipTitle">The craziest moment from stream today </p>
               </div>
             </div>
 
@@ -1593,7 +1591,7 @@
       <!-- Right: Detailed Typography & Animation Properties -->
       <div class="cps-controls-sidebar">
         <div class="cps-panel-title">
-          <span>⚙️ CAPTION FINE-TUNING</span>
+          <span> CAPTION FINE-TUNING</span>
         </div>
 
         <div class="cps-control-group">
@@ -1664,7 +1662,7 @@
           <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
             <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; cursor: pointer;">
               <input type="checkbox" id="cpsEmojiToggle" checked>
-              <span>🚀 Auto-add animated context emojis</span>
+              <span> Auto-add animated context emojis</span>
             </label>
             <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; cursor: pointer;">
               <input type="checkbox" id="cpsProfanityToggle" checked>
@@ -1691,7 +1689,7 @@
           <div class="cinema-title-row">
             <span class="cinema-live-dot">●</span>
             <h2 id="cinemaStreamTitle">Stream / Video Watch &amp; Inspect</h2>
-            <span class="yashcursed-badge">🔥 MADE BY yashcursed</span>
+            <span class="yashcursed-badge"> MADE BY yashcursed</span>
           </div>
           <p class="cinema-sub" id="cinemaStreamMeta">Watch stream, inspect AI-selected clip timelines &amp; synchronized transcripts.</p>
         </div>
@@ -1707,9 +1705,9 @@
         <div class="cinema-actions-row">
           <button type="button" id="cinemaPrevClipBtn" class="pill-btn" title="Previous AI Clip">⏮ Prev Clip</button>
           <button type="button" id="cinemaNextClipBtn" class="pill-btn" title="Next AI Clip">Next Clip ⏭</button>
-          <button type="button" id="cinemaBatchScheduleBtn" class="pill-btn lava-glow-btn" style="background: linear-gradient(135deg, rgba(255, 60, 0, 0.35), rgba(255, 100, 0, 0.2)); border: 1px solid rgba(255, 80, 0, 0.6); color: #fff; font-weight: 700;" title="Batch post or schedule all clips across social accounts">⚡ Batch Post / Schedule</button>
-          <button type="button" id="cinemaEditInStudioBtn" class="pill-btn primary-pill">✂️ Edit in Studio</button>
-          <button type="button" id="cinemaLaunchAutoPilotBtn" class="pill-btn autopilot-launch-btn">🚀 Auto-Pilot Stream</button>
+          <button type="button" id="cinemaBatchScheduleBtn" class="pill-btn lava-glow-btn" style="background: linear-gradient(135deg, rgba(255, 60, 0, 0.35), rgba(255, 100, 0, 0.2)); border: 1px solid rgba(255, 80, 0, 0.6); color: #fff; font-weight: 700;" title="Batch post or schedule all clips across social accounts"> Batch Post / Schedule</button>
+          <button type="button" id="cinemaEditInStudioBtn" class="pill-btn primary-pill"> Edit in Studio</button>
+          <button type="button" id="cinemaLaunchAutoPilotBtn" class="pill-btn autopilot-launch-btn"> Auto-Pilot Stream</button>
         </div>
       </div>
 
@@ -1821,10 +1819,10 @@
           <p class="muted">Craft viral hooks, schedule short-form video releases, and publish across 10+ accounts simultaneously.</p>
         </div>
         <div class="scheduler-actions">
-          <button id="schedTabComposeBtn" class="mode-btn active">✍️ Compose & Schedule</button>
+          <button id="schedTabComposeBtn" class="mode-btn active"> Compose & Schedule</button>
           <button id="schedTabQueueBtn" class="mode-btn">📋 Post Queue & History (<span id="tabQueueCountSpan">0</span>)</button>
           <button id="schedTabAnalyticsBtn" class="mode-btn">📊 Live Analytics</button>
-          <button id="schedTabAccountsBtn" class="mode-btn">👥 Manage Accounts (<span id="tabAccCountSpan">12</span>)</button>
+          <button id="schedTabAccountsBtn" class="mode-btn"> Manage Accounts (<span id="tabAccCountSpan">12</span>)</button>
         </div>
       </div>
 
@@ -1836,7 +1834,7 @@
             <h3>1. Select Clip & Craft Post</h3>
 
             <div class="sched-source-nav" style="display: flex; gap: 8px; margin-bottom: 12px;">
-              <button type="button" id="schedTabStudioClips" class="pill-btn primary-pill active-tab" style="font-size: 12px; padding: 6px 14px; border-radius: 8px;">🎬 Studio Clips</button>
+              <button type="button" id="schedTabStudioClips" class="pill-btn primary-pill active-tab" style="font-size: 12px; padding: 6px 14px; border-radius: 8px;"> Studio Clips</button>
               <button type="button" id="schedTabPcVideo" class="pill-btn" style="font-size: 12px; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border-color); background: transparent; color: var(--text-muted); cursor: pointer;">💻 Select Video from PC</button>
             </div>
 
@@ -1880,14 +1878,14 @@
                 <input id="schedTitleInput" type="text" placeholder="e.g. Wait for what he says next... 🤯">
               </label>
               <button type="button" id="schedAiMetaBtn" class="pill-btn primary-pill sched-ai-btn" title="Generate viral hook, caption & hashtags with Gemini AI">
-                ✨ AI Auto-Hook
+                 AI Auto-Hook
               </button>
             </div>
 
             <!-- Title Quick Tags & Hooks Memory Bar -->
             <div class="tag-memory-bar title-memory-bar">
               <div class="tag-memory-label-row">
-                <span class="tag-memory-label">⚡ Remembered Title Tags & Hooks:</span>
+                <span class="tag-memory-label"> Remembered Title Tags & Hooks:</span>
                 <span class="tag-memory-hint">Click to insert into title</span>
               </div>
               <div class="tag-memory-chips" id="schedTitleHookChips">
@@ -1915,7 +1913,7 @@
               <!-- Description Quick Tags Memory Bar -->
               <div class="tag-memory-bar desc-memory-bar">
                 <div class="tag-memory-label-row">
-                  <span class="tag-memory-label">🏷️ Remembered Tags for Description:</span>
+                  <span class="tag-memory-label"> Remembered Tags for Description:</span>
                   <span class="tag-memory-hint">Click tag to append to caption</span>
                 </div>
                 <div class="tag-memory-chips" id="schedDescTagChips">
@@ -1933,7 +1931,7 @@
                     <span style="font-size: 11px; color: var(--text-muted); cursor: pointer;">Auto-remember tags</span>
                   </label>
                   <button type="button" id="schedManageVaultBtn" class="tag-vault-action-btn" title="Manage all saved tags, hooks & templates">
-                    🏷️ Presets Vault
+                     Presets Vault
                   </button>
                 </div>
               </div>
@@ -1986,7 +1984,7 @@
               <label class="radio-card">
                 <input type="radio" name="schedMode" value="immediate">
                 <div class="rc-body">
-                  <strong>⚡ Publish Immediately</strong>
+                  <strong> Publish Immediately</strong>
                   <small>Post to all selected accounts right now</small>
                 </div>
               </label>
@@ -2025,9 +2023,9 @@
               <label>
                 Interval Delay Between Posts / Accounts
                 <select id="schedDripInterval">
-                  <option value="10">⚡ Every 10 Minutes (Rapid Drip)</option>
-                  <option value="15">⚡ Every 15 Minutes</option>
-                  <option value="20">⚡ Every 20 Minutes</option>
+                  <option value="10"> Every 10 Minutes (Rapid Drip)</option>
+                  <option value="15"> Every 15 Minutes</option>
+                  <option value="20"> Every 20 Minutes</option>
                   <option value="30">⏱️ Every 30 Minutes</option>
                   <option value="45">⏱️ Every 45 Minutes</option>
                   <option value="60" selected>⏳ Every 1 Hour (Recommended)</option>
@@ -2250,7 +2248,7 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
             <div>
               <h3 style="margin: 0; font-size: 16px; color: #f8fafc; display: flex; align-items: center; gap: 8px;">
-                <span>⚙️ Active Backend Processes &amp; Tasks</span>
+                <span> Active Backend Processes &amp; Tasks</span>
                 <span id="diagProcessesCountSpan" class="nav-badge" style="background: rgba(255,255,255,0.1); color: #fff;">0</span>
               </h3>
               <small style="color: #94a3b8; font-size: 12px;">Real-time tracking of FFmpeg encoders, yt-dlp downloaders, and worker threads</small>
@@ -2366,7 +2364,7 @@
             Platform
             <select id="accPlatformSelect">
               <option value="tiktok">🎵 TikTok (Short-Form)</option>
-              <option value="shorts">🔴 YouTube Shorts (Short-Form)</option>
+              <option value="shorts"> YouTube Shorts (Short-Form)</option>
               <option value="reels">📸 Instagram Reels (Short-Form)</option>
               <option value="twitter">🐦 X / Twitter</option>
               <option value="facebook">📘 Facebook Reels</option>
@@ -2420,7 +2418,7 @@
       <div class="modal-head">
         <div>
           <h3 id="multiPostModalTitle" style="display: flex; align-items: center; gap: 8px;">
-            🚀 Multi-App Simultaneous Publishing
+             Multi-App Simultaneous Publishing
           </h3>
           <p class="muted" id="multiPostModalSubtitle" style="font-size: 12px; margin: 2px 0 0;">
             Directly broadcasting your clip to selected accounts with profile sync...
@@ -2462,15 +2460,15 @@
     <div class="modal-card" style="max-width: 620px;">
       <div class="modal-head">
         <div>
-          <h3>🏷️ Tags & Presets Memory Vault</h3>
+          <h3> Tags & Presets Memory Vault</h3>
           <p class="muted" style="font-size: 12px; margin: 2px 0 0;">Manage remembered tags, title hooks, and description signatures</p>
         </div>
         <button class="modal-close" id="closeTagVaultModal">✕</button>
       </div>
       <div class="modal-body" style="padding-top: 10px;">
         <div class="vault-tabs">
-          <button type="button" class="vault-tab-btn active" data-tab="tags">🏷️ Hashtags & Tags (<span id="vaultTagCount">0</span>)</button>
-          <button type="button" class="vault-tab-btn" data-tab="hooks">⚡ Title Hooks (<span id="vaultHookCount">0</span>)</button>
+          <button type="button" class="vault-tab-btn active" data-tab="tags"> Hashtags & Tags (<span id="vaultTagCount">0</span>)</button>
+          <button type="button" class="vault-tab-btn" data-tab="hooks"> Title Hooks (<span id="vaultHookCount">0</span>)</button>
           <button type="button" class="vault-tab-btn" data-tab="templates">📋 Description Signatures (<span id="vaultTemplateCount">0</span>)</button>
         </div>
 
@@ -2527,7 +2525,7 @@
     <div class="modal-card" style="max-width: 580px;">
       <div class="modal-head">
         <div>
-          <h3>🚀 1-Click Auto-Pilot Studio</h3>
+          <h3> 1-Click Auto-Pilot Studio</h3>
           <p class="muted" style="font-size: 12px; margin: 2px 0 0;">Hands-off video clipping, Hormozi subtitles, and staggered multi-account scheduling</p>
         </div>
         <button class="modal-close" id="closeAutopilotModal">✕</button>
@@ -2535,7 +2533,7 @@
       <div class="modal-body" style="padding-top: 10px;">
         <div style="background: rgba(255, 221, 0, 0.08); border: 1px solid rgba(255, 221, 0, 0.25); border-radius: 8px; padding: 10px 14px; margin-bottom: 14px;">
           <p style="margin: 0; font-size: 13px; color: #ffdd00; font-weight: 500;">
-            ⚡ <strong>How it works:</strong> AutoClip transcribes the video, ranks the top viral moments, renders 9:16 vertical shorts with animated subtitles & hook teasers, generates AI copywriting, and schedules them spaced out automatically!
+             <strong>How it works:</strong> AutoClip transcribes the video, ranks the top viral moments, renders 9:16 vertical shorts with animated subtitles & hook teasers, generates AI copywriting, and schedules them spaced out automatically!
           </p>
         </div>
 
@@ -2557,9 +2555,9 @@
           <label>
             Release Spacing / Delay Between Shorts (Drip Schedule)
             <select id="autoPilotDripInterval">
-              <option value="10">⚡ Every 10 Minutes (Rapid Blast)</option>
-              <option value="15">⚡ Every 15 Minutes</option>
-              <option value="20">⚡ Every 20 Minutes</option>
+              <option value="10"> Every 10 Minutes (Rapid Blast)</option>
+              <option value="15"> Every 15 Minutes</option>
+              <option value="20"> Every 20 Minutes</option>
               <option value="30">⏱️ Every 30 Minutes</option>
               <option value="45">⏱️ Every 45 Minutes</option>
               <option value="60" selected>⏳ Every 1 Hour (Recommended)</option>
@@ -2581,11 +2579,11 @@
             </label>
             <label class="check-inline" style="margin-bottom: 6px;">
               <input type="checkbox" id="autoPilotAutoMemes" checked>
-              <span><strong>🎭 Auto B-Roll &amp; Reaction Memes</strong> (Pop-in visual stickers &amp; sound effects at punchlines)</span>
+              <span><strong> Auto B-Roll &amp; Reaction Memes</strong> (Pop-in visual stickers &amp; sound effects at punchlines)</span>
             </label>
             <label class="check-inline">
               <input type="checkbox" id="autoPilotCaptions" checked>
-              <span><strong>🔥 Hormozi Viral Pop Subtitles</strong> with emoji triggers</span>
+              <span><strong> Hormozi Viral Pop Subtitles</strong> with emoji triggers</span>
             </label>
           </div>
 
@@ -2611,7 +2609,7 @@
           <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
             <button type="button" class="pill-btn count-pill" id="cancelAutopilotModalBtn">Close</button>
             <button type="submit" id="startAutoPilotBtn" class="primary-btn" style="padding: 10px 24px; font-size: 14px; font-weight: bold;">
-              🚀 Launch 100% Hands-Off Auto-Pilot
+               Launch 100% Hands-Off Auto-Pilot
             </button>
           </div>
         </form>
@@ -2624,7 +2622,7 @@
     <div class="modal-card" style="max-width: 580px;">
       <div class="modal-header">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 24px;">⚡</span>
+          <span style="font-size: 24px;"></span>
           <div>
             <h3 style="margin: 0; color: #f8fafc;">Batch Post & Social Queue Center</h3>
             <small style="color: #94a3b8;">Publish or schedule multiple viral clips across accounts</small>
@@ -2643,7 +2641,7 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
           <label id="batchModeInstantLabel" class="batch-mode-card selected" style="cursor: pointer; padding: 12px; border: 1px solid #ff4400; background: rgba(255, 68, 0, 0.12); border-radius: 8px; text-align: center;">
             <input type="radio" name="batchPostMode" value="instant" checked style="display: none;">
-            <div style="font-size: 18px; margin-bottom: 4px;">🚀</div>
+            <div style="font-size: 18px; margin-bottom: 4px;"></div>
             <strong style="display: block; color: #fff; font-size: 13px;">Publish All Now</strong>
             <small style="color: #94a3b8; font-size: 11px;">Instant blast to all accounts</small>
           </label>
@@ -2660,9 +2658,9 @@
           <label style="display: block; font-size: 13px; color: #cbd5e1; margin-bottom: 6px;">
             Delay Interval Between Each Post:
             <select id="batchDripIntervalSelect" style="width: 100%; margin-top: 6px; padding: 10px; background: #0e0e16; border: 1px solid rgba(255,255,255,0.15); color: #f1f5f9; border-radius: 6px; font-size: 13px;">
-              <option value="10">⚡ Every 10 Minutes (Rapid Blast)</option>
-              <option value="15">⚡ Every 15 Minutes</option>
-              <option value="20">⚡ Every 20 Minutes</option>
+              <option value="10"> Every 10 Minutes (Rapid Blast)</option>
+              <option value="15"> Every 15 Minutes</option>
+              <option value="20"> Every 20 Minutes</option>
               <option value="30">⏱️ Every 30 Minutes</option>
               <option value="45">⏱️ Every 45 Minutes</option>
               <option value="60" selected>⏳ Every 1 Hour (Recommended)</option>
@@ -2685,9 +2683,9 @@
             <div style="display: flex; gap: 6px; align-items: center;">
               <select id="batchDripPartFilter" style="background: #17171c; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; color: #D8FF3E; font-size: 11px; padding: 3px 8px; cursor: pointer;">
                 <option value="all">🌟 All Parts</option>
-                <option value="1">🎬 Part 1 Only</option>
-                <option value="2">🎬 Part 2 Only</option>
-                <option value="3">🎬 Part 3 Only</option>
+                <option value="1"> Part 1 Only</option>
+                <option value="2"> Part 2 Only</option>
+                <option value="3"> Part 3 Only</option>
               </select>
               <button type="button" id="batchSelectSafe5Btn" class="pill-btn count-pill" style="font-size: 11px; padding: 2px 8px; color: #4ade80; border-color: rgba(74,222,128,0.35); background: rgba(74,222,128,0.08);">🛡️ Safe 5</button>
               <button type="button" id="batchSelectAllClipsBtn" class="pill-btn count-pill" style="font-size: 11px; padding: 2px 8px;">Select All</button>
@@ -2728,7 +2726,7 @@
       <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 10px;">
         <button type="button" id="cancelBatchDripModalBtn" class="pill-btn count-pill">Cancel</button>
         <button type="button" id="confirmBatchDripBtn" class="primary-btn lava-glow-btn" style="padding: 10px 24px; font-weight: 700;">
-          🚀 Publish All Clips Now
+           Publish All Clips Now
         </button>
       </div>
     </div>
@@ -2826,7 +2824,7 @@ AUTOCLIP/
     <div class="modal-card wm-studio-card">
       <div class="modal-head">
         <div>
-          <h3>🎯 Interactive Watermark Placement Screen</h3>
+          <h3> Interactive Watermark Placement Screen</h3>
           <p class="muted" style="font-size: 13px; margin: 2px 0 0 0;">Drag and move the watermark anywhere on the screen below</p>
         </div>
         <button class="modal-close" id="closeWmModal">✕</button>
@@ -2878,7 +2876,7 @@ AUTOCLIP/
         <!-- Controls Sidebar inside Modal -->
         <div class="wm-screen-controls">
           <div class="wm-control-section">
-            <h4 style="margin: 0 0 8px 0;">⚡ Quick Presets</h4>
+            <h4 style="margin: 0 0 8px 0;"> Quick Presets</h4>
             <div class="wm-preset-buttons">
               <button type="button" class="count-pill wm-anchor-btn" data-x="92" data-y="6">Top Right</button>
               <button type="button" class="count-pill wm-anchor-btn" data-x="8" data-y="6">Top Left</button>
@@ -2925,23 +2923,23 @@ AUTOCLIP/
                 <span id="wmModalSizeVal">36px</span>
               </div>
               <div class="slider-with-nudgers">
-                <button type="button" class="nudge-btn" id="wmModalZoomDown" title="Zoom Out">🔍-</button>
+                <button type="button" class="nudge-btn" id="wmModalZoomDown" title="Zoom Out"></button>
                 <input id="wmModalSize" type="range" min="10" max="120" value="36">
-                <button type="button" class="nudge-btn" id="wmModalZoomUp" title="Zoom In">🔍+</button>
+                <button type="button" class="nudge-btn" id="wmModalZoomUp" title="Zoom In"></button>
               </div>
               <small class="muted" style="display: block; margin-top: 5px; font-size: 11px;">
-                💡 Drag corner handle <strong>↘</strong> or scroll mouse wheel on watermark to zoom
+                 Drag corner handle <strong>↘</strong> or scroll mouse wheel on watermark to zoom
               </small>
             </div>
 
             <!-- Quick Background Remover inside Modal if logo loaded -->
             <div id="wmModalBgRemWrap" class="wm-slider-group hidden" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08);">
               <div class="slider-header">
-                <span>🪄 Background Remover</span>
+                <span> Background Remover</span>
                 <small id="wmModalBgRemStatus" class="muted">Make transparent</small>
               </div>
               <button type="button" id="wmModalRemoveBgBtn" class="pill-btn primary-pill bg-action-btn" style="width: 100%; font-size: 12px; padding: 6px 12px; justify-content: center; margin-top: 4px;">
-                ✨ Remove Logo Background Now
+                 Remove Logo Background Now
               </button>
             </div>
 
@@ -2977,7 +2975,7 @@ AUTOCLIP/
     <div class="modal-card wm-studio-card framing-studio-card">
       <div class="modal-head">
         <div>
-          <h3>📱 Interactive Framing & Canvas Screen</h3>
+          <h3> Interactive Framing & Canvas Screen</h3>
           <p class="muted" style="font-size: 13px; margin: 2px 0 0 0;">Preview crop modes, move the pan frame, adjust zoom, and test safe zones on a phone display</p>
         </div>
         <button class="modal-close" id="closeFramingModal">✕</button>
@@ -2996,7 +2994,7 @@ AUTOCLIP/
               
               <!-- Split Screen Second Video Container (for split mode) -->
               <div id="framingSplitDivider" class="framing-split-divider hidden">
-                <span class="split-tag">🎮 Content / Gameplay</span>
+                <span class="split-tag"> Content / Gameplay</span>
               </div>
             </div>
 
@@ -3047,38 +3045,38 @@ AUTOCLIP/
         <div class="wm-screen-controls">
           <!-- Preset Framing Mode Pickers -->
           <div class="wm-control-section">
-            <h4 style="margin: 0 0 8px 0;">🎯 Framing Preset</h4>
+            <h4 style="margin: 0 0 8px 0;"> Framing Preset</h4>
             <div class="framing-preset-cards">
               <button type="button" class="framing-mode-card active" data-mode="smart">
-                <span class="fmc-icon">🎯</span>
+                <span class="fmc-icon"></span>
                 <div class="fmc-info">
                   <strong>Smart Crop</strong>
                   <small>Centered / Freeform Pan</small>
                 </div>
               </button>
               <button type="button" class="framing-mode-card" data-mode="face">
-                <span class="fmc-icon">👤</span>
+                <span class="fmc-icon"></span>
                 <div class="fmc-info">
                   <strong>Speaker Track</strong>
                   <small>AI OpenCV Face Focus</small>
                 </div>
               </button>
               <button type="button" class="framing-mode-card" data-mode="blur">
-                <span class="fmc-icon">🌫️</span>
+                <span class="fmc-icon"></span>
                 <div class="fmc-info">
                   <strong>Blurred Canvas</strong>
                   <small>Full fit + blurred back</small>
                 </div>
               </button>
               <button type="button" class="framing-mode-card" data-mode="split">
-                <span class="fmc-icon">📱</span>
+                <span class="fmc-icon"></span>
                 <div class="fmc-info">
                   <strong>Split Screen</strong>
                   <small>Webcam top, game bottom</small>
                 </div>
               </button>
               <button type="button" class="framing-mode-card" data-mode="color">
-                <span class="fmc-icon">⬛</span>
+                <span class="fmc-icon"></span>
                 <div class="fmc-info">
                   <strong>Solid Pad</strong>
                   <small>Letterbox color border</small>
@@ -3230,7 +3228,7 @@ AUTOCLIP/
         <!-- Google Drive Backup Guide -->
         <div style="background: rgba(0, 240, 255, 0.04); border: 1px solid rgba(0, 240, 255, 0.2); border-radius: 12px; padding: 18px;">
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-            <span style="font-size: 16px;">📁</span>
+            <span style="font-size: 16px;"></span>
             <strong style="font-size: 14px; color: #00f0ff;">Google Drive Auto-Sync Benefits</strong>
           </div>
           <ul style="margin: 0; padding-left: 20px; font-size: 12px; color: #cbd5e1; line-height: 1.6;">
@@ -3270,7 +3268,7 @@ AUTOCLIP/
         <div id="licenseStatusCard" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 18px;">
           <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
             <div>
-              <span id="licenseTierBadge" style="display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(0,240,255,0.15); color: #00f0ff; border: 1px solid rgba(0,240,255,0.3);">⚡ Free 30-Day Pass</span>
+              <span id="licenseTierBadge" style="display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(0,240,255,0.15); color: #00f0ff; border: 1px solid rgba(0,240,255,0.3);"> Free 30-Day Pass</span>
               <h4 id="licenseHolderTitle" style="margin: 8px 0 2px 0; font-size: 16px; font-weight: 700;">Local Creator Profile</h4>
               <p id="licenseSubtitle" class="muted" style="margin: 0; font-size: 12px;">First month free with generous weekly allowances</p>
             </div>
@@ -3351,7 +3349,7 @@ AUTOCLIP/
       <div class="modal-head" style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px;">
         <div style="display: flex; align-items: center; gap: 12px;">
           <div style="width: 42px; height: 42px; border-radius: 12px; background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.4); display: flex; align-items: center; justify-content: center; font-size: 22px;">
-            🤖
+            
           </div>
           <div>
             <h3 style="margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.02em; color: #fff;">AI Models &amp; MCP Protocol Hub</h3>
@@ -3371,10 +3369,10 @@ AUTOCLIP/
             </div>
           </div>
           <select id="activeAiProviderSelect" style="width: 100%; padding: 10px 14px; border-radius: 8px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 13px; font-weight: 600;">
-            <option value="offline">⚡ Offline Engine v3 (100% Local, Free, No API Key Required)</option>
+            <option value="offline"> Offline Engine v3 (100% Local, Free, No API Key Required)</option>
             <option value="claude">🧠 Anthropic Claude (Claude 3.5 Sonnet / 3.7 via API)</option>
             <option value="openai">🟢 OpenAI ChatGPT (GPT-4o / GPT-4o-mini via API)</option>
-            <option value="gemini">✨ Google Gemini (Gemini 1.5 Flash / Pro via API)</option>
+            <option value="gemini"> Google Gemini (Gemini 1.5 Flash / Pro via API)</option>
           </select>
         </div>
 
@@ -3447,20 +3445,7 @@ AUTOCLIP/
   </div>
 
   <!-- Global Obsidian Lava Footer -->
-  <footer class="yashcursed-global-footer">
-    <div class="yashcursed-footer-inner">
-      <div class="footer-left">
-        <strong>⚡ AUTOCLIP STUDIO</strong>
-        <span class="muted" style="font-size: 11px;">Autonomous Short-Form Video &amp; Cinema Timeline Engine</span>
-      </div>
-      <div class="footer-center">
-        <span class="yashcursed-footer-glow">🔥 MADE BY yashcursed</span>
-      </div>
-      <div class="footer-right">
-        <span class="footer-engine-tag">Engineered with Whisper &amp; FFmpeg</span>
-      </div>
-    </div>
-  </footer>
+  
 
   <script src="/app.js"></script>
   <script src="/studio-polish.js"></script>
@@ -3476,20 +3461,15 @@ AUTOCLIP/
   <script src="/system-dashboard.js"></script>
   <script src="/studio-hub.js"></script>
   <script src="/editor-backdrop.js"></script>
-  <script src="/studio-companion.js"></script>
-  <script src="/companion-personality.js"></script>
-  <script src="/customize-settings.js"></script>
+<script src="/customize-settings.js"></script>
   <script src="/themes.js"></script>
-  <script src="/theme-companions.js"></script>
-  <script src="/font-packs.js"></script>
+<script src="/font-packs.js"></script>
   <script src="/ui-styles.js"></script>
   <script src="/manual-editor.js"></script>
   <script src="/editor-desktop.js"></script>
   <script src="/app-zoom.js"></script>
   <script src="/studio-noir.js"></script>
-  <script src="/workspace-rebuild.js"></script>
-  <script src="/silver-surge.js"></script>
-  <script src="/github-hub.js"></script>
+<script src="/github-hub.js"></script>
   <script src="/phone-feed.js"></script>
 
 

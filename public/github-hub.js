@@ -66,7 +66,7 @@
       animation: fadeInSlide 0.3s ease-out;
     `;
     banner.innerHTML = `
-      <span style="font-size: 16px;">🚀</span>
+      <span style="font-size: 16px;"></span>
       <div>
         <strong>AUTOCLIPIN v${data.latestVersion} is available!</strong>
         <span style="color: #94a3b8; margin-left: 6px;">(You are on v${data.currentVersion})</span>
@@ -106,7 +106,7 @@
     modal.innerHTML = `
       <div style="padding: 22px 26px; border-bottom: 1px solid rgba(255,255,255,0.08); display:flex; justify-content:space-between; align-items:center;">
         <div style="display:flex; align-items:center; gap: 12px;">
-          <span style="font-size: 26px;">🐱</span>
+          <span style="font-size: 26px;">GH</span>
           <div>
             <h3 style="margin:0; font-size: 18px; font-weight: 800; color: #f0f6ff; letter-spacing: -0.3px;">GitHub Auto-Update &amp; Creator Hub</h3>
             <div style="font-size: 12px; color: #8fa5c5; margin-top: 2px;">Automatic version checks, releases &amp; creator sync</div>
@@ -135,17 +135,17 @@
           </div>
 
           <div id="ghUpdateActionsArea" style="display:none; margin-bottom: 12px; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 12px;">
-            <div style="font-weight: 700; color: #38bdf8; font-size: 13px; margin-bottom: 6px;">✨ Update Available!</div>
+            <div style="font-weight: 700; color: #38bdf8; font-size: 13px; margin-bottom: 6px;"> Update Available!</div>
             <p id="ghUpdateReleaseTitle" style="font-size: 12px; color: #cbd5e1; margin: 0 0 10px;"></p>
             <div style="display:flex; gap: 10px; flex-wrap: wrap;">
               <a id="btnGhDownloadExe" href="#" target="_blank" style="padding: 6px 14px; background: #38bdf8; color: #020617; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 12px; display:inline-flex; align-items:center; gap: 6px;">Download Installer (.exe) <span>&darr;</span></a>
-              <a id="btnGhDownloadZip" href="#" target="_blank" style="padding: 6px 14px; background: rgba(255,255,255,0.08); color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; font-weight: 600; font-size: 12px; display:inline-flex; align-items:center; gap: 6px;">Download Portable ZIP <span>📦</span></a>
+              <a id="btnGhDownloadZip" href="#" target="_blank" style="padding: 6px 14px; background: rgba(255,255,255,0.08); color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; font-weight: 600; font-size: 12px; display:inline-flex; align-items:center; gap: 6px;">Download Portable ZIP <span></span></a>
               <a id="btnGhViewRelease" href="#" target="_blank" style="padding: 6px 12px; color: #8fa5c5; text-decoration: underline; font-size: 12px; align-self: center;">View Changelog &nearr;</a>
             </div>
           </div>
 
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <button id="btnGhCheckNow" type="button" style="padding: 7px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #fff; font-size: 12px; font-weight: 600; cursor: pointer;">🔄 Check for Updates Now</button>
+            <button id="btnGhCheckNow" type="button" style="padding: 7px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #fff; font-size: 12px; font-weight: 600; cursor: pointer;"> Check for Updates Now</button>
             <span id="ghCheckFeedback" style="font-size: 11px; color: #8fa5c5;"></span>
           </div>
         </div>
@@ -388,14 +388,7 @@
       }, 1500);
     }
 
-    // First time open prompt
-    const hasPrompted = localStorage.getItem('autoclip_gh_intro_shown');
-    if (!hasPrompted) {
-      localStorage.setItem('autoclip_gh_intro_shown', 'true');
-      setTimeout(() => {
-        openGithubModal();
-      }, 3000);
-    }
+    // Manual open only via topbar button
   });
 
   window.openGithubUpdateModal = openGithubModal;

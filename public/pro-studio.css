@@ -694,3 +694,203 @@ body[data-theme="dark"] {
   border-color: var(--pro-border-medium) !important;
   transform: translateY(-1px);
 }
+
+
+/* ========================================================
+   8. PRO 2-COLUMN INGEST DECK (OBSIDIAN & TITANIUM)
+   ======================================================== */
+
+.studio-companion,
+.companion-avatar,
+.companion-container,
+.companion-bubble,
+#appAssistantModal,
+dialog#projectWizard,
+.workspace-dashboard,
+.surge-edition,
+.surge-membership,
+.yashcursed-global-footer {
+  display: none !important;
+}
+
+#ingestView {
+  max-width: 100% !important;
+  min-height: calc(100vh - 48px) !important;
+  margin: 0 !important;
+  padding: 20px 28px 40px 28px !important;
+  box-sizing: border-box !important;
+}
+
+.pro-ingest-top {
+  padding: 0 0 16px 0 !important;
+  margin-bottom: 20px !important;
+  border-bottom: 1px solid var(--pro-border-subtle) !important;
+}
+
+.project-create-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.4fr) minmax(340px, 420px) !important;
+  gap: 24px !important;
+  align-items: start !important;
+}
+
+.project-source-column {
+  min-width: 0 !important;
+}
+
+.project-settings-column {
+  min-width: 0 !important;
+  background: var(--pro-bg-panel) !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  border-radius: 12px !important;
+  padding: 22px !important;
+  position: sticky !important;
+  top: 20px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+.project-settings-heading {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: var(--pro-text-primary) !important;
+  margin: 0 0 4px 0 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.project-settings-description {
+  font-size: 12px !important;
+  color: var(--pro-text-muted) !important;
+  margin: 0 0 16px 0 !important;
+}
+
+.project-pane-label {
+  font-family: var(--pro-font-mono) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--pro-text-muted) !important;
+  margin-bottom: 10px !important;
+}
+
+.source-card {
+  background: var(--pro-bg-card) !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  margin-bottom: 20px !important;
+}
+
+.source-tabs {
+  display: flex !important;
+  gap: 6px !important;
+  margin-bottom: 14px !important;
+  border-bottom: 1px solid var(--pro-border-subtle) !important;
+  padding-bottom: 10px !important;
+}
+
+.source-tabs .tab {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 6px !important;
+  padding: 7px 14px !important;
+  color: var(--pro-text-secondary) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all var(--pro-duration) var(--pro-ease) !important;
+}
+
+.source-tabs .tab:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: #fff !important;
+}
+
+.source-tabs .tab.active {
+  background: var(--pro-bg-card-hover) !important;
+  border-color: var(--pro-border-medium) !important;
+  color: var(--pro-accent-amber) !important;
+}
+
+.drop-zone {
+  border: 1px dashed var(--pro-border-medium) !important;
+  background: rgba(13, 16, 24, 0.7) !important;
+  border-radius: 10px !important;
+  padding: 44px 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all var(--pro-duration) var(--pro-ease) !important;
+}
+
+.drop-zone:hover {
+  border-color: var(--pro-accent-amber) !important;
+  background: rgba(232, 141, 40, 0.04) !important;
+}
+
+/* Custom Select & Form Controls */
+select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background-color: var(--pro-bg-card) !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 12px center !important;
+  padding: 9px 32px 9px 12px !important;
+  border: 1px solid var(--pro-border-medium) !important;
+  border-radius: 6px !important;
+  color: var(--pro-text-primary) !important;
+  font-size: 12px !important;
+  font-family: var(--pro-font-ui) !important;
+  transition: border-color var(--pro-duration) var(--pro-ease) !important;
+}
+
+select:focus,
+input[type="text"]:focus,
+input[type="url"]:focus,
+input[type="number"]:focus {
+  outline: none !important;
+  border-color: var(--pro-accent-amber) !important;
+  box-shadow: 0 0 0 1px var(--pro-accent-amber) !important;
+}
+
+input[type="text"],
+input[type="url"],
+input[type="number"] {
+  background-color: var(--pro-bg-card) !important;
+  border: 1px solid var(--pro-border-medium) !important;
+  border-radius: 6px !important;
+  color: var(--pro-text-primary) !important;
+  font-size: 12px !important;
+  padding: 9px 12px !important;
+}
+
+input[type="number"] {
+  font-family: var(--pro-font-mono) !important;
+}
+
+.primary-btn,
+#createJob,
+#renderBtn {
+  background: var(--pro-accent-amber) !important;
+  color: #0b0d13 !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  letter-spacing: -0.01em !important;
+  border: none !important;
+  border-radius: 6px !important;
+  padding: 11px 20px !important;
+  cursor: pointer !important;
+  transition: all var(--pro-duration) var(--pro-ease) !important;
+  box-shadow: 0 2px 10px rgba(232, 141, 40, 0.25) !important;
+}
+
+.primary-btn:hover,
+#createJob:hover,
+#renderBtn:hover {
+  background: #ff9e3b !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 16px rgba(232, 141, 40, 0.35) !important;
+}

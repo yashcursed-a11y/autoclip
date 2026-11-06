@@ -119,9 +119,12 @@ function escapeHtml(str) {
       window.switchAppView('ingest');
     }
 
-    // Auto-switch to accounts view if redirected from OAuth callback
+    // Auto-switch to accounts view if redirected from OAuth callback or view param
     const params = new URLSearchParams(window.location.search);
-    if (params.get('youtube') === 'connected' || params.get('drive') === 'connected' || params.get('accountId')) {
+    const viewParam = params.get('view');
+    if (viewParam && typeof window.switchAppView === 'function') {
+      window.switchAppView(viewParam);
+    } else if (params.get('youtube') === 'connected' || params.get('drive') === 'connected' || params.get('accountId')) {
       if (typeof window.switchAppView === 'function') {
         window.switchAppView('scheduler');
         window.switchSchedulerSubTab('accounts');
