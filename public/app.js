@@ -1458,16 +1458,25 @@ function showJob(job, scrollToWorkspace = true) {
 
   // Set video preview source
   const video = $('#previewVideo');
-  if (job.sourcePath) {
-    // If source is in incoming, we can serve it or first clip
+  if (job.sourcePath && video) {
     const sourceName = job.sourcePath.split(/[\\/]/).pop();
-    video.src = `/incoming/${encodeURIComponent(sourceName)}`;
-    video.addEventListener('loadedmetadata', () => {
-      if (state.currentJob?.id !== job.id) return;
+    const encodedName = encodeURIComponent(sourceName);
+    if (!video.src.endsWith(encodedName) && !video.src.endsWith(sourceName)) {
+      video.src = `/incoming/${encodedName}`;
+      video.addEventListener('loadedmetadata', () => {
+        if (state.currentJob?.id !== job.id) return;
+        const active = job.clips?.find(c => c.id === state.activeClipId);
+        if (active) {
+          try { video.currentTime = Math.min(active.start, video.duration || active.start); } catch {}
+        }
+      }, { once: true });
+    } else {
       const active = job.clips?.find(c => c.id === state.activeClipId);
-      if (active) video.currentTime = Math.min(active.start, video.duration || active.start);
-    }, { once: true });
-  } else {
+      if (active && video.readyState >= 1) {
+        try { video.currentTime = Math.min(active.start, video.duration || active.start); } catch {}
+      }
+    }
+  } else if (video) {
     video.removeAttribute('src');
     video.load();
   }
@@ -1786,8 +1795,19 @@ function selectClip(clipId, playImmediately = false, seekPosition = null) {
 
   // Seek video
   const video = $('#previewVideo');
-  video.currentTime = seekPosition === null ? clip.start : seekPosition;
-  if (playImmediately) video.play();
+  if (video) {
+    const targetTime = seekPosition === null ? clip.start : seekPosition;
+    if (video.readyState >= 1) {
+      try { video.currentTime = targetTime; } catch {}
+    } else {
+      video.addEventListener('loadedmetadata', () => {
+        try { video.currentTime = targetTime; } catch {}
+      }, { once: true });
+    }
+    if (playImmediately) {
+      video.play().catch(() => {});
+    }
+  }
 
   // Update live caption preview text
   $('#captionPreviewText').textContent = clip.hook || clip.title || 'CAPTION PREVIEW';
