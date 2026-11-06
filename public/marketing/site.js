@@ -7,7 +7,8 @@
   let paused = reduce.matches || lowData, heroVisible = true, machineVisible = false;
   let frameId = 0, lastPaint = 0, burstUntil = 0, burstCount = 0;
   let sources = [], tiles = [], shots = [], scrollDirty = true;
-  let cinema;
+  // Initialize the signature story before optional hero, checkout or dialog bindings.
+  const cinema=window.AutoClipCinema?.create({paused});
   const names = ['ocean','trick','coffee','jelly','skate'];
   const labels = ['OUTSIDE THE FRAME','ONE MORE TRY','SLOW MORNINGS','AFTER HOURS','IN MOTION'];
   const modal = $('#clipDialog'), motion = $('#motionToggle');
@@ -82,7 +83,8 @@
   reduce.addEventListener('change',()=>{paused=reduce.matches;clearBurst();scrollDirty=true;updatePlayback();schedule();});
   modal.addEventListener('close',()=>{const v=modal.querySelector('video');v.pause();v.removeAttribute('src');v.load();updatePlayback();});
   document.querySelectorAll('dialog').forEach(dialog=>{
-    dialog.querySelector('.dialog-close').addEventListener('click',()=>dialog.close());
+    // Legal/checkout dialogs added by the redesign have their own close controls.
+    dialog.querySelector('.dialog-close')?.addEventListener('click',()=>dialog.close());
     dialog.addEventListener('click',e=>{if(e.target===dialog){const b=dialog.getBoundingClientRect();if(e.clientX<b.left||e.clientX>b.right||e.clientY<b.top||e.clientY>b.bottom)dialog.close();}});
   });
   $('#creditsOpen').addEventListener('click',()=>$('#creditsDialog').showModal());
@@ -92,7 +94,6 @@
   const control=$('#autoClipBtn');
   control.addEventListener('pointermove',e=>{if(paused||reduce.matches)return;const r=control.getBoundingClientRect();control.style.setProperty('--control-x',`${(e.clientX-r.left)/r.width*100}%`);control.style.setProperty('--control-y',`${(e.clientY-r.top)/r.height*100}%`);});
   control.addEventListener('pointerleave',()=>{control.style.removeProperty('--control-x');control.style.removeProperty('--control-y');});
-  cinema=window.AutoClipCinema?.create({paused});
   let heroProgress=0,pointerX=0,pointerY=0;
   $('.clip-universe').addEventListener('pointermove',event=>{if(paused)return;const r=$('.clip-universe').getBoundingClientRect();pointerX=clamp((event.clientX-r.left)/r.width)*2-1;pointerY=clamp((event.clientY-r.top)/r.height)*2-1;});
   $('.clip-universe').addEventListener('pointerleave',()=>{pointerX=0;pointerY=0;});

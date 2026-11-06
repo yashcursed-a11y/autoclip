@@ -2,7 +2,9 @@
   'use strict';
   const clamp=(n,a=0,b=1)=>Math.min(b,Math.max(a,n));
   const smooth=(a,b,n)=>{const t=clamp((n-a)/(b-a));return t*t*(3-2*t);};
+  let instance;
   window.AutoClipCinema={create({paused=false}={}){
+    if(instance){instance.setPaused(paused);return instance;}
     const $=s=>document.querySelector(s),section=$('#quality'),stage=section.querySelector('.cinema-stage');
     const canvas=$('#grainCanvas'),ctx=canvas.getContext('2d');
     const copy=$('#cinemaCopy'),amount=$('#cinemaAmount'),number=$('#sceneNumber');
@@ -91,7 +93,7 @@
     document.addEventListener('visibilitychange',()=>{if(!document.hidden&&visible){readProgress();schedule();}});
     document.fonts?.ready.then(build);
     section.classList.toggle('cinema-static',paused);build();
-    return {setPaused,refresh:build};
+    return instance={setPaused,refresh:build};
   }};
   // Short, one-time entrance motion outside the long pinned story.
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');

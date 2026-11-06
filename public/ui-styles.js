@@ -38,7 +38,9 @@
     page.querySelectorAll('[data-ui-choice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.uiChoice===prefs.style)));
     page.querySelector('.ui-style-status').textContent=prefs.style==='retro95'?`Retro ’95 · ${prefs.classic?'classic desktop palette':'your theme colors'}. Your font selection is preserved.`:`${style.name} active. Your theme and font selection are preserved.`;
     try{localStorage.setItem('autoclip.uiStyle',JSON.stringify(prefs));}catch{}
+    document.dispatchEvent(new CustomEvent('autoclip-ui-changed',{detail:{style:prefs.style}}));
     window.dispatchEvent(new Event('resize'));
   };
   page.querySelectorAll('[data-ui-choice]').forEach(button=>button.onclick=()=>{prefs.style=button.dataset.uiChoice;apply();});palette.onchange=()=>{prefs.classic=palette.checked;apply();};apply();
 })();
+
