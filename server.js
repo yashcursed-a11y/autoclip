@@ -429,6 +429,237 @@ app.post('/api/license/activate', async (req, res) => {
   }
 });
 
+// ==========================================
+// PAYMENT GATEWAYS & PLANS CONFIGURATION
+// ==========================================
+const ORDERS_FILE = path.join(DATA, 'orders.json');
+const UPI_CLAIMS_FILE = path.join(DATA, 'upi-claims.json');
+
+app.get('/api/payment/plans', (_req, res) => {
+  res.json({
+    currency: 'USD',
+    plans: [
+      {
+        id: 'free',
+        name: 'Starter Pass',
+        priceUSD: 0,
+        priceINR: 0,
+        interval: 'one-time',
+        clipLimit: 300,
+        unlimited: false,
+        features: [
+          '300 Free AI clips included',
+          'AI highlight discovery & scoring',
+          'CapCut-style manual timeline editor',
+          '720p / 1080p vertical exports',
+          'Standard caption presets'
+        ],
+        buttonText: 'Free Download',
+        checkoutUrl: '/#download'
+      },
+      {
+        id: 'max',
+        name: 'AUTOCLIPIN Max',
+        badge: 'POPULAR',
+        priceUSD: 20,
+        priceINR: 1499,
+        interval: 'month',
+        clipLimit: 1200,
+        unlimited: false,
+        features: [
+          '⚡ 1,200 AI clips per month',
+          'Full 1080p 60fps vertical renders',
+          'Smart face-tracking & 9:16 framing',
+          'All 8 viral kinetic caption presets',
+          'Automated background video downloader'
+        ],
+        buttonText: 'Get Max ($20/mo)',
+        lemonSqueezyUrl: process.env.LEMON_MAX_URL || 'https://autoclipin.lemonsqueezy.com/buy/max-plan',
+        razorpayUrl: process.env.RAZORPAY_MAX_URL || 'https://rzp.io/l/autoclipin-max'
+      },
+      {
+        id: 'ultra',
+        name: 'AUTOCLIPIN Ultra',
+        badge: 'UNLIMITED',
+        priceUSD: 50,
+        priceINR: 3999,
+        interval: 'month',
+        clipLimit: 999999,
+        unlimited: true,
+        features: [
+          '🔥 UNLIMITED AI clips every month',
+          'High-priority background processing',
+          'Multi-account social media auto-posting',
+          'Custom brand watermarks & background removal',
+          'VIP private Discord support'
+        ],
+        buttonText: 'Get Ultra ($50/mo)',
+        lemonSqueezyUrl: process.env.LEMON_ULTRA_URL || 'https://autoclipin.lemonsqueezy.com/buy/ultra-plan',
+        razorpayUrl: process.env.RAZORPAY_ULTRA_URL || 'https://rzp.io/l/autoclipin-ultra'
+      },
+      {
+        id: 'yearly',
+        name: 'Yearly VIP Pass',
+        badge: 'SAVE 66%',
+        priceUSD: 200,
+        priceINR: 15999,
+        interval: 'year',
+        clipLimit: 999999,
+        unlimited: true,
+        features: [
+          '👑 UNLIMITED AI clips for 365 Days',
+          'All Ultra features included',
+          'Commercial monetization license',
+          'Early access to all upcoming AI models',
+          'Instant activation key delivered'
+        ],
+        buttonText: 'Get Yearly ($200/yr)',
+        lemonSqueezyUrl: process.env.LEMON_YEARLY_URL || 'https://autoclipin.lemonsqueezy.com/buy/yearly-pass',
+        razorpayUrl: process.env.RAZORPAY_YEARLY_URL || 'https://rzp.io/l/autoclipin-yearly'
+      }
+    ],
+    upiConfig: {
+      upiId: process.env.UPI_ID || 'autoclipin@upi',
+      payeeName: 'AUTOCLIPIN Studio',
+      qrEnabled: true
+    }
+  });
+});
+
+// Lemon Squeezy Webhook Handler
+app.post('/api/payment/webhook/lemonsqueezy', async (req, res) => {
+  try {
+    const event = req.body || {};
+    const eventName = event.meta?.event_name || 'order_created';
+    const data = event.data?.attributes || {};
+    const customerEmail = data.user_email || 'customer@example.com';
+    const customerName = data.user_name || customerEmail.split('@')[0] || 'VIP';
+    
+    // Determine tier from custom data or product name
+    const productName = (data.first_order_item?.product_name || '').toLowerCase();
+    let tier = 'max';
+    let duration = '1month';
+    if (productName.includes('ultra')) {
+      tier = 'ultra';
+    } else if (productName.includes('year') || data.total === 20000) {
+      tier = 'yearly';
+      duration = '1year';
+    }
+
+    const { generateKey } = require('./lib/licensing');
+    const keyInfo = generateKey(customerName, tier, duration);
+
+    // Record order
+    let orders = [];
+    try {
+      if (fs.existsSync(ORDERS_FILE)) orders = JSON.parse(await fsp.readFile(ORDERS_FILE, 'utf8'));
+    } catch {}
+    orders.push({
+      gateway: 'lemonsqueezy',
+      event: eventName,
+      customerEmail,
+      customerName,
+      tier,
+      key: keyInfo.key,
+      orderId: event.data?.id,
+      timestamp: new Date().toISOString()
+    });
+    await fsp.writeFile(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf8');
+
+    console.log(`[LemonSqueezy] New payment received for ${customerName} (${tier}). Generated key: ${keyInfo.key}`);
+    res.json({ success: true, key: keyInfo.key });
+  } catch (err) {
+    console.error('[LemonSqueezy Webhook Error]:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Razorpay Webhook Handler
+app.post('/api/payment/webhook/razorpay', async (req, res) => {
+  try {
+    const payload = req.body || {};
+    const payment = payload.payload?.payment?.entity || {};
+    const customerEmail = payment.email || 'customer@example.com';
+    const customerName = (payment.notes?.name || customerEmail.split('@')[0] || 'VIP');
+    const amount = (payment.amount || 0) / 100; // In INR
+
+    let tier = 'max';
+    let duration = '1month';
+    if (amount >= 14000) {
+      tier = 'yearly';
+      duration = '1year';
+    } else if (amount >= 3500) {
+      tier = 'ultra';
+    }
+
+    const { generateKey } = require('./lib/licensing');
+    const keyInfo = generateKey(customerName, tier, duration);
+
+    let orders = [];
+    try {
+      if (fs.existsSync(ORDERS_FILE)) orders = JSON.parse(await fsp.readFile(ORDERS_FILE, 'utf8'));
+    } catch {}
+    orders.push({
+      gateway: 'razorpay',
+      paymentId: payment.id,
+      customerEmail,
+      customerName,
+      amount,
+      tier,
+      key: keyInfo.key,
+      timestamp: new Date().toISOString()
+    });
+    await fsp.writeFile(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf8');
+
+    console.log(`[Razorpay] Payment captured ₹${amount} for ${customerName} (${tier}). Generated key: ${keyInfo.key}`);
+    res.json({ success: true, key: keyInfo.key });
+  } catch (err) {
+    console.error('[Razorpay Webhook Error]:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Manual UPI UTR Submission (Instant Claim)
+app.post('/api/payment/submit-upi-claim', async (req, res) => {
+  try {
+    const { name, email, utr, tier } = req.body || {};
+    if (!utr || !name) {
+      return res.status(400).json({ error: 'Name and UPI Transaction Reference (UTR) are required.' });
+    }
+
+    const selectedTier = ['max', 'ultra', 'yearly'].includes(tier) ? tier : 'max';
+    const duration = selectedTier === 'yearly' ? '1year' : '1month';
+
+    const { generateKey } = require('./lib/licensing');
+    const keyInfo = generateKey(name, selectedTier, duration);
+
+    let claims = [];
+    try {
+      if (fs.existsSync(UPI_CLAIMS_FILE)) claims = JSON.parse(await fsp.readFile(UPI_CLAIMS_FILE, 'utf8'));
+    } catch {}
+
+    const newClaim = {
+      name,
+      email: email || '',
+      utr: utr.trim(),
+      tier: selectedTier,
+      key: keyInfo.key,
+      claimedAt: new Date().toISOString()
+    };
+    claims.push(newClaim);
+    await fsp.writeFile(UPI_CLAIMS_FILE, JSON.stringify(claims, null, 2), 'utf8');
+
+    res.json({
+      success: true,
+      message: 'Payment verification recorded! Your instant activation key is ready.',
+      key: keyInfo.key,
+      tier: selectedTier
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Settings API
 app.get('/api/settings', async (_req, res) => {
   try {

@@ -7150,20 +7150,38 @@ function renderLicenseStatus() {
     if (pillText) pillText.textContent = 'AUTOCLIPIN Max';
 
     if (tierBadge) {
-      tierBadge.textContent = lic.isLifetime ? '👑 Max Lifetime VIP' : '👑 AUTOCLIPIN Max (Yearly)';
-      tierBadge.style.background = 'rgba(255, 221, 0, 0.2)';
-      tierBadge.style.color = '#ffdd00';
-      tierBadge.style.borderColor = 'rgba(255, 221, 0, 0.4)';
+      if (lic.tier === 'ultra') {
+        tierBadge.textContent = '🔥 AUTOCLIPIN Ultra (Unlimited)';
+        tierBadge.style.background = 'rgba(168, 85, 247, 0.2)';
+        tierBadge.style.color = '#c084fc';
+        tierBadge.style.borderColor = 'rgba(168, 85, 247, 0.4)';
+      } else if (lic.tier === 'yearly') {
+        tierBadge.textContent = '👑 Yearly VIP Pass (365 Days)';
+        tierBadge.style.background = 'rgba(234, 179, 8, 0.2)';
+        tierBadge.style.color = '#facc15';
+        tierBadge.style.borderColor = 'rgba(234, 179, 8, 0.4)';
+      } else {
+        tierBadge.textContent = '⚡ AUTOCLIPIN Max (1,200 Clips/mo)';
+        tierBadge.style.background = 'rgba(59, 130, 246, 0.2)';
+        tierBadge.style.color = '#60a5fa';
+        tierBadge.style.borderColor = 'rgba(59, 130, 246, 0.4)';
+      }
     }
-    if (holderTitle) holderTitle.textContent = `${lic.holder || 'Creator'} (Pro Unlocked)`;
-    if (subtitle) subtitle.textContent = 'Unlimited 4K vertical exports & offline privileges active';
+    if (holderTitle) holderTitle.textContent = `${lic.holder || 'Creator'} (${lic.tierName || 'Pro Unlocked'})`;
+    if (subtitle) subtitle.textContent = lic.isUnlimited ? 'Unlimited 4K vertical exports active' : '1,200 Monthly clip quota active';
     if (daysLeft) {
       daysLeft.textContent = lic.isLifetime ? '∞' : Math.max(0, Math.ceil(((lic.keyExpiresAt || 0) - Date.now()) / (24 * 60 * 60 * 1000)));
       daysLeft.style.color = '#ffdd00';
     }
-    if (quotaText) quotaText.textContent = `${lic.clipsExportedThisWeek || 0} clips (Unlimited)`;
-    if (quotaBar) quotaBar.style.width = '100%';
-    if (resetText) resetText.textContent = 'No caps on exports';
+    if (quotaText) {
+      quotaText.textContent = lic.isUnlimited 
+        ? `${lic.clipsExportedThisMonth || lic.clipsExportedThisWeek || 0} clips (Unlimited)`
+        : `${lic.clipsExportedThisMonth || 0} / 1,200 clips used this month`;
+    }
+    if (quotaBar) {
+      quotaBar.style.width = lic.isUnlimited ? '100%' : Math.min(100, Math.round(((lic.clipsExportedThisMonth || 0) / 1200) * 100)) + '%';
+    }
+    if (resetText) resetText.textContent = lic.isUnlimited ? 'No caps on exports' : 'Resets every 30 days';
   } else if (lic.isExpired) {
     if (statusBtn) {
       statusBtn.style.borderColor = 'rgba(255, 68, 68, 0.6)';
