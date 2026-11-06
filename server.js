@@ -1003,7 +1003,7 @@ app.post('/api/automate/launch', async (req, res) => {
         ratingSystem: options.ratingSystem || 'hollywood',
         ...options,
         clipCount: Math.max(1, Math.min(100, Number(clipsPerVideo) || 5)),
-        streamQuality: options.streamQuality || 'turbo',
+        streamQuality: options.streamQuality || '720p',
         autoProcess: true
       };
 
