@@ -131,16 +131,4 @@
   }
   window.addEventListener('scroll',()=>{scrollDirty=true;schedule();},{passive:true});
   poseRibbon(0);updatePlayback();
-  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),8000);
-  fetch('https://api.github.com/repos/yashcursed-a11y/autoclip/releases/latest',{signal:controller.signal,headers:{Accept:'application/vnd.github+json'}})
-    .then(r=>{if(!r.ok)throw Error('Release unavailable');return r.json();})
-    .then(release=>{
-      if(release.draft||release.prerelease)return;
-      const assets=(release.assets||[]).filter(a=>a.state==='uploaded'&&/\.exe$/i.test(a.name)&&!/portable|uninstall/i.test(a.name));
-      const asset=assets.find(a=>/setup/i.test(a.name))||assets[0];
-      if(!asset||!/^https:\/\/github\.com\/yashcursed-a11y\/autoclip\/releases\/download\//.test(asset.browser_download_url))return;
-      document.querySelectorAll('.release-download').forEach(a=>{a.href=asset.browser_download_url;});
-      const date=release.published_at?new Date(release.published_at).toLocaleDateString('en',{month:'short',day:'numeric',year:'numeric'}):'';
-      $('#releaseMeta').textContent=`${release.tag_name} · Windows · ${(asset.size/1048576).toFixed(0)} MB${date?` · ${date}`:''}`;
-    }).catch(()=>{}).finally(()=>clearTimeout(timeout));
 })();

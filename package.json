@@ -73,7 +73,8 @@
       "!dist/**",
       "!work/**",
       "!website/**",
-      "!.github/**"
+      "!.github/**",
+      "!public/downloads/**"
     ]
   },
   "keywords": [],

@@ -1662,6 +1662,90 @@ app.post('/api/accounts/reset', async (_req, res) => {
   }
 });
 
+// Verify and link Instagram Creator / Business Account via Meta Graph API
+app.post('/api/accounts/verify-instagram', async (req, res) => {
+  try {
+    const { token, accountId, igUserId } = req.body;
+    if (!token || !token.trim()) {
+      return res.status(400).json({ error: 'Meta Access Token is required.' });
+    }
+
+    let igInfo = null;
+
+    if (igUserId && igUserId.trim() && igUserId !== 'me') {
+      try {
+        const directResp = await fetch(`https://graph.facebook.com/v19.0/${igUserId.trim()}?fields=id,username,name,profile_picture_url&access_token=${encodeURIComponent(token.trim())}`);
+        const data = await directResp.json();
+        if (data && data.id && !data.error) {
+          igInfo = data;
+        }
+      } catch (e) {
+        console.warn('[Instagram Verify] Direct query error:', e.message);
+      }
+    }
+
+    if (!igInfo) {
+      const pagesResp = await fetch(`https://graph.facebook.com/v19.0/me/accounts?fields=name,instagram_business_account{id,username,name,profile_picture_url}&access_token=${encodeURIComponent(token.trim())}`);
+      const pagesData = await pagesResp.json();
+
+      if (pagesData.error) {
+        return res.status(400).json({
+          error: `Meta Graph API error: ${pagesData.error.message} (Code: ${pagesData.error.code})`
+        });
+      }
+
+      if (Array.isArray(pagesData.data)) {
+        for (const page of pagesData.data) {
+          if (page.instagram_business_account) {
+            igInfo = page.instagram_business_account;
+            break;
+          }
+        }
+      }
+    }
+
+    if (!igInfo) {
+      const meResp = await fetch(`https://graph.facebook.com/v19.0/me?fields=id,username,name,picture{url}&access_token=${encodeURIComponent(token.trim())}`);
+      const meData = await meResp.json();
+      if (meData && meData.id && !meData.error) {
+        igInfo = {
+          id: meData.id,
+          username: meData.username || meData.name?.replace(/\s+/g, '_').toLowerCase() || 'instagram_user',
+          name: meData.name || 'Instagram Account',
+          profile_picture_url: meData.picture?.data?.url || ''
+        };
+      }
+    }
+
+    if (!igInfo) {
+      return res.status(400).json({
+        error: 'No connected Instagram Business / Creator account was found on this Meta token. Please ensure your Instagram is switched to Professional and linked to a Facebook Page.'
+      });
+    }
+
+    if (accountId) {
+      await updateAccount(accountId, {
+        name: igInfo.name || igInfo.username,
+        handle: igInfo.username ? `@${igInfo.username}` : undefined,
+        avatarUrl: igInfo.profile_picture_url || undefined,
+        channelId: igInfo.id,
+        apiToken: token.trim()
+      });
+    }
+
+    res.json({
+      success: true,
+      id: igInfo.id,
+      username: igInfo.username,
+      name: igInfo.name,
+      avatarUrl: igInfo.profile_picture_url,
+      message: `Successfully linked Instagram profile @${igInfo.username || igInfo.name}!`
+    });
+  } catch (err) {
+    res.status(500).json({ error: `Instagram link verification failed: ${err.message}` });
+  }
+});
+
 // Upload Custom Video Clip directly from PC for Scheduling & Auto Upload
 app.post('/api/posts/upload-clip', upload.single('video'), async (req, res) => {
   try {

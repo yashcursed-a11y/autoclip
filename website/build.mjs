@@ -1,5 +1,10 @@
 import {cp,mkdir,writeFile} from 'node:fs/promises';
+import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
+const {stageDownload} = createRequire(import.meta.url)('./stage-download.cjs');
 await mkdir('dist',{recursive:true});
 for (const name of ['index.html','marketing']) await cp(name,`dist/${name}`,{recursive:true});
+stageDownload(fileURLToPath(new URL('./downloads',import.meta.url)));
+stageDownload(fileURLToPath(new URL('./dist/downloads',import.meta.url)));
 await writeFile('dist/.nojekyll','');
 console.log('Built static AutoClip website.');

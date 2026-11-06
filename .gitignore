@@ -43,3 +43,7 @@ work/bundle-font-packs.py
 # Curated website demonstration footage
 !website/marketing/media/*.mp4
 !public/marketing/media/*.mp4
+
+# Staged local app download; distributed separately from source
+website/downloads/
+public/downloads/

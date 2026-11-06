@@ -1,3 +1,6 @@
 dist/
 *.tmp
 !marketing/media/*.mp4
+
+# Large app distribution staged from the app dist folder
+downloads/

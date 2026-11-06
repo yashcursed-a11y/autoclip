@@ -4322,6 +4322,8 @@ function setupSchedulerControls() {
   if ($('#accSelectTikTokBtn')) $('#accSelectTikTokBtn').onclick = () => selectPlatformOnly('tiktok');
   if ($('#accSelectShortsBtn')) $('#accSelectShortsBtn').onclick = () => selectPlatformOnly('shorts');
   if ($('#accSelectReelsBtn')) $('#accSelectReelsBtn').onclick = () => selectPlatformOnly('reels');
+  if ($('#accSelectTwitterBtn')) $('#accSelectTwitterBtn').onclick = () => selectPlatformOnly('twitter');
+  if ($('#accSelectFbBtn')) $('#accSelectFbBtn').onclick = () => selectPlatformOnly('facebook');
 
   // Schedule Mode Radios
   $$('input[name="schedMode"]').forEach(radio => {
@@ -4461,14 +4463,8 @@ function setupSchedulerControls() {
             });
           }
           if (statusEl) statusEl.textContent = `✓ Staggered drip queued: 1 post every ${dripIntervalMins} mins across ${accountIds.length} accounts!`;
-        } else {
-          let scheduledAt = new Date().toISOString();
-          if (mode === 'schedule' && datetimeVal) {
-            scheduledAt = new Date(datetimeVal).toISOString();
-          } else if (mode === 'drip') {
-            scheduledAt = new Date(baseTime).toISOString();
-          }
-
+        } else if (mode === 'immediate') {
+          const scheduledAt = new Date().toISOString();
           const postData = {
             title: title || clip.title,
             caption,
@@ -4480,8 +4476,110 @@ function setupSchedulerControls() {
             videoPath: clip?.videoPath || '',
             videoUrl: clip?.videoUrl || '',
             accountIds,
-            status: mode === 'immediate' ? 'published' : 'scheduled',
-            immediate: mode === 'immediate',
+            status: 'publishing',
+            immediate: false,
+            scheduledAt
+          };
+
+          // Show Multi-Post Progress Modal with all account avatars
+          const multiModal = $('#multiPostModal');
+          const accountsList = $('#multiPostAccountsList');
+          const progressBar = $('#multiPostProgressBar');
+          const summaryStatus = $('#multiPostSummaryStatus');
+          const doneBtn = $('#doneMultiPostBtn');
+          const multiTitle = $('#multiPostClipTitle');
+          const multiMeta = $('#multiPostClipMeta');
+          const multiVid = $('#multiPostThumbVideo');
+
+          if (multiTitle) multiTitle.textContent = title || clip?.title || 'Viral Short-Form Clip';
+          if (multiMeta) multiMeta.textContent = `${accountIds.length} connected platforms selected`;
+          if (multiVid && clip?.videoUrl) multiVid.src = clip.videoUrl;
+          if (progressBar) progressBar.style.width = '25%';
+          if (summaryStatus) summaryStatus.textContent = `🚀 Broadcasting in parallel to ${accountIds.length} accounts...`;
+          if (doneBtn) doneBtn.classList.add('hidden');
+
+          const accountsMap = new Map((state.scheduler.accounts || []).map(a => [a.id, a]));
+          const selectedAccounts = accountIds.map(id => accountsMap.get(id)).filter(Boolean);
+
+          if (accountsList) {
+            accountsList.innerHTML = selectedAccounts.map(a => `
+              <div class="multi-post-progress-row" id="row_multi_${a.id}">
+                <div class="multi-post-user-info">
+                  ${getAccountAvatarHtml(a)}
+                  <div style="display:flex; flex-direction:column;">
+                    <strong style="font-size:12px; color:#fff;">${a.name}</strong>
+                    <small style="font-size:11px; color:#94a3b8;">${a.handle} · ${a.category || a.platform}</small>
+                  </div>
+                </div>
+                <div id="status_multi_${a.id}">
+                  <span class="multi-post-status-pill publishing">⏳ Uploading...</span>
+                </div>
+              </div>
+            `).join('');
+          }
+
+          if (multiModal) multiModal.classList.remove('hidden');
+
+          // Save post first
+          const savedPost = await api('/api/posts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(postData)
+          });
+
+          if (progressBar) progressBar.style.width = '60%';
+
+          // Trigger live parallel publish across all selected accounts
+          const pubRes = await api(`/api/posts/${savedPost.id}/publish`, { method: 'POST' });
+          if (progressBar) progressBar.style.width = '100%';
+
+          const deliveryResults = pubRes.deliveryResults || [];
+          for (const res of deliveryResults) {
+            const statusCell = $(`#status_multi_${res.accountId}`);
+            const rowEl = $(`#row_multi_${res.accountId}`);
+            if (statusCell) {
+              if (res.delivered) {
+                if (rowEl) rowEl.classList.add('done');
+                statusCell.innerHTML = `
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span class="multi-post-status-pill success">✔ Live</span>
+                    ${res.liveUrl ? `<a href="${res.liveUrl}" target="_blank" class="pill-btn" style="font-size:10px; padding:2px 8px; text-decoration:none; color:#10b981; border:1px solid rgba(16,185,129,0.4); background:rgba(16,185,129,0.15);">🔗 View</a>` : ''}
+                  </div>
+                `;
+              } else {
+                if (rowEl) rowEl.classList.add('failed');
+                statusCell.innerHTML = `
+                  <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                    <span class="multi-post-status-pill failed">Notice</span>
+                    <small style="color:#ef4444; font-size:10px; max-width:180px; text-align:right;">${res.message || 'Notice'}</small>
+                  </div>
+                `;
+              }
+            }
+          }
+
+          const successfulCount = deliveryResults.filter(r => r.delivered).length;
+          if (summaryStatus) {
+            summaryStatus.textContent = `✔ Broadcast completed! (${successfulCount}/${accountIds.length} published)`;
+          }
+          if (doneBtn) doneBtn.classList.remove('hidden');
+
+          if (statusEl) statusEl.textContent = `✓ Successfully multi-posted across ${accountIds.length} accounts!`;
+        } else {
+          const scheduledAt = datetimeVal ? new Date(datetimeVal).toISOString() : new Date().toISOString();
+          const postData = {
+            title: title || clip.title,
+            caption,
+            hashtags: hashtagsRaw.split(/\s+/).filter(Boolean),
+            firstComment,
+            clipId: clip?.id,
+            jobId: clip?.jobId,
+            clipName: clip?.title || title,
+            videoPath: clip?.videoPath || '',
+            videoUrl: clip?.videoUrl || '',
+            accountIds,
+            status: 'scheduled',
+            immediate: false,
             scheduledAt
           };
 
@@ -4491,7 +4589,7 @@ function setupSchedulerControls() {
             body: JSON.stringify(postData)
           });
 
-          if (statusEl) statusEl.textContent = `✓ Successfully ${mode === 'immediate' ? 'published' : 'scheduled'} across ${accountIds.length} accounts!`;
+          if (statusEl) statusEl.textContent = `✓ Successfully scheduled across ${accountIds.length} accounts!`;
         }
         
         // Auto-remember any hashtags used in this post across title, caption, and hashtags
@@ -4506,10 +4604,12 @@ function setupSchedulerControls() {
         if ($('#schedHashtagsInput')) $('#schedHashtagsInput').value = '';
         if ($('#schedFirstCommentInput')) $('#schedFirstCommentInput').value = '';
 
-        setTimeout(() => {
-          window.switchSchedulerSubTab('queue');
-          if (statusEl) statusEl.textContent = '';
-        }, 1200);
+        if (mode !== 'immediate') {
+          setTimeout(() => {
+            window.switchSchedulerSubTab('queue');
+            if (statusEl) statusEl.textContent = '';
+          }, 1200);
+        }
 
       } catch (err) {
         alert(`Failed to schedule post: ${err.message}`);
@@ -4518,9 +4618,22 @@ function setupSchedulerControls() {
         submitBtn.disabled = false;
         const count = state.scheduler.selectedAccountIds?.length || 0;
         submitBtn.textContent = mode === 'immediate'
-          ? `⚡ Publish Immediately to ${count} Accounts`
+          ? `🚀 Multi-Post to ${count} Selected Accounts`
           : `📅 Schedule Post to ${count} Accounts`;
       }
+    };
+  }
+
+  // Multi-Post Modal handlers
+  if ($('#closeMultiPostModal')) {
+    $('#closeMultiPostModal').onclick = () => {
+      $('#multiPostModal')?.classList.add('hidden');
+    };
+  }
+  if ($('#doneMultiPostBtn')) {
+    $('#doneMultiPostBtn').onclick = () => {
+      $('#multiPostModal')?.classList.add('hidden');
+      window.switchSchedulerSubTab('queue');
     };
   }
 
@@ -4529,6 +4642,77 @@ function setupSchedulerControls() {
   const closeAccModal = () => { if (accModal) accModal.classList.add('hidden'); };
   if ($('#closeAccountModal')) $('#closeAccountModal').onclick = closeAccModal;
 
+  if ($('#accAvatarUrlInput')) {
+    $('#accAvatarUrlInput').oninput = (e) => {
+      const url = e.target.value.trim();
+      if ($('#accAvatarPreview')) {
+        $('#accAvatarPreview').src = url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80';
+      }
+    };
+  }
+
+  $$('.avatar-preset-btn').forEach(btn => {
+    btn.onclick = () => {
+      const url = btn.dataset.url;
+      if ($('#accAvatarUrlInput')) $('#accAvatarUrlInput').value = url;
+      if ($('#accAvatarPreview')) $('#accAvatarPreview').src = url;
+    };
+  });
+
+  if ($('#accPlatformSelect')) {
+    $('#accPlatformSelect').onchange = (e) => {
+      const isReels = e.target.value === 'reels';
+      if ($('#accInstagramGuideWrap')) {
+        $('#accInstagramGuideWrap').classList.toggle('hidden', !isReels);
+      }
+    };
+  }
+
+  if ($('#verifyIgTokenBtn')) {
+    $('#verifyIgTokenBtn').onclick = async () => {
+      const token = ($('#accIgTokenInput')?.value || '').trim();
+      const statusEl = $('#accIgVerifyStatus');
+      if (!token) {
+        alert('Please paste your Meta Access Token to verify.');
+        return;
+      }
+      if (statusEl) statusEl.textContent = '⏳ Verifying Meta Graph Token...';
+      try {
+        const res = await api('/api/accounts/verify-instagram', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            token,
+            accountId: $('#accEditId')?.value || null
+          })
+        });
+
+        if (statusEl) {
+          statusEl.style.color = '#10b981';
+          statusEl.textContent = `✔ Verified! Profile @${res.username} linked with photo!`;
+        }
+        if (res.avatarUrl) {
+          if ($('#accAvatarUrlInput')) $('#accAvatarUrlInput').value = res.avatarUrl;
+          if ($('#accAvatarPreview')) $('#accAvatarPreview').src = res.avatarUrl;
+        }
+        if (res.username && $('#accHandleInput')) {
+          $('#accHandleInput').value = `@${res.username}`;
+        }
+        if (res.name && $('#accNameInput')) {
+          $('#accNameInput').value = res.name;
+        }
+        if ($('#accTokenInput')) {
+          $('#accTokenInput').value = token;
+        }
+      } catch (err) {
+        if (statusEl) {
+          statusEl.style.color = '#f43f5e';
+          statusEl.textContent = `❌ ${err.message}`;
+        }
+      }
+    };
+  }
+
   if ($('#addNewAccBtn')) {
     $('#addNewAccBtn').onclick = () => {
       $('#accModalTitle').textContent = 'Add New Social Account';
@@ -4536,6 +4720,11 @@ function setupSchedulerControls() {
       $('#accNameInput').value = '';
       $('#accHandleInput').value = '';
       $('#accCategoryInput').value = '';
+      const defaultAvatar = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80';
+      if ($('#accAvatarUrlInput')) $('#accAvatarUrlInput').value = defaultAvatar;
+      if ($('#accAvatarPreview')) $('#accAvatarPreview').src = defaultAvatar;
+      if ($('#accInstagramGuideWrap')) $('#accInstagramGuideWrap').classList.add('hidden');
+      if ($('#accIgVerifyStatus')) $('#accIgVerifyStatus').textContent = '';
       if ($('#accTokenInput')) $('#accTokenInput').value = '';
       if ($('#accPrivacySelect')) $('#accPrivacySelect').value = 'public';
       if (accModal) accModal.classList.remove('hidden');
@@ -4550,7 +4739,8 @@ function setupSchedulerControls() {
       const handle = $('#accHandleInput')?.value.trim();
       const platform = $('#accPlatformSelect')?.value;
       const category = $('#accCategoryInput')?.value.trim();
-      const apiToken = $('#accTokenInput')?.value.trim() || '';
+      const avatarUrl = $('#accAvatarUrlInput')?.value.trim() || '';
+      const apiToken = ($('#accTokenInput')?.value.trim() || $('#accIgTokenInput')?.value.trim()) || '';
       const privacy = $('#accPrivacySelect')?.value || 'public';
 
       try {
@@ -4558,13 +4748,13 @@ function setupSchedulerControls() {
           await api(`/api/accounts/${editId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, handle, platform, category, apiToken, privacy, directPosting: true })
+            body: JSON.stringify({ name, handle, platform, category, avatarUrl, apiToken, privacy, directPosting: true })
           });
         } else {
           await api('/api/accounts', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, handle, platform, category, apiToken, privacy, directPosting: true })
+            body: JSON.stringify({ name, handle, platform, category, avatarUrl, apiToken, privacy, directPosting: true })
           });
         }
         closeAccModal();
@@ -4637,6 +4827,27 @@ async function loadAccounts() {
   }
 }
 
+function getAccountAvatarHtml(a, size = '') {
+  const platformIcons = {
+    tiktok: '🎵',
+    shorts: '🔴',
+    reels: '📸',
+    twitter: '🐦',
+    facebook: '📘'
+  };
+  const icon = platformIcons[a.platform] || '📱';
+  const initial = (a.name || a.handle || 'A').replace(/^@/, '')[0].toUpperCase();
+  const avatarUrl = a.avatarUrl || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80';
+
+  return `
+    <div class="acc-avatar-wrap ${size === 'large' ? 'large' : ''}">
+      <img src="${avatarUrl}" class="acc-avatar-img" alt="${a.name || ''}" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+      <div class="acc-avatar-fallback" style="display:none; background:${a.avatarColor || '#7157ff'};">${initial}</div>
+      <span class="acc-platform-sub-badge ${a.platform}" title="${a.platform}">${icon}</span>
+    </div>
+  `;
+}
+
 function renderAccountSelectionGrid() {
   const container = $('#schedAccountsGrid');
   if (!container) return;
@@ -4651,19 +4862,10 @@ function renderAccountSelectionGrid() {
 
   container.innerHTML = accounts.map(a => {
     const isSelected = selectedIds.has(a.id);
-    const platformIcons = {
-      tiktok: '🎵',
-      shorts: '🔴',
-      reels: '📸',
-      twitter: '🐦',
-      facebook: '📘'
-    };
-    const icon = platformIcons[a.platform] || '📱';
-
     return `
       <div class="sched-acc-item ${isSelected ? 'selected' : ''}" data-acc-id="${a.id}">
         <input type="checkbox" ${isSelected ? 'checked' : ''} ${!a.enabled ? 'disabled' : ''}>
-        <div class="acc-icon-badge ${a.platform}">${icon}</div>
+        ${getAccountAvatarHtml(a)}
         <div class="acc-text-info">
           <strong>${a.name}</strong>
           <small>${a.handle} · ${a.category || a.platform}</small>
@@ -4705,7 +4907,7 @@ function updateSelectedAccCount() {
   if (submitBtn) {
     const mode = $('input[name="schedMode"]:checked')?.value || 'schedule';
     if (mode === 'immediate') {
-      submitBtn.textContent = `⚡ Publish Immediately to ${count} Accounts`;
+      submitBtn.textContent = `🚀 Multi-Post to ${count} Selected Accounts`;
     } else if (mode === 'drip') {
       submitBtn.textContent = `⏳ Schedule Staggered Drip to ${count} Accounts`;
     } else {
@@ -4735,7 +4937,7 @@ function renderFullAccountsManager() {
   container.innerHTML = accounts.map(a => `
     <div class="acc-card">
       <div class="acc-card-head">
-        <div class="acc-icon-badge ${a.platform}">${a.platform === 'tiktok' ? '🎵' : a.platform === 'shorts' ? '🔴' : a.platform === 'reels' ? '📸' : a.platform === 'twitter' ? '🐦' : '📘'}</div>
+        ${getAccountAvatarHtml(a, 'large')}
         <div class="acc-card-info">
           <strong>${a.name}</strong>
           <span>${a.handle}</span>
@@ -4753,6 +4955,15 @@ function renderFullAccountsManager() {
           <a href="/api/youtube/switch?accountId=${a.id}" class="pill-btn" style="font-size: 11px; padding: 2px 8px; text-decoration: none; background: rgba(255,0,0,0.15); color: #ff5555; border: 1px solid rgba(255,0,0,0.3); border-radius: 4px;">
             🔗 Link Channel
           </a>
+        </div>
+      ` : a.platform === 'reels' ? `
+        <div style="display:flex; align-items:center; justify-content:space-between; font-size:11px; margin: 4px 0;">
+          <span style="color:${a.apiToken ? '#10b981' : '#f43f5e'}; font-weight:600;">
+            ${a.apiToken ? '✔ Meta Graph Active' : '⚡ Direct Engine Active'}
+          </span>
+          <button type="button" class="pill-btn edit-acc-btn" data-acc-id="${a.id}" style="font-size: 11px; padding: 2px 8px; background: rgba(225,48,108,0.15); color: #f43f5e; border: 1px solid rgba(225,48,108,0.3); border-radius: 4px;">
+            📸 ${a.apiToken ? 'Sync Profile' : 'Connect Meta'}
+          </button>
         </div>
       ` : `
         <div style="display:flex; align-items:center; gap:6px; font-size:11px; color:#10b981;">
@@ -4795,6 +5006,21 @@ function renderFullAccountsManager() {
       $('#accHandleInput').value = acc.handle;
       $('#accPlatformSelect').value = acc.platform;
       $('#accCategoryInput').value = acc.category || '';
+      if ($('#accAvatarUrlInput')) {
+        $('#accAvatarUrlInput').value = acc.avatarUrl || '';
+      }
+      if ($('#accAvatarPreview')) {
+        $('#accAvatarPreview').src = acc.avatarUrl || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80';
+      }
+      if ($('#accInstagramGuideWrap')) {
+        $('#accInstagramGuideWrap').classList.toggle('hidden', acc.platform !== 'reels');
+      }
+      if ($('#accIgTokenInput')) {
+        $('#accIgTokenInput').value = acc.apiToken || '';
+      }
+      if ($('#accIgVerifyStatus')) {
+        $('#accIgVerifyStatus').textContent = '';
+      }
       if ($('#accTokenInput')) $('#accTokenInput').value = acc.apiToken || '';
       if ($('#accPrivacySelect')) $('#accPrivacySelect').value = acc.privacy || 'public';
       $('#accountModal').classList.remove('hidden');
@@ -4918,7 +5144,10 @@ function renderQueueList() {
             <span style="font-size:11px; color:#94a3b8;">📅 ${dateStr}</span>
             <span style="font-size:11px; color:#94a3b8;">·</span>
             ${targetAccs.map(a => `
-              <span class="q-acc-tag"><span class="acc-icon-badge ${a.platform}" style="width:14px; height:14px; font-size:8px;">${a.platform[0].toUpperCase()}</span> ${a.handle}</span>
+              <span class="q-acc-tag" style="display:inline-flex; align-items:center; gap:5px;">
+                <img src="${a.avatarUrl || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80'}" style="width:16px; height:16px; border-radius:50%; object-fit:cover;" alt="">
+                <span>${a.handle}</span>
+              </span>
             `).join('')}
           </div>
         </div>
@@ -5477,9 +5706,7 @@ function setupBatchDripModal() {
         accountsGrid.innerHTML = accounts.map(a => `
           <label class="sched-acc-item" style="cursor: pointer;">
             <input type="checkbox" class="batch-drip-acc-cb" value="${a.id}" ${a.enabled ? 'checked' : ''}>
-            <div class="acc-mini-avatar" style="background: ${a.avatarColor || '#ff3300'};">
-              ${(a.platform || 'yt').slice(0, 2).toUpperCase()}
-            </div>
+            ${getAccountAvatarHtml(a)}
             <div class="acc-text">
               <strong>${a.name}</strong>
               <small>${a.handle}</small>

@@ -1823,6 +1823,8 @@
                 <button type="button" id="accSelectTikTokBtn" class="count-pill">TikTok</button>
                 <button type="button" id="accSelectShortsBtn" class="count-pill">Shorts</button>
                 <button type="button" id="accSelectReelsBtn" class="count-pill">Reels</button>
+                <button type="button" id="accSelectTwitterBtn" class="count-pill">X</button>
+                <button type="button" id="accSelectFbBtn" class="count-pill">Facebook</button>
               </div>
             </div>
 
@@ -2185,6 +2187,26 @@
       <div class="modal-body">
         <form id="accountForm" style="display: flex; flex-direction: column; gap: 14px;">
           <input type="hidden" id="accEditId" value="">
+          
+          <!-- Profile Avatar Section -->
+          <div style="display: flex; align-items: center; gap: 14px; background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08);">
+            <div class="acc-avatar-wrap large">
+              <img id="accAvatarPreview" class="acc-avatar-preview-img" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80" alt="Avatar Preview">
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
+              <label style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #a855f7; margin: 0;">
+                Profile Photo / Avatar URL
+              </label>
+              <input id="accAvatarUrlInput" type="url" placeholder="https://example.com/avatar.jpg" style="font-size: 12px; padding: 6px 10px;">
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <button type="button" class="pill-btn avatar-preset-btn" data-url="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" style="font-size: 10px; padding: 2px 6px;">Avatar 1</button>
+                <button type="button" class="pill-btn avatar-preset-btn" data-url="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" style="font-size: 10px; padding: 2px 6px;">Avatar 2</button>
+                <button type="button" class="pill-btn avatar-preset-btn" data-url="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80" style="font-size: 10px; padding: 2px 6px;">Avatar 3</button>
+                <button type="button" class="pill-btn avatar-preset-btn" data-url="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80" style="font-size: 10px; padding: 2px 6px;">Avatar 4</button>
+              </div>
+            </div>
+          </div>
+
           <label>
             Account Display Name
             <input id="accNameInput" type="text" placeholder="e.g. Main TikTok Channel" required>
@@ -2207,6 +2229,23 @@
             Category / Niche Tag
             <input id="accCategoryInput" type="text" placeholder="e.g. Main Brand, Fanpage, Podcast Clips, Agency">
           </label>
+
+          <!-- Instagram Connection Guide & Token Verifier -->
+          <div id="accInstagramGuideWrap" class="hidden" style="background: rgba(225, 48, 108, 0.08); border: 1px solid rgba(225, 48, 108, 0.25); border-radius: 8px; padding: 12px; font-size: 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+              <strong style="color: #f43f5e; display: flex; align-items: center; gap: 6px;">📸 Instagram Reels Connection Guide</strong>
+              <span class="pill-btn" style="font-size: 10px; padding: 1px 6px; background: rgba(225,48,108,0.2); color: #f43f5e;">Meta Graph API</span>
+            </div>
+            <p style="margin: 0 0 8px; color: #cbd5e1; font-size: 11px; line-height: 1.4;">
+              Meta allows automated Reels posting for <strong>Instagram Creator / Professional accounts</strong> linked to a Facebook Page.
+            </p>
+            <div style="display: flex; gap: 8px;">
+              <input id="accIgTokenInput" type="password" placeholder="Paste Meta Access Token (User or System User token)" style="flex: 1; font-size: 11px;">
+              <button type="button" id="verifyIgTokenBtn" class="pill-btn" style="font-size: 11px; padding: 4px 10px; background: #e1306c; color: #fff;">Verify & Fetch Photo</button>
+            </div>
+            <div id="accIgVerifyStatus" style="margin-top: 6px; font-size: 11px; color: #10b981;"></div>
+          </div>
+
           <label>
             Platform Token / API Key <span style="color: #27ae60; font-weight: 700;">(100% OPTIONAL — LEAVE BLANK)</span>
             <input id="accTokenInput" type="password" placeholder="Leave empty! AUTOCLIPIN works directly without any token">
@@ -2224,6 +2263,49 @@
             <button type="submit" id="saveAccountBtn" class="primary-btn" style="width: 100%;">Save Account</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Multi-App Posting Progress Modal -->
+  <div id="multiPostModal" class="modal-backdrop hidden">
+    <div class="modal-card" style="max-width: 580px;">
+      <div class="modal-head">
+        <div>
+          <h3 id="multiPostModalTitle" style="display: flex; align-items: center; gap: 8px;">
+            🚀 Multi-App Simultaneous Publishing
+          </h3>
+          <p class="muted" id="multiPostModalSubtitle" style="font-size: 12px; margin: 2px 0 0;">
+            Directly broadcasting your clip to selected accounts with profile sync...
+          </p>
+        </div>
+        <button class="modal-close" id="closeMultiPostModal">✕</button>
+      </div>
+      <div class="modal-body" style="padding-top: 10px;">
+        <div style="background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+          <div style="width: 40px; height: 52px; border-radius: 6px; overflow: hidden; background: #000; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2);">
+            <video id="multiPostThumbVideo" muted loop style="width: 100%; height: 100%; object-fit: cover;"></video>
+          </div>
+          <div style="flex: 1; overflow: hidden;">
+            <strong id="multiPostClipTitle" style="display: block; font-size: 13px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></strong>
+            <span id="multiPostClipMeta" style="font-size: 11px; color: #94a3b8;"></span>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div style="height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; margin-bottom: 14px;">
+          <div id="multiPostProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #7157ff, #d8ff3e); transition: width 0.3s ease;"></div>
+        </div>
+
+        <!-- Per-account status list -->
+        <div id="multiPostAccountsList" class="multi-post-progress-list">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <div class="modal-actions" style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+          <span id="multiPostSummaryStatus" style="font-size: 12px; font-weight: 600; color: #a855f7;">Publishing in progress...</span>
+          <button type="button" id="doneMultiPostBtn" class="primary-btn hidden" style="padding: 6px 18px; font-size: 13px;">View in Queue / History →</button>
+        </div>
       </div>
     </div>
   </div>

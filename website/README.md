@@ -1,31 +1,17 @@
 # AUTOCLIPIN website
 
-Canonical marketing source is here. No runtime dependencies or accounts are required.
+Static HTML/CSS/JavaScript marketing website with local video assets, chrome styling, shared-decoder 3D clip ribbon and a grain-to-$1M sequence. The app and its backend remain separate.
 
-Run `node build.mjs` in this directory to generate `dist/`. Serve the result with any static server. Run `node scripts/sync-website.cjs` from the application root to copy this design to `public/landing.html`.
+## Download
 
-The download button resolves the latest stable published GitHub release at runtime, selects an uploaded Windows installer, and shows its version/date/size. If GitHub is unavailable, it opens the release page. Drafts and prereleases are excluded. The requested free offer is 300 clips; paid prices remain pending until the owner supplies confirmed plans. This website change does not alter the app quota or license backend.
+All main download buttons use `./downloads/AUTOCLIPIN-Windows-v1.0.1.zip`. This is the exact ZIP supplied at `../dist/AUTOCLIPIN-Windows-v1.0.1.zip`, containing the portable EXE and Setup EXE. No GitHub release lookup, platform chooser, Mac/Linux placeholders or source-code ZIP download remains.
 
-## Release setup
+`stage-download.cjs` stages that file for the canonical website, static build and local app-server landing page. It attempts hard links to avoid duplication and falls back to copying when the filesystem does not support them. Large ZIP staging folders are excluded from Git; the app installer also excludes `public/downloads` to prevent embedding its own distribution archive.
 
-The root `.github/workflows/windows-release.yml` builds a version tag (for example `v1.0.2`) into a Windows NSIS installer and publishes a GitHub release after a successful build. The tag must match `package.json`. Push the workflow and required app sources to GitHub before using it. This local work does not publish an app release.
+Run `npm run build:website` from the app root, or `node build.mjs` here. Run `node scripts/sync-website.cjs` from the app root to update `public/landing.html` and its assets. The original ZIP (or an already staged copy) must be present before building. Host the generated HTML, assets and downloads together for a public website; a local ZIP path is not a public upload.
 
-The website's download lookup follows published releases automatically, with no website rebuild required. Website design changes still need a fresh deployment. The private Sites preview has its own source repository and hosting identity in `.openai/hosting.json`; keep that identity intact.
+The retained private Site identity in `.openai/hosting.json` is unchanged. No new deployment has been performed by this change.
 
-## Media
+## Motion and media
 
-Local, silent eight-second Pexels demo clips are compressed for web delivery. They illustrate creative possibilities, not actual AutoClip output. Sources and license are listed in the Footage credits dialog. Fonts are bundled with their OFL licenses. No analytics or cookies are added by this static site; hosting authentication is handled by the host.
-
-## Motion system
-
-The hero renders 30 live tiles from five shared local videos. The AUTOCLIP button launches a bounded burst of 16 live-frame canvases and removes them after 1.7 seconds.
-
-The quantity/quality headline dissolves into grain and reforms into `$0` in the same pinned section. Further scrolling counts up to exactly `$1,000,000`; scrolling back reverses the sequence. The number uses a fine grain mask. Cars, watches, the earlier collage, and the separate account-balance section are removed from the page. The amount is an illustrative visual concept, not an earnings forecast.
-
-Reduced-motion/manual-pause mode shows the headline and final amount as static content. Canvas sampling is capped at 1440px with 11,500 desktop or 6,500 mobile particles. Rendering stops when scroll easing settles. No external artwork is needed for this sequence.
-
-## Chrome ribbon edition
-
-Uses the supplied AUTOCLIPIN logo, encoded locally as `marketing/media/autoclipin-logo.webp`. The palette is graphite black, chrome silver and cool white. The earlier lookbook/style-preview section is removed.
-
-The supplied 9.344-second recording was inspected at one-second and quarter-second intervals. Its layered, flowing 3D ribbon informed an original opening composed of 30 real sample-video planes, with shared decoders, animated wave positions, chrome edge lighting, and pointer-controlled perspective. It is an interpretation of the motion direction, not a copy of the source website. Playback and motion pause when hidden/offscreen or when manually paused; reduced-motion mode uses a fixed ribbon pose. The existing grain-to-$1M story remains below.
+The header uses the supplied AUTOCLIPIN logo. Thirty clip planes share five silent local Pexels video decoders. Playback pauses offscreen, when hidden, or through the motion control. The headline-to-number scene maps sampled text pixels to `$0`, then counts to `$1,000,000` while scrolling. This is an illustrative concept, not an earnings forecast. Reduced-motion mode provides static content. Footage credit links are in the page dialog; local fonts include OFL licenses.
