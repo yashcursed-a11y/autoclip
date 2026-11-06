@@ -18,7 +18,6 @@
   <link rel="stylesheet" href="/studio-noir.css">
   <link rel="stylesheet" href="/workspace-rebuild.css">
   <link rel="stylesheet" href="/silver-surge.css">
-  <link rel="stylesheet" href="/workspace-profiles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@600;800;900&family=Bangers&family=Roboto:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -90,6 +89,7 @@
           </div>
         </div>
         <div class="topbar-right">
+          <button id="btnGithubUpdate" class="status-pill github-pill" title="GitHub Auto-Update &amp; Creator Hub" style="display:inline-flex; align-items:center; gap:6px; cursor:pointer; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18); color: #cbd5e1; font-weight:700;"><span class="gh-icon">🐱</span><span id="ghPillText">v1.0.2</span><span id="ghUpdateDot" style="width:7px; height:7px; border-radius:50%; background:#22c55e;"></span></button>
           <button id="topbarMaxBtn" class="status-pill max-pill" title="⚡ MAX AUTOMATE: YouTube Channel Auto-Clipper" style="background: linear-gradient(135deg, rgba(255, 140, 0, 0.25), rgba(255, 60, 0, 0.25)); border: 1px solid rgba(255, 150, 0, 0.5); color: #ffaa00; font-weight: 800; cursor: pointer;">⚡ MAX AUTOMATE</button>
           <button id="topbarAiMcpBtn" class="status-pill ai-pill" title="Connect Claude, ChatGPT, Gemini, or MCP Server" style="background: linear-gradient(135deg, rgba(147, 51, 234, 0.25), rgba(59, 130, 246, 0.25)); border: 1px solid rgba(168, 85, 247, 0.4); color: #c084fc; font-weight: 700;">🤖 AI &amp; MCP Hub</button>
           <button id="licenseStatusBtn" class="status-pill license-pill">
@@ -147,16 +147,20 @@
 
         <div id="urlPane" class="hidden">
           <div class="url-input-wrap">
-            <label for="videoUrl">Paste Video or Stream Link</label>
-            <input id="videoUrl" type="url" placeholder="https://www.youtube.com/watch?v=... or Twitch/Kick/direct MP4">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
+              <label for="videoUrl" style="margin: 0; font-weight: 700;">Paste Video or Live Stream Link</label>
+              <span style="font-size: 11px; padding: 2px 8px; border-radius: 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; font-weight: 700;">🔴 Live Stream Enabled</span>
+            </div>
+            <input id="videoUrl" type="url" placeholder="https://www.youtube.com/watch?v=... or YouTube Live / Twitch / Kick / direct MP4">
             <div class="stream-quality-row" style="margin-top: 8px; display: flex; align-items: center; gap: 10px; font-size: 13px;">
-              <label for="streamQuality" style="color: var(--text-muted); white-space: nowrap;">⚡ Stream Download Mode:</label>
-              <select id="streamQuality" class="compact-select" style="padding: 4px 10px; background: #16181d; border: 1px solid #2e3440; border-radius: 6px; color: #fff; font-size: 12px;">
-                <option value="turbo" selected>⚡ Turbo Fast (480p / 360p) — Recommended for 2-6h Streams (~1.2 GB, ~2 min)</option>
-                <option value="720p">🎬 High Definition (720p HD) (~3.5 GB, ~15-25 min)</option>
+              <label for="streamQuality" style="color: var(--text-muted); white-space: nowrap;">⚡ Stream Mode:</label>
+              <select id="streamQuality" class="compact-select" style="padding: 4px 10px; background: #16181d; border: 1px solid #2e3440; border-radius: 6px; color: #fff; font-size: 12px; flex: 1;">
+                <option value="turbo" selected>⚡ Turbo Fast (360p / 480p H.264) — Recommended for 1-6h Streams &amp; VODs (~800 MB, fast)</option>
+                <option value="live">🔴 Live Stream Capture (YouTube Live from start, Twitch, Kick — HLS MPEG-TS)</option>
+                <option value="720p">🎬 High Definition (720p HD) (~2.5-4 GB, full clarity)</option>
               </select>
             </div>
-            <small class="hint">⚡ Fast multi-fragment download with real-time speed & ETA. Optimized for long streams.</small>
+            <small class="hint">🔴 Live Streams supported: Starts from broadcast beginning on YouTube Live (--live-from-start). High-speed multi-fragment download with real-time speed &amp; byte tracker.</small>
           </div>
         </div>
 
@@ -3346,8 +3350,9 @@ AUTOCLIP/
   <script src="/studio-noir.js"></script>
   <script src="/workspace-rebuild.js"></script>
   <script src="/silver-surge.js"></script>
-  <script src="/workspace-profiles.js"></script>
+  <script src="/github-hub.js"></script>
 
 
   </body>
 </html>
+

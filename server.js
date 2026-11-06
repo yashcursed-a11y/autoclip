@@ -2247,6 +2247,152 @@ app.post('/api/analytics/refresh', async (_req, res) => {
   }
 });
 
+// ==========================================
+// GitHub Auto-Update & Creator Hub APIs
+// ==========================================
+app.get('/api/github/status', async (_req, res) => {
+  try {
+    const pkg = require('./package.json');
+    const settings = await getSettings();
+    res.json({
+      currentVersion: pkg.version || '1.0.2',
+      githubUser: settings.githubUser || null,
+      autoCheckOnStartup: settings.githubAutoCheck !== false
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/github/check-update', async (_req, res) => {
+  try {
+    const pkg = require('./package.json');
+    const settings = await getSettings();
+    const currentVersion = pkg.version || '1.0.2';
+
+    const headers = {
+      'User-Agent': 'AUTOCLIPIN-Desktop-App',
+      'Accept': 'application/vnd.github.v3+json'
+    };
+    if (settings.githubToken) {
+      headers['Authorization'] = `token ${settings.githubToken}`;
+    }
+
+    const ghResp = await fetch('https://api.github.com/repos/yashcursed-a11y/autoclip/releases/latest', { headers });
+    if (!ghResp.ok) {
+      if (ghResp.status === 404) {
+        return res.json({
+          currentVersion,
+          latestVersion: currentVersion,
+          hasUpdate: false,
+          message: 'No published releases found on GitHub repository yet.'
+        });
+      }
+      throw new Error(`GitHub API returned status ${ghResp.status}`);
+    }
+
+    const data = await ghResp.json();
+    const latestTag = (data.tag_name || '').replace(/^v/i, '').trim();
+    
+    // Semver comparison
+    const parseVer = (v) => v.split('.').map(n => parseInt(n, 10) || 0);
+    const currParts = parseVer(currentVersion);
+    const lateParts = parseVer(latestTag || currentVersion);
+    
+    let hasUpdate = false;
+    for (let i = 0; i < Math.max(currParts.length, lateParts.length); i++) {
+      const c = currParts[i] || 0;
+      const l = lateParts[i] || 0;
+      if (l > c) { hasUpdate = true; break; }
+      if (l < c) { break; }
+    }
+
+    const assets = (data.assets || []).map(a => ({
+      name: a.name,
+      size: `${(a.size / (1024 * 1024)).toFixed(1)} MB`,
+      downloadUrl: a.browser_download_url
+    }));
+
+    res.json({
+      currentVersion,
+      latestVersion: latestTag || currentVersion,
+      hasUpdate,
+      releaseName: data.name || `Release ${latestTag}`,
+      releaseNotes: data.body || 'No release notes provided.',
+      publishedAt: data.published_at,
+      htmlUrl: data.html_url,
+      assets,
+      githubUser: settings.githubUser || null
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message, currentVersion: require('./package.json').version });
+  }
+});
+
+app.post('/api/github/connect', async (req, res) => {
+  try {
+    const { token } = req.body;
+    if (!token || typeof token !== 'string') {
+      return res.status(400).json({ error: 'GitHub Personal Access Token is required.' });
+    }
+
+    const cleanToken = token.trim();
+    const ghUserResp = await fetch('https://api.github.com/user', {
+      headers: {
+        'User-Agent': 'AUTOCLIPIN-Desktop-App',
+        'Authorization': `token ${cleanToken}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+
+    if (!ghUserResp.ok) {
+      return res.status(401).json({ error: 'Invalid GitHub token. Please verify token permissions.' });
+    }
+
+    const userData = await ghUserResp.json();
+    const githubUser = {
+      login: userData.login,
+      name: userData.name || userData.login,
+      avatarUrl: userData.avatar_url,
+      htmlUrl: userData.html_url
+    };
+
+    await saveSettings({
+      githubToken: cleanToken,
+      githubUser,
+      githubAutoCheck: true
+    });
+
+    res.json({ success: true, user: githubUser });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/github/disconnect', async (_req, res) => {
+  try {
+    await saveSettings({
+      githubToken: null,
+      githubUser: null
+    });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/github/settings', async (req, res) => {
+  try {
+    const { autoCheckOnStartup } = req.body;
+    await saveSettings({
+      githubAutoCheck: Boolean(autoCheckOnStartup)
+    });
+    res.json({ success: true, githubAutoCheck: Boolean(autoCheckOnStartup) });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Bind to 0.0.0.0 and listen on PORT
 app.listen(PORT, () => {
   console.log(`===============================================`);
