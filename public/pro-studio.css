@@ -516,3 +516,181 @@ body[data-theme="dark"] {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.22);
 }
+
+/* ========================================================
+   7. INGEST HUB & PROJECT CREATION (NLE TIER)
+   ======================================================== */
+
+#ingestView {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 20px 40px 20px !important;
+}
+
+.pro-ingest-top h1 {
+  font-family: var(--pro-font-ui) !important;
+}
+
+#setupSection.panel,
+.panel {
+  background: var(--pro-bg-panel) !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  border-radius: 12px !important;
+  padding: 24px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+}
+
+.source-card {
+  background: var(--pro-bg-card) !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  border-radius: 10px !important;
+  padding: 16px !important;
+  margin-bottom: 24px !important;
+}
+
+.source-tabs {
+  display: flex !important;
+  gap: 8px !important;
+  margin-bottom: 16px !important;
+  border-bottom: 1px solid var(--pro-border-subtle) !important;
+  padding-bottom: 12px !important;
+}
+
+.source-tabs .tab {
+  background: transparent !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  border-radius: 6px !important;
+  padding: 8px 16px !important;
+  color: var(--pro-text-secondary) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all var(--pro-duration) var(--pro-ease) !important;
+}
+
+.source-tabs .tab:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: #fff !important;
+}
+
+.source-tabs .tab.active {
+  background: var(--pro-bg-card-hover) !important;
+  border-color: var(--pro-border-medium) !important;
+  color: var(--pro-accent-amber) !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4) !important;
+}
+
+.drop-zone {
+  border: 1px dashed var(--pro-border-medium) !important;
+  background: rgba(0, 0, 0, 0.35) !important;
+  border-radius: 10px !important;
+  padding: 38px 20px !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  transition: all var(--pro-duration) var(--pro-ease) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.drop-zone:hover {
+  border-color: var(--pro-accent-amber) !important;
+  background: rgba(232, 141, 40, 0.04) !important;
+}
+
+.settings-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+  gap: 16px !important;
+  margin-top: 16px !important;
+}
+
+.settings-grid label {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--pro-text-secondary) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+.settings-grid input,
+.settings-grid select,
+.url-input-wrap input {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  border-radius: 6px !important;
+  color: var(--pro-text-primary) !important;
+  font-size: 12px !important;
+  padding: 8px 12px !important;
+  font-family: var(--pro-font-ui) !important;
+  transition: border-color var(--pro-duration) var(--pro-ease) !important;
+}
+
+.settings-grid input:focus,
+.settings-grid select:focus,
+.url-input-wrap input:focus {
+  outline: none !important;
+  border-color: var(--pro-accent-amber) !important;
+}
+
+.count-pill {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  border-radius: 4px !important;
+  color: var(--pro-text-secondary) !important;
+  font-family: var(--pro-font-mono) !important;
+  font-size: 11px !important;
+  padding: 4px 10px !important;
+  cursor: pointer !important;
+  transition: all var(--pro-duration) var(--pro-ease) !important;
+}
+
+.count-pill:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+}
+
+.count-pill.active {
+  background: rgba(232, 141, 40, 0.15) !important;
+  border-color: var(--pro-accent-amber) !important;
+  color: #ffaa33 !important;
+  font-weight: 700 !important;
+}
+
+/* History Section */
+.history-section {
+  margin-top: 36px !important;
+}
+
+.history-section h2 {
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  color: var(--pro-text-secondary) !important;
+  margin: 0 0 12px 0 !important;
+}
+
+.jobs-list {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.job-card {
+  background: var(--pro-bg-card) !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  border-radius: 8px !important;
+  padding: 14px !important;
+  transition: all var(--pro-duration) var(--pro-ease) !important;
+}
+
+.job-card:hover {
+  background: var(--pro-bg-card-hover) !important;
+  border-color: var(--pro-border-medium) !important;
+  transform: translateY(-1px);
+}
