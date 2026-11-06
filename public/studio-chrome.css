@@ -1,0 +1,165 @@
+/* Studio Dark — Graphite / chrome / cool white.
+   Theme ID, font choices, layout geometry and media styling remain independent. */
+body[data-theme=dark]:not(.retro95-ui) {
+  --theme-base:#080a0f;
+  --theme-surface:#101722;
+  --theme-raised:#192333;
+  --theme-text:#edf3fd;
+  --theme-muted:#9baac1;
+  --theme-border:#35445d;
+  --theme-accent:#d3deef;
+  --theme-on-accent:#101723;
+  --theme-tint:#25344b;
+  --theme-radius:9px;
+  --app-bg:var(--theme-base);
+  --paper:var(--theme-base);
+  --panel-bg:var(--theme-surface);
+  --surface:var(--theme-surface);
+  --surface-alt:var(--theme-raised);
+  --surface-elevated:#202e43;
+  --card-bg:#121b29;
+  --card-hover:#1e2d43;
+  --ink:var(--theme-text);
+  --text:var(--theme-text);
+  --text-primary:var(--theme-text);
+  --text-muted:var(--theme-muted);
+  --muted:var(--theme-muted);
+  --line:#c5d7f21c;
+  --line-strong:#a8bed965;
+  --border-subtle:#b7ccea21;
+  --border-color:var(--theme-border);
+  --border-focus:#d1e3ff9c;
+  --accent-purple:#d3deef;
+  --violet:#c3d1e7;
+  --violet-light:#b5d0ff14;
+  --lava:#d3deef;
+  --lava-glow:#b5cfff14;
+  --cyan:#a6c3e9;
+  --accent-cyan:#a6c3e9;
+  --acid:#dce8fc;
+  --acid-hover:#f5f9ff;
+  --accent-acid:#dce8fc;
+  --accent-gradient:linear-gradient(130deg,#f4f8ff,#b9c9e1 55%,#e2ebfa);
+  --studio-metal:linear-gradient(130deg,#f4f8ff,#bfcee5 55%,#e3ecfc);
+  color:var(--theme-text);
+  background:var(--theme-base);
+  accent-color:#c4d5ef;
+  color-scheme:dark;
+}
+/* App shell and boundaries. */
+body[data-theme=dark]:not(.retro95-ui) :is(.app-layout,.app-viewport,.app-content,#workspace,.editor-shell) {
+  background:var(--theme-base) !important;
+  color:var(--theme-text);
+}
+body[data-theme=dark]:not(.retro95-ui) :is(.app-rail,.studio-topbar) {
+  background:#0c111bea !important;
+  border-color:#b7ccea21 !important;
+  box-shadow:none !important;
+}
+body[data-theme=dark]:not(.retro95-ui) .rail-nav {
+  background:linear-gradient(165deg,#1d2737d9,#0e1522ef) !important;
+  border:1px solid #8199bb55 !important;
+  box-shadow:inset 0 1px 0 #e4efff12,0 12px 25px #0004 !important;
+}
+body[data-theme=dark]:not(.retro95-ui) :is(.rail-btn,.rail-btn .rail-icon,.rail-btn .rail-label) { color:#a6b7d0; }
+body[data-theme=dark]:not(.retro95-ui) .rail-btn:hover { background:#ccdeff12 !important; color:#edf5ff; }
+body[data-theme=dark]:not(.retro95-ui) .rail-btn.active {
+  background:var(--studio-metal) !important;
+  color:#111925 !important;
+  box-shadow:inset 0 1px 0 #fff8,0 3px 8px #0004 !important;
+}
+body[data-theme=dark]:not(.retro95-ui) .rail-btn.active :is(.rail-icon,.rail-label) { color:#111925 !important; }
+.studio-chrome-brand { display:none; }
+body[data-theme=dark]:not(.retro95-ui) .rail-logo { background:#0a1019 !important; border:1px solid #8499b64d; border-radius:12px; overflow:hidden; box-shadow:none !important; }
+body[data-theme=dark]:not(.retro95-ui) .rail-logo>.rail-icon { display:none; }
+body[data-theme=dark]:not(.retro95-ui) .studio-chrome-brand { display:block; width:108%; height:108%; flex-shrink:0; object-fit:cover; }
+/* Cards, settings, popovers and inspector surfaces. */
+body[data-theme=dark]:not(.retro95-ui) :is(.source-card,.project-settings-column,.new-framing-section,.project-setting-disclosure,.panel,.sub-panel,.sub-grid,.watermark-card,.auto-pilot-card,.empty-state-card,.max-channel-card,.system-metric,.system-history-card,.system-detail-card,.sched-form-card,.sched-config-card,.sched-subpanel,.theme-world-panel,.modal-card,.companion-customize-card,.customize-nav,.studio-hub-panel,.workspace-account-popover,.editor-more-popover,.manual-more-body,.editor-context-menu,.companion-panel) {
+  background:linear-gradient(145deg,#17202e,#101722) !important;
+  border-color:#42536e !important;
+  color:var(--theme-text) !important;
+  box-shadow:inset 0 1px 0 #e8f1ff06,0 8px 20px #0002 !important;
+}
+body[data-theme=dark]:not(.retro95-ui) :is(.workspace-header,.editor-toolbar,.canvas-header-bar,.editor-playback,.capcut-toolbar,.manual-range-bar) {
+  background:#131d2b !important;
+  color:var(--theme-text) !important;
+  border-color:#35445d !important;
+}
+body[data-theme=dark]:not(.retro95-ui) .editor-shell :is(.candidates-column,.inspector-column) {
+  background:#101824 !important;
+  border-color:#35445d !important;
+  color:var(--theme-text) !important;
+}
+body[data-theme=dark]:not(.retro95-ui) .editor-shell .preview-column { background:#090e16 !important; border-color:#35445d !important; }
+body[data-theme=dark]:not(.retro95-ui) :is(.editor-source-card,.candidate-card,.manual-cut-row) {
+  background:#182233 !important;
+  border-color:#3c4c65 !important;
+  color:var(--theme-text) !important;
+}
+body[data-theme=dark]:not(.retro95-ui) :is(.candidate-card.selected,.candidate-card.active,.manual-cut-row.active) { background:#25374f !important; border-color:#c1d7f7 !important; }
+/* Primary actions: a distinct silver face, without affecting stop/delete actions. */
+body[data-theme=dark]:not(.retro95-ui) :is(.primary-btn,.primary-ct,.manual-primary,.studio-hub-trigger):not(#diagEmergencyStopBtn):not(.danger-btn):not([data-action=delete]) {
+  background:var(--studio-metal) !important;
+  border:1px solid #e7f0ffb0 !important;
+  color:#101824 !important;
+  text-shadow:none !important;
+  box-shadow:inset 0 1px 0 #fff9,0 3px 8px #0004 !important;
+}
+body[data-theme=dark]:not(.retro95-ui) :is(.primary-btn,.primary-ct,.manual-primary,.studio-hub-trigger):not(#diagEmergencyStopBtn):not(.danger-btn):not([data-action=delete]):hover { filter:brightness(1.06); }
+body[data-theme=dark]:not(.retro95-ui) :is(.secondary-btn,.pill-btn,.editor-tool,.editor-tab,.ct-btn,.manual-button,.watch-pill,.format-btn,.aspect-btn,.editor-library-tabs button,.editor-context-menu button) {
+  background:#1c293d;
+  border-color:#566c8c;
+  color:#d8e5fa;
+  box-shadow:none;
+}
+body[data-theme=dark]:not(.retro95-ui) :is(.editor-tab.active,.editor-tool.active,.ct-btn.active,.format-btn.active,.aspect-btn.active,.editor-library-tabs button.active,.new-framing-card[aria-pressed=true]) {
+  background:#344965 !important;
+  border-color:#c0d8fa !important;
+  color:#f4f8ff !important;
+  box-shadow:inset 0 0 0 1px #c0d8fa15 !important;
+}
+body[data-theme=dark]:not(.retro95-ui) :is(button,a,input,select,textarea):focus-visible { outline:2px solid #e0edff; outline-offset:3px; }
+body[data-theme=dark]:not(.retro95-ui) button:disabled { opacity:.48; }
+/* Inputs never inherit the old purple fill; media-specific color swatches stay intact. */
+body[data-theme=dark]:not(.retro95-ui) :is(input:not([type=range]):not([type=checkbox]):not([type=radio]):not([type=color]),select,textarea) {
+  background:#0e1725 !important;
+  border-color:#506582 !important;
+  color:#e4efff !important;
+  box-shadow:inset 0 1px 2px #0004;
+}
+body[data-theme=dark]:not(.retro95-ui) :is(input,textarea)::placeholder { color:#8397b3; opacity:1; }
+body[data-theme=dark]:not(.retro95-ui) input[type=range] { accent-color:#d0def4; }
+body[data-theme=dark]:not(.retro95-ui) :is(input[type=checkbox],input[type=radio]) { accent-color:#c4d8f5; }
+/* Timeline chrome and selection. Footage, caption styles and export colors are untouched. */
+body[data-theme=dark]:not(.retro95-ui) .editor-shell .full-width-timeline { background:#0d1521 !important; border-color:#405470 !important; }
+body[data-theme=dark]:not(.retro95-ui) :is(.tracks-headers-col,.track-header,.ruler-header) { background:#121d2c !important; color:#aebfd7 !important; border-color:#34465f !important; }
+body[data-theme=dark]:not(.retro95-ui) :is(.capcut-tracks-board,.track-lane,#rulerLane,.ruler-lane) { background-color:#0c1420 !important; border-color:#2a3b54 !important; }
+body[data-theme=dark]:not(.retro95-ui) .editor-shell .timeline-clip-range {
+  background:linear-gradient(180deg,#354963,#25354e) !important;
+  border-color:#809cc3 !important;
+  box-shadow:inset 0 1px 0 #e4f0ff16 !important;
+}
+body[data-theme=dark]:not(.retro95-ui) .editor-shell .timeline-clip-range.active-clip-range { border-color:#e3efff !important; box-shadow:inset 0 0 0 1px #d4e5ff55 !important; }
+body[data-theme=dark]:not(.retro95-ui) .editor-shell .clip-range-title { color:#edf5ff !important; }
+body[data-theme=dark]:not(.retro95-ui) .editor-shell .clip-range-handle { background:#c1d7f5a6 !important; }
+body[data-theme=dark]:not(.retro95-ui) .editor-shell .clip-range-handle:is(:hover,.is-dragging) { background:#f1f7ff !important; }
+body[data-theme=dark]:not(.retro95-ui) .capcut-playhead { background:#f0f6ff !important; box-shadow:0 0 5px #a9caff3b !important; }
+body[data-theme=dark]:not(.retro95-ui) .playhead-handle { color:#f0f6ff !important; }
+body[data-theme=dark]:not(.retro95-ui) :is(.ruler-time-label,.ruler-tick) { color:#b7cae5 !important; border-color:#4c6281 !important; }
+body[data-theme=dark]:not(.retro95-ui) :is(.manual-marker,.manual-selected-duration) { color:#dbeaff; }
+body[data-theme=dark]:not(.retro95-ui) .manual-marked-range { border-color:#d0e3ff; background:#d0e3ff12; }
+body[data-theme=dark]:not(.retro95-ui) .manual-timeline-resize::before { background:#6c87ad; }
+body[data-theme=dark]:not(.retro95-ui) .manual-timeline-resize:is(:hover,:focus-visible)::before { background:#e0edff; }
+/* Gallery preview and quiet decorative linework. */
+body[data-theme=dark]:not(.retro95-ui) .project-pane-label { border-left-color:#c4d8f4 !important; }
+body[data-theme=dark]:not(.retro95-ui) :is(.theme-scene-art,.theme-art-strip) { filter:grayscale(1); }
+.preview-dark img { filter:grayscale(1); }
+body[data-theme=dark]:not(.retro95-ui) .theme-choice[aria-pressed=true] { border-color:#dae9ff !important; box-shadow:0 0 0 1px #dae9ff !important; }
+body[data-theme=dark]:not(.retro95-ui) ::-webkit-scrollbar-track { background:#0c1420; }
+body[data-theme=dark]:not(.retro95-ui) ::-webkit-scrollbar-thumb { background:#435876; border:2px solid #0c1420; border-radius:8px; }
+@media(prefers-reduced-motion:reduce) { body[data-theme=dark]:not(.retro95-ui) :is(button,input,select,textarea) { transition:none !important; } }
+/* Health messages retain semantic severity and readable text on dark cards. */
+body[data-theme=dark]:not(.retro95-ui) .system-metric-health :is(#diagHealthMsg,.system-health-mark) { color:#edf3fd !important; }
+body[data-theme=dark]:not(.retro95-ui) .system-metric-health>div:first-child>span:first-child,
+body[data-theme=dark]:not(.retro95-ui) .system-metric-health>div:last-child { color:#b9c9df !important; }
+body[data-theme=dark]:not(.retro95-ui) .system-metric-health[data-health="CRITICAL_OOM_RISK"] { background:#311c26 !important; border-color:#bd7184 !important; }

@@ -2,7 +2,7 @@
 (() => {
   const nav=document.querySelector('.customize-nav'),pages=document.querySelector('.customize-pages');if(!nav||!pages)return;
   const themes=[
-    {id:'dark',name:'Studio Dark',note:'Precision panels · film & waveform sketches',font:'Segoe UI',colors:['#17181d','#292631','#bca3ef'],motifs:['film','wave','brackets','lens','play','timeline']},
+    {id:'dark',name:'Studio Dark',note:'Graphite panels · chrome silver · cool-white controls',font:'Segoe UI',colors:['#080a0f','#151d2a','#d3deef'],motifs:['film','wave','brackets','lens','play','timeline']},
     {id:'white',name:'White',note:'Editorial frames · camera & pencil drawings',font:'Calibri',colors:['#f5f7fa','#ffffff','#345bd6'],motifs:['camera','pencil','crop','clapper','cursor','sun']},
     {id:'minimal',name:'Minimal',note:'Numbered sections · pure monochrome',font:'Bahnschrift',colors:['#ffffff','#e6e6e6','#151515'],motifs:['brackets','lens','play','timeline','crop','wave']},
     {id:'flurry',name:'Flurry',note:'Puffy panels · clouds, cats & little bows',font:'Trebuchet MS',colors:['#f8f0fa','#ffe3dd','#9b64bc'],motifs:['cloud','cat','bunny','star','bow','flower']},

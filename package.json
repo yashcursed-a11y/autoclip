@@ -31,7 +31,8 @@
       "target": [
         "nsis",
         "portable"
-      ]
+      ],
+      "icon": "build/icon.ico"
     },
     "mac": {
       "target": [
