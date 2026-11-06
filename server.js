@@ -539,7 +539,7 @@ app.post('/api/mcp', async (req, res) => {
           tools: [
             {
               name: 'list_projects',
-              description: 'List all video projects currently imported or processed in AutoClip Studio.',
+              description: 'List all video projects currently imported or processed in AUTOCLIPIN Studio.',
               inputSchema: { type: 'object', properties: {} }
             },
             {
@@ -1885,7 +1885,7 @@ app.post('/api/analytics/refresh', async (_req, res) => {
 // Bind to 0.0.0.0 and listen on PORT
 app.listen(PORT, () => {
   console.log(`===============================================`);
-  console.log(` AUTOCLIP is active and listening`);
+  console.log(` AUTOCLIPIN is active and listening`);
   console.log(` Local URL: http://localhost:${PORT}`);
   console.log(` Network URL: http://127.0.0.1:${PORT}`);
   console.log(`===============================================`);

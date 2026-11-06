@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# AutoClip Pro Studio - Linux One-Click Setup Script
+# AUTOCLIPIN Pro Studio - Linux One-Click Setup Script
 # Supports Ubuntu, Debian, Fedora, Arch Linux, Linux Mint, Pop!_OS
 # ==============================================================================
 
@@ -8,7 +8,7 @@ set -e
 
 echo ""
 echo "🐧 ======================================================"
-echo "   AutoClip Pro Studio - Linux Installation & Setup"
+echo "   AUTOCLIPIN Pro Studio - Linux Installation & Setup"
 echo "=========================================================="
 echo ""
 
@@ -47,7 +47,7 @@ npm install
 
 echo ""
 echo "🎉 ======================================================"
-echo "   Setup Complete! Starting AutoClip Studio..."
+echo "   Setup Complete! Starting AUTOCLIPIN Studio..."
 echo "   Local URL: http://localhost:4173"
 echo "=========================================================="
 echo ""

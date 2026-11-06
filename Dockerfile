@@ -1,5 +1,5 @@
 # ==============================================================================
-# AutoClip Studio - Universal Cross-Platform Container (Linux / macOS / Windows)
+# AUTOCLIPIN Studio - Universal Cross-Platform Container (Linux / macOS / Windows)
 # ==============================================================================
 FROM node:20-bookworm-slim
 

@@ -2702,7 +2702,8 @@ $$('.editor-tab').forEach(b => {
     $('#subFraming').classList.toggle('hidden', state.activeSubtab !== 'framing');
     $('#subWatermark').classList.toggle('hidden', state.activeSubtab !== 'watermark');
     $('#subOverlays').classList.toggle('hidden', state.activeSubtab !== 'overlays');
-    $('#subTranscript').classList.toggle('hidden', state.activeSubtab !== 'transcript');
+    $('#subTranscript').classList.toggle('hidden', state.activeSubtab !== 'transcript');
+
     if ($('#subBeast')) $('#subBeast').classList.toggle('hidden', state.activeSubtab !== 'beast');
   };
 });
@@ -6470,7 +6471,7 @@ function setupProcessesAndDiagnostics() {
       diskSummary.textContent = `Storage: ${data.disk?.drive || 'D:\\'} (Free: ${data.disk?.freeGb || '--'} GB)`;
     }
     if (serverUptime) {
-      serverUptime.textContent = `AutoClip Uptime: ${data.server?.uptimeStr || '--'} | PID: ${data.server?.pid || '--'}`;
+      serverUptime.textContent = `AUTOCLIPIN Uptime: ${data.server?.uptimeStr || '--'} | PID: ${data.server?.pid || '--'}`;
     }
   }
 
@@ -6815,7 +6816,7 @@ function setupConnectionHelpUI() {
 }
 
 // ------------------------------------------------------------------
-// AutoClip Creator Pass & Pro Licensing UI
+// AUTOCLIPIN Creator Pass & Pro Licensing UI
 // ------------------------------------------------------------------
 function setupLicensingUI() {
   const statusBtn = $('#licenseStatusBtn');
@@ -6858,7 +6859,7 @@ function setupLicensingUI() {
           if (fb) {
             fb.style.display = 'block';
             fb.style.color = '#00f0ff';
-            fb.textContent = res.message || 'AutoClip Max Activated Successfully!';
+            fb.textContent = res.message || 'AUTOCLIPIN Max Activated Successfully!';
           }
           keyInput.value = '';
         } else {
@@ -6919,10 +6920,10 @@ function renderLicenseStatus() {
       statusBtn.style.color = '#ffdd00';
     }
     if (pillIcon) pillIcon.textContent = '👑';
-    if (pillText) pillText.textContent = 'AutoClip Max';
+    if (pillText) pillText.textContent = 'AUTOCLIPIN Max';
 
     if (tierBadge) {
-      tierBadge.textContent = lic.isLifetime ? '👑 Max Lifetime VIP' : '👑 AutoClip Max (Yearly)';
+      tierBadge.textContent = lic.isLifetime ? '👑 Max Lifetime VIP' : '👑 AUTOCLIPIN Max (Yearly)';
       tierBadge.style.background = 'rgba(255, 221, 0, 0.2)';
       tierBadge.style.color = '#ffdd00';
       tierBadge.style.borderColor = 'rgba(255, 221, 0, 0.4)';
@@ -6990,7 +6991,7 @@ function renderLicenseStatus() {
 
 
 // ------------------------------------------------------------------
-// AutoClip Universal AI & MCP Integration Hub UI
+// AUTOCLIPIN Universal AI & MCP Integration Hub UI
 // ------------------------------------------------------------------
 function setupAiMcpUI() {
   const topbarBtn = $('#topbarAiMcpBtn');
@@ -7502,204 +7503,405 @@ function setupMaxAutomateUI() {
     }, 2000);
   }
 }
-
-
-// ==========================================================================
-// 🦁 BEAST & AUDIO ENGINEERING UI EVENT HANDLERS
-// ==========================================================================
-(function initBeastAudioControls() {
-  const musicSlider = document.getElementById('beastMusicVolSlider');
-  const musicLabel = document.getElementById('beastMusicVolLabel');
-  if (musicSlider && musicLabel) {
-    musicSlider.addEventListener('input', (e) => {
-      const pct = Math.round(Number(e.target.value) * 100);
-      musicLabel.textContent = `-${Math.round((1 - Number(e.target.value)) * 24)} dB (${pct}%)`;
-    });
-  }
-
-  const applyBeastBtn = document.getElementById('applyBeastPresetBtn');
-  if (applyBeastBtn) {
-    applyBeastBtn.addEventListener('click', () => {
-      // 1. Select Lemon Milk Bold / Hormozi Phrase
-      const capFont = document.getElementById('editCapFont');
-      if (capFont) capFont.value = 'Oxanium';
-      const capDisplay = document.getElementById('editCapDisplayMode');
-      if (capDisplay) capDisplay.value = 'phrase';
-
-      // 2. Select Gaming Split or Smart Face Lock
-      const framingSelect = document.getElementById('framingPresetSelect');
-      if (framingSelect) framingSelect.value = 'gaming_split';
-
-      // 3. Select Beast Phonk music bed
-      const musicSelect = document.getElementById('beastMusicSelect');
-      if (musicSelect) musicSelect.value = 'beast_phonk_pulse.mp3';
-
-      // 4. Ensure toggles are active
-      if (document.getElementById('beastSeamlessLoopToggle')) document.getElementById('beastSeamlessLoopToggle').checked = true;
-      if (document.getElementById('beastMoodTintToggle')) document.getElementById('beastMoodTintToggle').checked = true;
-      if (document.getElementById('beastDynamicZoomToggle')) document.getElementById('beastDynamicZoomToggle').checked = true;
-
-      alert('🦁 CRAZY BEAST Preset Applied!\n• Music: Beast Phonk Pulse (-20dB ducked)\n• Retention: Daniel Bitton 200% Rewatch Loop\n• Framing: Gaming Split / Smart Face Lock\n• Captions: Lemon Milk Active Word Glow\n• Mood: Threat Red Emotion Grading');
-    });
-  }
-})();
-
-// ==========================================================================
-// 🤖 AUTOCLIP IN-APP AI COPILOT & INTERACTIVE WALKTHROUGH ENGINE
-// ==========================================================================
-(function setupAppAssistant() {
-  const modal = document.getElementById('appAssistantModal');
-  const openBtn = document.getElementById('floatingAiBotBtn');
-  const closeBtn = document.getElementById('closeAssistantModalBtn');
-  const feed = document.getElementById('assistantChatFeed');
-  const input = document.getElementById('assistantInput');
-  const sendBtn = document.getElementById('assistantSendBtn');
-  const sysDiagBtn = document.getElementById('assistantSysDiagBtn');
-  const sysHeaderBtn = document.getElementById('sysStatusBtn');
-  const topHelpBtn = document.getElementById('topbarHelpBtn');
-
-  if (!modal) return;
-
-  function formatMarkdown(md) {
-    if (!md) return '';
-    return md
-      .replace(/### (.*?)\n/g, '<h4 style="margin: 8px 0 4px; color: #fff; font-size: 14px;">$1</h4>')
-      .replace(/#### (.*?)\n/g, '<h5 style="margin: 6px 0 2px; color: #ffaa00; font-size: 13px;">$1</h5>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/`([^`]+)`/g, '<code style="background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #d8ff3e;">$1</code>')
-      .replace(/```([a-z]*)\n([\s\S]*?)```/g, '<pre style="background: #000; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; overflow-x: auto; font-family: monospace; font-size: 12px; color: #38bdf8;">$2</pre>')
-      .replace(/\n/g, '<br>');
-  }
-
-  function appendMessage(sender, htmlContent, actionBtn = null) {
-    if (!feed) return;
-    const bubble = document.createElement('div');
-    bubble.className = `chat-bubble ${sender}`;
-    bubble.innerHTML = htmlContent;
-
-    if (actionBtn && actionBtn.action) {
-      const btn = document.createElement('button');
-      btn.className = 'pill-btn lava-glow-btn';
-      btn.style.marginTop = '10px';
-      btn.style.fontSize = '12px';
-      btn.style.padding = '6px 12px';
-      btn.textContent = actionBtn.text || 'Action';
-      btn.onclick = () => {
-        if (actionBtn.action === 'open_processes') {
-          modal.classList.add('hidden');
-          if (typeof window.switchAppView === 'function') window.switchAppView('processes');
-        }
-      };
-      bubble.appendChild(document.createElement('br'));
-      bubble.appendChild(btn);
-    }
-
-    feed.appendChild(bubble);
-    feed.scrollTop = feed.scrollHeight;
-  }
-
-  async function sendQuery(queryText) {
-    const text = String(queryText || '').trim();
-    if (!text) return;
-
-    appendMessage('user', text);
-    if (input) input.value = '';
-
-    const typingId = 'typing_' + Date.now();
-    const typingBubble = document.createElement('div');
-    typingBubble.className = 'chat-bubble bot';
-    typingBubble.id = typingId;
-    typingBubble.innerHTML = '<em>Thinking &amp; searching AutoClip knowledge base...</em>';
-    feed.appendChild(typingBubble);
-    feed.scrollTop = feed.scrollHeight;
-
-    try {
-      const res = await fetch('/api/assistant/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text })
-      });
-      const data = await res.json();
-      const el = document.getElementById(typingId);
-      if (el) el.remove();
-
-      appendMessage('bot', formatMarkdown(data.text), data.actionButton);
-    } catch (err) {
-      const el = document.getElementById(typingId);
-      if (el) el.remove();
-      appendMessage('bot', `<span style="color:#ff5555;">⚠️ Error connecting to assistant: ${err.message}</span>`);
-    }
-  }
-
-  function openAssistant(initialTopic = null) {
-    modal.classList.remove('hidden');
-    if (feed && feed.children.length === 0) {
-      appendMessage('bot', `
-        <h4 style="margin: 0 0 6px 0; color: #fff; font-size: 15px;">👋 Hi! I'm your AutoClip AI Copilot.</h4>
-        <p style="margin: 0; font-size: 12.5px; color: #cbd5e1; line-height: 1.5;">
-          I'm here to answer any questions about the app and walk you step-by-step through:
-        </p>
-        <ul style="margin: 8px 0 8px 18px; padding: 0; font-size: 12px; color: #94a3b8;">
-          <li><b>YouTube Data API v3</b> &amp; 1-click publishing setup</li>
-          <li><b>Google Drive API</b> auto-upload &amp; cloud backups</li>
-          <li><b>MCP Protocol Server</b> (Claude Desktop &amp; Cursor integration)</li>
-          <li><b>CRAZY BEAST Engine v2.0</b> (Brock Johnson 1,300 hooks &amp; 2.3x CTR)</li>
-          <li><b>Daniel Bitton 31s Golden Zone</b> &amp; 200% rewatch retention loop</li>
-        </ul>
-        <p style="margin: 0; font-size: 12px; color: #a855f7;">Click any topic pill above or ask your question below!</p>
-      `);
-    }
-
-    if (initialTopic) {
-      sendQuery(initialTopic);
-    }
-  }
-
-  if (openBtn) openBtn.onclick = () => openAssistant();
-  if (closeBtn) closeBtn.onclick = () => modal.classList.add('hidden');
-  if (topHelpBtn) topHelpBtn.onclick = () => openAssistant('How to link YouTube and Google Drive');
-
-  // When clicking sysStatusBtn, open Assistant with Live Diagnostics
-  if (sysHeaderBtn) {
-    sysHeaderBtn.onclick = (e) => {
-      e.preventDefault();
-      openAssistant('Show system status and hardware diagnostics');
-    };
-  }
-
-  if (sysDiagBtn) {
-    sysDiagBtn.onclick = () => {
-      modal.classList.add('hidden');
-      if (typeof window.switchAppView === 'function') window.switchAppView('processes');
-    };
-  }
-
-  if (sendBtn && input) {
-    sendBtn.onclick = () => sendQuery(input.value);
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        sendQuery(input.value);
-      }
-    });
-  }
-
-  // Quick Topic Chips
-  document.querySelectorAll('.assistant-chip').forEach(chip => {
-    chip.onclick = () => {
-      const topicId = chip.dataset.topic;
-      const topicNames = {
-        youtube_api: 'How do I create and connect YouTube API?',
-        google_drive: 'How do I connect Google Drive API?',
-        mcp_protocol: 'How do I connect Claude Desktop or Cursor via MCP?',
-        beast_engine: 'Tell me how the CRAZY BEAST Engine v2.0 and Brock hooks work',
-        daniel_bitton_loop: 'How does Daniel Bitton $1M/month 31 second rewatch loop work?',
-        hollywood_rating: 'How does the Hollywood Rating System work?',
-        max_batch_clipper: 'How do I use MAX Autonomous Batch Auto-Clipper?',
-        troubleshooting: 'Troubleshooting: how do I fix common video and download errors?'
-      };
-      sendQuery(topicNames[topicId] || chip.textContent);
-    };
-  });
-})();
+
+
+
+
+// ==========================================================================
+
+// 🦁 BEAST & AUDIO ENGINEERING UI EVENT HANDLERS
+
+// ==========================================================================
+
+(function initBeastAudioControls() {
+
+  const musicSlider = document.getElementById('beastMusicVolSlider');
+
+  const musicLabel = document.getElementById('beastMusicVolLabel');
+
+  if (musicSlider && musicLabel) {
+
+    musicSlider.addEventListener('input', (e) => {
+
+      const pct = Math.round(Number(e.target.value) * 100);
+
+      musicLabel.textContent = `-${Math.round((1 - Number(e.target.value)) * 24)} dB (${pct}%)`;
+
+    });
+
+  }
+
+
+
+  const applyBeastBtn = document.getElementById('applyBeastPresetBtn');
+
+  if (applyBeastBtn) {
+
+    applyBeastBtn.addEventListener('click', () => {
+
+      // 1. Select Lemon Milk Bold / Hormozi Phrase
+
+      const capFont = document.getElementById('editCapFont');
+
+      if (capFont) capFont.value = 'Oxanium';
+
+      const capDisplay = document.getElementById('editCapDisplayMode');
+
+      if (capDisplay) capDisplay.value = 'phrase';
+
+
+
+      // 2. Select Gaming Split or Smart Face Lock
+
+      const framingSelect = document.getElementById('framingPresetSelect');
+
+      if (framingSelect) framingSelect.value = 'gaming_split';
+
+
+
+      // 3. Select Beast Phonk music bed
+
+      const musicSelect = document.getElementById('beastMusicSelect');
+
+      if (musicSelect) musicSelect.value = 'beast_phonk_pulse.mp3';
+
+
+
+      // 4. Ensure toggles are active
+
+      if (document.getElementById('beastSeamlessLoopToggle')) document.getElementById('beastSeamlessLoopToggle').checked = true;
+
+      if (document.getElementById('beastMoodTintToggle')) document.getElementById('beastMoodTintToggle').checked = true;
+
+      if (document.getElementById('beastDynamicZoomToggle')) document.getElementById('beastDynamicZoomToggle').checked = true;
+
+
+
+      alert('🦁 CRAZY BEAST Preset Applied!\n• Music: Beast Phonk Pulse (-20dB ducked)\n• Retention: Daniel Bitton 200% Rewatch Loop\n• Framing: Gaming Split / Smart Face Lock\n• Captions: Lemon Milk Active Word Glow\n• Mood: Threat Red Emotion Grading');
+
+    });
+
+  }
+
+})();
+
+
+
+// ==========================================================================
+
+// 🤖 AUTOCLIPIN IN-APP AI COPILOT & INTERACTIVE WALKTHROUGH ENGINE
+
+// ==========================================================================
+
+(function setupAppAssistant() {
+
+  const modal = document.getElementById('appAssistantModal');
+
+  const openBtn = document.getElementById('floatingAiBotBtn');
+
+  const closeBtn = document.getElementById('closeAssistantModalBtn');
+
+  const feed = document.getElementById('assistantChatFeed');
+
+  const input = document.getElementById('assistantInput');
+
+  const sendBtn = document.getElementById('assistantSendBtn');
+
+  const sysDiagBtn = document.getElementById('assistantSysDiagBtn');
+
+  const sysHeaderBtn = document.getElementById('sysStatusBtn');
+
+  const topHelpBtn = document.getElementById('topbarHelpBtn');
+
+
+
+  if (!modal) return;
+
+
+
+  function formatMarkdown(md) {
+
+    if (!md) return '';
+
+    return md
+
+      .replace(/### (.*?)\n/g, '<h4 style="margin: 8px 0 4px; color: #fff; font-size: 14px;">$1</h4>')
+
+      .replace(/#### (.*?)\n/g, '<h5 style="margin: 6px 0 2px; color: #ffaa00; font-size: 13px;">$1</h5>')
+
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+
+      .replace(/`([^`]+)`/g, '<code style="background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #d8ff3e;">$1</code>')
+
+      .replace(/```([a-z]*)\n([\s\S]*?)```/g, '<pre style="background: #000; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; overflow-x: auto; font-family: monospace; font-size: 12px; color: #38bdf8;">$2</pre>')
+
+      .replace(/\n/g, '<br>');
+
+  }
+
+
+
+  function appendMessage(sender, htmlContent, actionBtn = null) {
+
+    if (!feed) return;
+
+    const bubble = document.createElement('div');
+
+    bubble.className = `chat-bubble ${sender}`;
+
+    bubble.innerHTML = htmlContent;
+
+
+
+    if (actionBtn && actionBtn.action) {
+
+      const btn = document.createElement('button');
+
+      btn.className = 'pill-btn lava-glow-btn';
+
+      btn.style.marginTop = '10px';
+
+      btn.style.fontSize = '12px';
+
+      btn.style.padding = '6px 12px';
+
+      btn.textContent = actionBtn.text || 'Action';
+
+      btn.onclick = () => {
+
+        if (actionBtn.action === 'open_processes') {
+
+          modal.classList.add('hidden');
+
+          if (typeof window.switchAppView === 'function') window.switchAppView('processes');
+
+        }
+
+      };
+
+      bubble.appendChild(document.createElement('br'));
+
+      bubble.appendChild(btn);
+
+    }
+
+
+
+    feed.appendChild(bubble);
+
+    feed.scrollTop = feed.scrollHeight;
+
+  }
+
+
+
+  async function sendQuery(queryText) {
+
+    const text = String(queryText || '').trim();
+
+    if (!text) return;
+
+
+
+    appendMessage('user', text);
+
+    if (input) input.value = '';
+
+
+
+    const typingId = 'typing_' + Date.now();
+
+    const typingBubble = document.createElement('div');
+
+    typingBubble.className = 'chat-bubble bot';
+
+    typingBubble.id = typingId;
+
+    typingBubble.innerHTML = '<em>Thinking &amp; searching AUTOCLIPIN knowledge base...</em>';
+
+    feed.appendChild(typingBubble);
+
+    feed.scrollTop = feed.scrollHeight;
+
+
+
+    try {
+
+      const res = await fetch('/api/assistant/chat', {
+
+        method: 'POST',
+
+        headers: { 'Content-Type': 'application/json' },
+
+        body: JSON.stringify({ message: text })
+
+      });
+
+      const data = await res.json();
+
+      const el = document.getElementById(typingId);
+
+      if (el) el.remove();
+
+
+
+      appendMessage('bot', formatMarkdown(data.text), data.actionButton);
+
+    } catch (err) {
+
+      const el = document.getElementById(typingId);
+
+      if (el) el.remove();
+
+      appendMessage('bot', `<span style="color:#ff5555;">⚠️ Error connecting to assistant: ${err.message}</span>`);
+
+    }
+
+  }
+
+
+
+  function openAssistant(initialTopic = null) {
+
+    modal.classList.remove('hidden');
+
+    if (feed && feed.children.length === 0) {
+
+      appendMessage('bot', `
+
+        <h4 style="margin: 0 0 6px 0; color: #fff; font-size: 15px;">👋 Hi! I'm your AUTOCLIPIN AI Copilot.</h4>
+
+        <p style="margin: 0; font-size: 12.5px; color: #cbd5e1; line-height: 1.5;">
+
+          I'm here to answer any questions about the app and walk you step-by-step through:
+
+        </p>
+
+        <ul style="margin: 8px 0 8px 18px; padding: 0; font-size: 12px; color: #94a3b8;">
+
+          <li><b>YouTube Data API v3</b> &amp; 1-click publishing setup</li>
+
+          <li><b>Google Drive API</b> auto-upload &amp; cloud backups</li>
+
+          <li><b>MCP Protocol Server</b> (Claude Desktop &amp; Cursor integration)</li>
+
+          <li><b>CRAZY BEAST Engine v2.0</b> (Brock Johnson 1,300 hooks &amp; 2.3x CTR)</li>
+
+          <li><b>Daniel Bitton 31s Golden Zone</b> &amp; 200% rewatch retention loop</li>
+
+        </ul>
+
+        <p style="margin: 0; font-size: 12px; color: #a855f7;">Click any topic pill above or ask your question below!</p>
+
+      `);
+
+    }
+
+
+
+    if (initialTopic) {
+
+      sendQuery(initialTopic);
+
+    }
+
+  }
+
+
+
+  if (openBtn) openBtn.onclick = () => openAssistant();
+
+  if (closeBtn) closeBtn.onclick = () => modal.classList.add('hidden');
+
+  if (topHelpBtn) topHelpBtn.onclick = () => openAssistant('How to link YouTube and Google Drive');
+
+
+
+  // When clicking sysStatusBtn, open Assistant with Live Diagnostics
+
+  if (sysHeaderBtn) {
+
+    sysHeaderBtn.onclick = (e) => {
+
+      e.preventDefault();
+
+      openAssistant('Show system status and hardware diagnostics');
+
+    };
+
+  }
+
+
+
+  if (sysDiagBtn) {
+
+    sysDiagBtn.onclick = () => {
+
+      modal.classList.add('hidden');
+
+      if (typeof window.switchAppView === 'function') window.switchAppView('processes');
+
+    };
+
+  }
+
+
+
+  if (sendBtn && input) {
+
+    sendBtn.onclick = () => sendQuery(input.value);
+
+    input.addEventListener('keydown', (e) => {
+
+      if (e.key === 'Enter') {
+
+        e.preventDefault();
+
+        sendQuery(input.value);
+
+      }
+
+    });
+
+  }
+
+
+
+  // Quick Topic Chips
+
+  document.querySelectorAll('.assistant-chip').forEach(chip => {
+
+    chip.onclick = () => {
+
+      const topicId = chip.dataset.topic;
+
+      const topicNames = {
+
+        youtube_api: 'How do I create and connect YouTube API?',
+
+        google_drive: 'How do I connect Google Drive API?',
+
+        mcp_protocol: 'How do I connect Claude Desktop or Cursor via MCP?',
+
+        beast_engine: 'Tell me how the CRAZY BEAST Engine v2.0 and Brock hooks work',
+
+        daniel_bitton_loop: 'How does Daniel Bitton $1M/month 31 second rewatch loop work?',
+
+        hollywood_rating: 'How does the Hollywood Rating System work?',
+
+        max_batch_clipper: 'How do I use MAX Autonomous Batch Auto-Clipper?',
+
+        troubleshooting: 'Troubleshooting: how do I fix common video and download errors?'
+
+      };
+
+      sendQuery(topicNames[topicId] || chip.textContent);
+
+    };
+
+  });
+
+})();
+

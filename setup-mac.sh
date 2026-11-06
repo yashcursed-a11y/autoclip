@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# AutoClip Pro Studio - macOS One-Click Setup Script
+# AUTOCLIPIN Pro Studio - macOS One-Click Setup Script
 # Supports Intel (x86_64) and Apple Silicon (M1/M2/M3/M4 arm64)
 # ==============================================================================
 
@@ -8,7 +8,7 @@ set -e
 
 echo ""
 echo "🍎 ======================================================"
-echo "   AutoClip Pro Studio - macOS Installation & Setup"
+echo "   AUTOCLIPIN Pro Studio - macOS Installation & Setup"
 echo "=========================================================="
 echo ""
 
@@ -62,7 +62,7 @@ npm install
 
 echo ""
 echo "🎉 ======================================================"
-echo "   Setup Complete! Starting AutoClip Studio..."
+echo "   Setup Complete! Starting AUTOCLIPIN Studio..."
 echo "   Local URL: http://localhost:4173"
 echo "=========================================================="
 echo ""

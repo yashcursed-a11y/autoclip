@@ -14,7 +14,7 @@ const { saveJob, getJob, updateJob, deleteJob } = require('../lib/db');
 const { renderJob } = require('../lib/job-runner');
 
 async function runAllTests() {
-  console.log('--- Starting AUTOCLIP Test Suite ---');
+  console.log('--- Starting AUTOCLIPIN Test Suite ---');
   const samplePath = path.join(ROOT, 'work', 'test', 'sample.mp4');
   assert.ok(fs.existsSync(samplePath), 'sample.mp4 must exist for testing');
 
@@ -212,7 +212,7 @@ async function runAllTests() {
   console.log('✔ Test 7 Passed: Failure safety and original retention confirmed.');
 
   console.log('\n======================================================');
-  console.log(' ALL AUTOCLIP VERIFICATION TESTS PASSED SUCCESSFULLY! ');
+  console.log(' ALL AUTOCLIPIN VERIFICATION TESTS PASSED SUCCESSFULLY! ');
   console.log('======================================================');
 }
 

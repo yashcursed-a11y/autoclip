@@ -1,7 +1,7 @@
 {
   "name": "autoclip",
   "version": "1.0.1",
-  "description": "Personal long-form video clipping studio",
+  "description": "AUTOCLIPIN - Personal long-form video clipping studio",
   "main": "electron-main.js",
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   },
   "build": {
     "appId": "com.autoclip.pro",
-    "productName": "AutoClip",
+    "productName": "AUTOCLIPIN",
     "directories": {
       "output": "dist"
     },
@@ -64,7 +64,7 @@
       "oneClick": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "AutoClip"
+      "shortcutName": "AUTOCLIPIN"
     },
     "files": [
       "**/*",

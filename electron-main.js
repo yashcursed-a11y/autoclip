@@ -45,7 +45,7 @@ function isServerRunning(port) {
 async function ensureServerRunning() {
   const running = await isServerRunning(PORT);
   if (!running) {
-    console.log('[Electron] Starting internal AutoClip backend server...');
+    console.log('[Electron] Starting internal AUTOCLIPIN backend server...');
     try {
       require('./server.js');
       // Wait for server to be responsive
@@ -59,7 +59,7 @@ async function ensureServerRunning() {
       console.error('[Electron] Failed to start server:', err);
     }
   } else {
-    console.log(`[Electron] AutoClip server already active on port ${PORT}`);
+    console.log(`[Electron] AUTOCLIPIN server already active on port ${PORT}`);
   }
 }
 
@@ -73,7 +73,7 @@ function createWindow() {
     height: 920,
     minWidth: 1080,
     minHeight: 700,
-    title: 'AutoClip Pro Studio',
+    title: 'AUTOCLIPIN Pro Studio',
     backgroundColor: '#0a0c10',
     show: false, // Don't show until ready-to-show for smooth appearance
     webPreferences: {
