@@ -1,0 +1,695 @@
+/* ========================================================
+   AUTOCLIPIN — Mobile Phone Feed Review (TikTok / Reels)
+   ======================================================== */
+
+.phone-feed-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: radial-gradient(circle at 50% 20%, rgba(20, 24, 38, 0.6) 0%, rgba(8, 10, 15, 0.98) 100%);
+  color: #f1f5f9;
+  user-select: none;
+  overflow: hidden;
+}
+
+/* Header */
+.pfeed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: rgba(13, 16, 24, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.pfeed-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pfeed-title-wrap h2 {
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: -0.01em;
+}
+
+.pfeed-title-wrap .pfeed-sub {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.pfeed-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 3-Column Workspace */
+.pfeed-workspace-grid {
+  display: grid;
+  grid-template-columns: 310px 1fr 340px;
+  height: calc(100% - 61px);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Left Sidebar: Clip Queue */
+.pfeed-sidebar-left {
+  background: rgba(11, 14, 21, 0.6);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.pfeed-sidebar-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pfeed-sidebar-header h3 {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.pfeed-clip-count-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffaa00;
+  background: rgba(255, 170, 0, 0.12);
+  border: 1px solid rgba(255, 170, 0, 0.3);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.pfeed-clips-scroll-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pfeed-nav-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.pfeed-nav-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateX(2px);
+}
+
+.pfeed-nav-card.active {
+  background: linear-gradient(135deg, rgba(255, 90, 0, 0.14), rgba(113, 87, 255, 0.12));
+  border-color: rgba(255, 130, 0, 0.5);
+  box-shadow: 0 0 16px rgba(255, 100, 0, 0.15);
+}
+
+.pfeed-nav-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pfeed-card-idx {
+  font-size: 12px;
+  font-weight: 800;
+  color: #7157ff;
+}
+
+.pfeed-nav-card.active .pfeed-card-idx {
+  color: #ffaa00;
+}
+
+.pfeed-card-score {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #e2e8f0;
+}
+
+.pfeed-card-score.high {
+  background: rgba(255, 60, 0, 0.2);
+  color: #ff7744;
+  border: 1px solid rgba(255, 60, 0, 0.4);
+}
+
+.pfeed-card-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f1f5f9;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pfeed-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: #64748b;
+}
+
+/* Center Stage: Phone Mockup */
+.pfeed-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.pfeed-ambient-glow {
+  position: absolute;
+  width: 420px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(113, 87, 255, 0.15) 0%, rgba(255, 70, 0, 0.08) 50%, transparent 75%);
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Realistic Titanium Mobile Device */
+.pfeed-device-frame {
+  position: relative;
+  width: 340px;
+  height: 680px;
+  max-height: calc(100vh - 120px);
+  aspect-ratio: 9 / 19.5;
+  background: #111319;
+  border-radius: 48px;
+  padding: 11px;
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 0 0 4px #1c202a,
+    0 0 0 5px rgba(255, 255, 255, 0.08),
+    0 25px 60px -10px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(255, 100, 0, 0.1);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Dynamic Island & Status Bar */
+.pfeed-device-island {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 25px;
+  background: #000;
+  border-radius: 16px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  box-sizing: border-box;
+}
+
+.pfeed-island-camera {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #0b101d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pfeed-island-sensor {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #151a28;
+}
+
+/* Inner Screen Container */
+.pfeed-device-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border-radius: 38px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Snap Scroll Feed Container */
+.pfeed-feed-viewport {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+}
+
+.pfeed-feed-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* Single Full-Height Clip Slide */
+.pfeed-clip-slide {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #050608;
+  overflow: hidden;
+}
+
+/* Unified Video Surface */
+.pfeed-slide-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* Mobile HUD Overlays (TikTok / Reels Layout) */
+.pfeed-slide-hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 42px 14px 20px 14px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 20%, transparent 60%, rgba(0,0,0,0.85) 100%);
+  box-sizing: border-box;
+}
+
+.pfeed-hud-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pfeed-hud-badge {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+
+.pfeed-hud-badge.viral {
+  background: linear-gradient(135deg, rgba(255, 60, 0, 0.8), rgba(255, 140, 0, 0.8));
+  border: none;
+  color: #fff;
+}
+
+/* Kinetic Captions Live Center Box */
+.pfeed-hud-captions {
+  position: absolute;
+  bottom: 22%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 86%;
+  text-align: center;
+  pointer-events: none;
+  z-index: 12;
+}
+
+.pfeed-caption-bubble {
+  display: inline-block;
+  font-size: 19px;
+  font-weight: 900;
+  line-height: 1.25;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 0 2px #000;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+}
+
+.pfeed-caption-bubble .pop-word {
+  color: #ffe600;
+  text-shadow: 0 0 14px rgba(255, 230, 0, 0.8);
+  display: inline-block;
+  transform: scale(1.08);
+}
+
+/* Right Action Buttons Rail (TikTok Style) */
+.pfeed-hud-right-rail {
+  position: absolute;
+  right: 10px;
+  bottom: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  pointer-events: auto;
+  z-index: 15;
+}
+
+.pfeed-rail-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease;
+}
+
+.pfeed-rail-action-btn:hover {
+  transform: scale(1.12);
+}
+
+.pfeed-action-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(20, 24, 34, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.pfeed-rail-action-btn.active .pfeed-action-circle {
+  background: linear-gradient(135deg, #ff4500, #ff8c00);
+  border-color: #ffaa00;
+}
+
+.pfeed-action-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #e2e8f0;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+/* Bottom Metadata (Creator Handle & Sound) */
+.pfeed-hud-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: calc(100% - 60px);
+  pointer-events: auto;
+}
+
+.pfeed-hud-author {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pfeed-hud-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e2e8f0;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pfeed-hud-sound {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 3px 8px;
+  border-radius: 12px;
+  width: fit-content;
+  backdrop-filter: blur(6px);
+}
+
+/* In-Feed Floating Navigation Controller (Outside Phone) */
+.pfeed-floating-nav {
+  position: absolute;
+  right: calc(50% - 240px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10;
+}
+
+.pfeed-nav-step-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(20, 24, 36, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
+}
+
+.pfeed-nav-step-btn:hover {
+  background: #ff5500;
+  border-color: #ff7700;
+  transform: scale(1.1);
+}
+
+.pfeed-nav-hint {
+  font-size: 9px;
+  color: #64748b;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Right Sidebar: Selected Clip Inspector */
+.pfeed-sidebar-right {
+  background: rgba(11, 14, 21, 0.6);
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  padding: 16px;
+  gap: 18px;
+}
+
+.pfeed-inspector-header h3 {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  margin: 0 0 4px 0;
+}
+
+.pfeed-inspector-header p {
+  font-size: 11px;
+  color: #64748b;
+  margin: 0;
+}
+
+.pfeed-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.pfeed-block-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.pfeed-title-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 12px;
+  padding: 8px 10px;
+  box-sizing: border-box;
+}
+
+.pfeed-title-input:focus {
+  outline: none;
+  border-color: #ffaa00;
+}
+
+/* Viral Score Breakdown Grid */
+.pfeed-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.pfeed-metric-item {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pfeed-metric-name {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.pfeed-metric-val {
+  font-size: 13px;
+  font-weight: 800;
+  color: #ffaa00;
+}
+
+/* Caption Preset Buttons */
+.pfeed-style-pills {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.pfeed-style-pill-btn {
+  padding: 8px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+}
+
+.pfeed-style-pill-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.pfeed-style-pill-btn.active {
+  background: rgba(255, 120, 0, 0.18);
+  border-color: #ff7700;
+  color: #ffaa00;
+  font-weight: 700;
+}
+
+/* Fine Trim Nudge Row */
+.pfeed-nudge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.pfeed-nudge-btn {
+  flex: 1;
+  padding: 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pfeed-nudge-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Empty State */
+.pfeed-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 32px;
+  gap: 16px;
+}
+
+.pfeed-empty-icon {
+  font-size: 48px;
+}
+
+.pfeed-empty-state h3 {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.pfeed-empty-state p {
+  font-size: 13px;
+  color: #94a3b8;
+  max-width: 360px;
+  margin: 0;
+}

@@ -54,6 +54,24 @@ const TOOLS = [
       type: 'object',
       properties: {}
     }
+  },
+  {
+    name: 'analyze_video_gemini_intelligence',
+    description: 'PRO-TIER ONLY: Deep Gemini multimodal reasoning over video projects. Discovers story arcs, high-retention hooks, emotional climaxes, and distributes candidate clips across the full timeline. Free users cannot access this tool.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        jobId: { type: 'string', description: 'The unique ID of the video project.' },
+        focus: { 
+          type: 'string', 
+          description: 'Focus objective for clipping: "viral_hooks", "story_arcs", "controversial_debates", "comedy_punchlines", or "educational_insights".',
+          enum: ['viral_hooks', 'story_arcs', 'controversial_debates', 'comedy_punchlines', 'educational_insights']
+        },
+        clipCount: { type: 'number', description: 'Number of clips to discover across the timeline (default 5).' },
+        autoAddToTimeline: { type: 'boolean', description: 'Automatically insert discovered clips into the project timeline (default true).' }
+      },
+      required: ['jobId']
+    }
   }
 ];
 
@@ -132,6 +150,77 @@ async function handleToolCall(name, args) {
         {
           type: 'text',
           text: JSON.stringify(status, null, 2)
+        }
+      ]
+    };
+  }
+
+  if (name === 'analyze_video_gemini_intelligence') {
+    const status = getLicenseStatus();
+    const isPro = status.isValid && ['starter', 'max', 'ultra', 'yearly'].includes(status.tier);
+
+    if (!isPro) {
+      return {
+        isError: true,
+        content: [
+          {
+            type: 'text',
+            text: '🔒 ACCESS DENIED: Gemini Deep Video Intelligence is an AUTOCLIPIN Pro exclusive feature.\n\nFree tier accounts cannot use autonomous AI multi-modal clipping.\nUpgrade to Starter ($9/mo), Max ($20/mo), or Ultra ($50/mo) at https://autoclipin.com to unlock unlimited AI clipping in MCP.'
+          }
+        ]
+      };
+    }
+
+    const job = await getJob(args.jobId);
+    if (!job) {
+      return { isError: true, content: [{ type: 'text', text: `Project ${args.jobId} not found.` }] };
+    }
+
+    if (!job.transcript || !job.transcript.segments || !job.transcript.segments.length) {
+      return { isError: true, content: [{ type: 'text', text: `Project ${args.jobId} has no transcript. Transcribe or import the video first.` }] };
+    }
+
+    // Call AI intelligence engine with Gemini mode enabled
+    const { findBestMoments } = require('../lib/analyzer');
+    const settings = await getSettings();
+    const apiKey = process.env.GEMINI_API_KEY || settings?.geminiApiKey;
+
+    const clipCount = Math.max(1, Math.min(30, Number(args.clipCount || 5)));
+    const clips = await findBestMoments(job.transcript, job.duration || 600, {
+      analysisMode: apiKey ? 'gemini' : 'local',
+      clipCount,
+      templateId: args.focus || 'viral_hooks',
+      minDuration: 20,
+      maxDuration: 65
+    });
+
+    if (args.autoAddToTimeline !== false && clips && clips.length) {
+      job.clips = job.clips || [];
+      // Append non-overlapping clips
+      for (const c of clips) {
+        if (!job.clips.some(existing => Math.abs(existing.start - c.start) < 15)) {
+          job.clips.push(c);
+        }
+      }
+      job.clips.sort((a, b) => a.start - b.start);
+      await updateJob(job.id, { clips: job.clips });
+    }
+
+    return {
+      content: [
+        {
+          type: 'text',
+          text: `✨ Gemini Multimodal Intelligence Analysis Complete!\n\nDiscovered ${clips.length} high-impact clips distributed across the timeline.\n${args.autoAddToTimeline !== false ? '✓ Clips automatically added to the Studio timeline.' : ''}\n\n` +
+            JSON.stringify(clips.map((c, i) => ({
+              rank: i + 1,
+              start: `${Math.round(c.start)}s`,
+              end: `${Math.round(c.end)}s`,
+              duration: `${Math.round(c.end - c.start)}s`,
+              title: c.title,
+              score: c.score,
+              viralBadge: c.viralBadge,
+              category: c.category
+            })), null, 2)
         }
       ]
     };

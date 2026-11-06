@@ -3384,12 +3384,14 @@ function syncCaptionSettingsFromPhone() {
 function setupSchedulerControls() {
   const railIngest = $('#railIngestBtn');
   const navStudio = $('#navStudioBtn');
+  const navPhoneFeed = $('#navPhoneFeedBtn');
   const navCaption = $('#navCaptionPhoneBtn');
   const navWatch = $('#navWatchBtn');
   const navScheduler = $('#navSchedulerBtn');
   const navProcesses = $('#navProcessesBtn');
   const ingestView = $('#ingestView');
   const studioView = $('#studioView');
+  const phoneFeedView = $('#phoneFeedView');
   const captionPhoneView = $('#captionPhoneView');
   const watchView = $('#watchView');
   const schedulerView = $('#schedulerView');
@@ -3398,12 +3400,13 @@ function setupSchedulerControls() {
   // Top Nav Switching
   window.switchAppView = (view) => {
     state.scheduler.activeView = view;
-    const activePlayer = {studio:'previewVideo',captions:'cpsPhoneVideo',watch:'cinemaVideo'}[view];
+    const activePlayer = {studio:'previewVideo',captions:'cpsPhoneVideo',watch:'cinemaVideo',phone_feed:''}[view];
     document.querySelectorAll('video').forEach(player => {
       if (player.id !== activePlayer && !player.paused) player.pause();
     });
     if (railIngest) railIngest.classList.toggle('active', view === 'ingest');
     if (navStudio) navStudio.classList.toggle('active', view === 'studio');
+    if (navPhoneFeed) navPhoneFeed.classList.toggle('active', view === 'phone_feed');
     if (navCaption) navCaption.classList.toggle('active', view === 'captions');
     if (navWatch) navWatch.classList.toggle('active', view === 'watch');
     if (navScheduler) navScheduler.classList.toggle('active', view === 'scheduler');
@@ -3425,6 +3428,7 @@ function setupSchedulerControls() {
       setTimeout(() => $('#maxChannelUrl')?.focus(), 100);
     }
     if (studioView) studioView.classList.toggle('hidden', view !== 'studio');
+    if (phoneFeedView) phoneFeedView.classList.toggle('hidden', view !== 'phone_feed');
     if (captionPhoneView) captionPhoneView.classList.toggle('hidden', view !== 'captions');
     if (watchView) watchView.classList.toggle('hidden', view !== 'watch');
     if (schedulerView) schedulerView.classList.toggle('hidden', view !== 'scheduler');
@@ -3438,6 +3442,10 @@ function setupSchedulerControls() {
       if (ws) ws.classList.toggle('hidden', !hasJob);
       if (hasJob && typeof renderCapCutTimeline === 'function') {
         renderCapCutTimeline();
+      }
+    } else if (view === 'phone_feed') {
+      if (typeof window.initPhoneFeedReview === 'function') {
+        window.initPhoneFeedReview();
       }
     } else if (view === 'captions') {
       if (typeof openPhoneCaptionStudio === 'function') {
@@ -3458,10 +3466,14 @@ function setupSchedulerControls() {
 
   if (railIngest) railIngest.onclick = () => window.switchAppView('ingest');
   if (navStudio) navStudio.onclick = () => window.switchAppView('studio');
+  if (navPhoneFeed) navPhoneFeed.onclick = () => window.switchAppView('phone_feed');
   if (navCaption) navCaption.onclick = () => window.switchAppView('captions');
   if (navWatch) navWatch.onclick = () => window.switchAppView('watch');
   if (navScheduler) navScheduler.onclick = () => window.switchAppView('scheduler');
   if (navProcesses) navProcesses.onclick = () => window.switchAppView('processes');
+
+  const btnPhoneSwitch = $('#btnSwitchToPhoneFeed');
+  if (btnPhoneSwitch) btnPhoneSwitch.onclick = () => window.switchAppView('phone_feed');
 
   const emptyToIngest = $('#emptyToIngestBtn');
   if (emptyToIngest) emptyToIngest.onclick = () => window.switchAppView('ingest');

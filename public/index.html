@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="/studio-noir.css">
   <link rel="stylesheet" href="/workspace-rebuild.css">
   <link rel="stylesheet" href="/silver-surge.css">
+  <link rel="stylesheet" href="/phone-feed.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@600;800;900&family=Bangers&family=Roboto:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -45,6 +46,10 @@
           <button type="button" id="navStudioBtn" class="rail-btn" title="Page 2: Clip Studio (Big Screen CapCut Editing)">
             <span class="rail-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4zM9 5v14M4 10h5M4 15h5"/></svg></span>
             <span class="rail-label">Studio</span>
+          </button>
+          <button type="button" id="navPhoneFeedBtn" class="rail-btn" title="Page 3: Phone Feed Review (TikTok / Reels Vertical Scroll)">
+            <span class="rail-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="3"/><path d="M12 18h.01"/></svg></span>
+            <span class="rail-label">Feed</span>
           </button>
           <button type="button" id="navCaptionPhoneBtn" class="rail-btn" title="Page 3: Phone Caption Studio (Interactive Mobile Visualizer)">
             <span class="rail-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2ZM10 18h4"/></svg></span>
@@ -698,6 +703,9 @@
             <button id="modeEditor" class="mode-btn">🛠️ Editor Mode</button>
           </div>
           <button id="renderBtn" class="primary-btn render-btn">Render Selected Clips</button>
+          <button id="btnSwitchToPhoneFeed" type="button" class="pill-btn lava-glow-btn" title="Preview clips in TikTok / Reels 9:16 phone scroll feed" style="font-weight: 700; font-size: 12px; background: linear-gradient(135deg, rgba(255, 60, 0, 0.2), rgba(255, 120, 0, 0.2)); border: 1px solid rgba(255, 100, 0, 0.5); color: #ffaa00;">
+            📱 Phone Feed Review
+          </button>
           <button id="workspaceAutoPilotBtn" class="pill-btn primary-pill" title="Auto-render top clips & schedule across channels in 1 click">
             🚀 Auto-Pilot Schedule
           </button>
@@ -1287,6 +1295,130 @@
     </div>
   </section>
 </div> <!-- /studioView -->
+
+<!-- Page 2.5: Phone Feed Review (TikTok / Reels Vertical Mobile Feed) -->
+<div id="phoneFeedView" class="hidden">
+  <div class="phone-feed-screen">
+    <!-- Top Header -->
+    <div class="pfeed-header">
+      <div class="pfeed-header-left">
+        <button type="button" id="pfeedBackToStudioBtn" class="pill-btn mini-pill">← Back to Studio Timeline</button>
+        <div class="pfeed-title-wrap">
+          <h2>📱 Mobile Feed Review</h2>
+          <span class="pfeed-sub">Vertical TikTok &amp; Reels scroll simulator with active word-pop subtitles</span>
+        </div>
+      </div>
+      <div class="pfeed-header-right">
+        <span id="pfeedTotalBadge" class="pfeed-clip-count-badge">0 Clips</span>
+        <button type="button" onclick="window.switchAppView('studio')" class="pill-btn mini-pill">🎬 Studio Editor</button>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="pfeedEmptyState" class="pfeed-empty-state hidden">
+      <div class="pfeed-empty-icon">📱</div>
+      <h3>No Clips Ready to Preview</h3>
+      <p>Import a video in the Ingest tab or run moment analysis in Clip Studio to generate candidates.</p>
+      <button type="button" onclick="window.switchAppView('ingest')" class="primary-btn lava-glow-btn">📁 Import Video</button>
+    </div>
+
+    <!-- 3-Column Workspace Grid -->
+    <div id="pfeedWorkspaceGrid" class="pfeed-workspace-grid">
+      <!-- Left: Clip Cards Drawer -->
+      <div class="pfeed-sidebar-left">
+        <div class="pfeed-sidebar-header">
+          <h3>Candidates</h3>
+          <span style="font-size: 10px; color: #64748b;">Click to jump</span>
+        </div>
+        <div id="pfeedClipsScrollList" class="pfeed-clips-scroll-list"></div>
+      </div>
+
+      <!-- Center: Realistic Mobile Device Stage -->
+      <div class="pfeed-stage">
+        <div class="pfeed-ambient-glow" aria-hidden="true"></div>
+
+        <!-- Floating Up/Down Navigation Controls -->
+        <div class="pfeed-floating-nav">
+          <button type="button" id="btnPhoneFeedPrev" class="pfeed-nav-step-btn" title="Previous Clip (Up Arrow)">▲</button>
+          <span class="pfeed-nav-hint">Scroll</span>
+          <button type="button" id="btnPhoneFeedNext" class="pfeed-nav-step-btn" title="Next Clip (Down Arrow)">▼</button>
+        </div>
+
+        <!-- Titanium Frame Phone -->
+        <div class="pfeed-device-frame">
+          <div class="pfeed-device-island">
+            <div class="pfeed-island-sensor"></div>
+            <div class="pfeed-island-camera"></div>
+          </div>
+          <div class="pfeed-device-screen">
+            <div id="pfeedFeedViewport" class="pfeed-feed-viewport">
+              <!-- Dynamically rendered slides -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Selected Clip Fine-Tuning & Metadata -->
+      <div class="pfeed-sidebar-right">
+        <div class="pfeed-inspector-header">
+          <h3>Selected Clip Inspector</h3>
+          <p>Tweak titles, viral metrics &amp; test typography styles</p>
+        </div>
+
+        <div class="pfeed-block">
+          <label class="pfeed-block-title">Clip Title (Viral Hook)</label>
+          <input type="text" id="pfeedClipTitleInput" class="pfeed-title-input" placeholder="Title...">
+        </div>
+
+        <div class="pfeed-block">
+          <span class="pfeed-block-title">🦁 CRAZY BEAST Retention Score</span>
+          <div class="pfeed-metrics-grid">
+            <div class="pfeed-metric-item">
+              <span class="pfeed-metric-name">🌪️ Absurd Twist</span>
+              <span id="pfeedMetricTwist" class="pfeed-metric-val">23/25</span>
+            </div>
+            <div class="pfeed-metric-item">
+              <span class="pfeed-metric-name">⚡ Audio Surge</span>
+              <span id="pfeedMetricAudio" class="pfeed-metric-val">24/25</span>
+            </div>
+            <div class="pfeed-metric-item">
+              <span class="pfeed-metric-name">🔥 High Arousal</span>
+              <span id="pfeedMetricArousal" class="pfeed-metric-val">22/25</span>
+            </div>
+            <div class="pfeed-metric-item">
+              <span class="pfeed-metric-name">🌊 Zero Dead Air</span>
+              <span id="pfeedMetricPacing" class="pfeed-metric-val">24/25</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pfeed-block">
+          <span class="pfeed-block-title">Subtitle Typography Style</span>
+          <div class="pfeed-style-pills">
+            <button type="button" class="pfeed-style-pill-btn active" data-style="viral_pop">💥 Hormozi Pop</button>
+            <button type="button" class="pfeed-style-pill-btn" data-style="beast_neon">⚡ Beast Lime</button>
+            <button type="button" class="pfeed-style-pill-btn" data-style="clean_podcast">🎙️ Clean Podcast</button>
+            <button type="button" class="pfeed-style-pill-btn" data-style="cyber_neon">💎 Cyber Neon</button>
+          </div>
+        </div>
+
+        <div class="pfeed-block">
+          <span class="pfeed-block-title">Nudge Boundary Trim</span>
+          <div class="pfeed-nudge-row">
+            <button type="button" id="pfeedNudgeStartMinus" class="pfeed-nudge-btn">-1s Start</button>
+            <button type="button" id="pfeedNudgeStartPlus" class="pfeed-nudge-btn">+1s Start</button>
+            <button type="button" id="pfeedNudgeEndMinus" class="pfeed-nudge-btn">-1s End</button>
+            <button type="button" id="pfeedNudgeEndPlus" class="pfeed-nudge-btn">+1s End</button>
+          </div>
+        </div>
+
+        <button type="button" onclick="document.querySelector('.pfeed-clip-slide [data-action=render-single]')?.click()" class="primary-btn lava-glow-btn" style="width: 100%; justify-content: center; padding: 10px; font-weight: 800;">
+          🚀 Render Active Clip (9:16)
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Page 3: Phone Caption Studio (Realistic Mobile Subtitle Visualizer & Customizer) -->
 <div id="captionPhoneView" class="hidden">
@@ -3351,6 +3483,7 @@ AUTOCLIP/
   <script src="/workspace-rebuild.js"></script>
   <script src="/silver-surge.js"></script>
   <script src="/github-hub.js"></script>
+  <script src="/phone-feed.js"></script>
 
 
   </body>
