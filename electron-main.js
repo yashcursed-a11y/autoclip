@@ -74,6 +74,7 @@ function createWindow() {
     minWidth: 1080,
     minHeight: 700,
     title: 'AUTOCLIPIN Pro Studio',
+    icon: path.join(__dirname, 'build', 'icon.png'),
     backgroundColor: '#0a0c10',
     show: false, // Don't show until ready-to-show for smooth appearance
     webPreferences: {
