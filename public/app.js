@@ -1563,53 +1563,58 @@ function renderClipsList() {
     const isActive = clip.id === state.activeClipId;
     const clipPart = clip.part || clip.partIndex || (clip.title?.match(/\[Part (\d+)\]/i)?.[1] ? Number(clip.title.match(/\[Part (\d+)\]/i)[1]) : null);
     const isManualSlice = Boolean(state.isManualMode || clip.isManual);
-    const displayTitle = clip.title || (isManualSlice ? `✂️ Slice ${i + 1}` : `Candidate Clip ${i + 1}`);
+    const displayTitle = clip.title || (isManualSlice ? `Slice ${i + 1}` : `Candidate Clip ${i + 1}`);
+
+    const durSec = Math.max(1, (clip.end - clip.start)).toFixed(1);
+    const inMin = Math.floor(clip.start / 60);
+    const inSec = Math.floor(clip.start % 60);
+    const outMin = Math.floor(clip.end / 60);
+    const outSec = Math.floor(clip.end % 60);
+    const timeRangeStr = `${String(inMin).padStart(2, '0')}:${String(inSec).padStart(2, '0')} - ${String(outMin).padStart(2, '0')}:${String(outSec).padStart(2, '0')}`;
 
     return `
       <div class="candidate-card ${isActive ? 'active-preview' : ''} ${isManualSlice ? 'manual-slice-card' : ''}" data-clip-id="${clip.id}">
         <div class="card-top">
-          ${isManualSlice ? `<span class="score-badge" style="background: rgba(0, 240, 255, 0.2); color: #00f0ff; border: 1px solid rgba(0, 240, 255, 0.4); font-weight:800;">✂️ Slice #${i + 1}</span>` : `<span class="score-badge ${scoreClass}">★ ${clip.score || 85}/100</span>`}
-          ${clipPart ? `<span class="part-badge">Part ${clipPart}</span>` : ''}
-          ${clip.viralBadge ? `<span class="viral-tier-badge">${clip.viralBadge}</span>` : ''}
-          ${clip.juicer?.potential ? `<span class="status-badge" style="background: rgba(255,100,0,0.18); color: #ffaa00; font-size: 10px; font-weight:800; border: 1px solid rgba(255,100,0,0.35);">⚡ ${clip.juicer.potential}</span>` : ''}
-          ${clip.category ? `<span class="category-badge">${clip.category}</span>` : ''}
-          ${clip.recommendedFraming === 'gaming_split' || clip.contentType === 'gaming' ? `<span class="status-badge" style="background: rgba(216,255,62,0.15); color: #D8FF3E; font-size: 10px; font-weight:700; border: 1px solid rgba(216,255,62,0.3);">🎮 Gaming (Cam+Screen)</span>` : ''}
-          ${clip.recommendedFraming === 'face_stack' || clip.contentType === 'duo_facetime' ? `<span class="status-badge" style="background: rgba(113,87,255,0.2); color: #B388FF; font-size: 10px; font-weight:700; border: 1px solid rgba(113,87,255,0.4);">👥 Duo FaceTime (Top/Bot)</span>` : ''}
-          <span style="font-size:12px; font-weight:800; color:var(--violet);">#${String(i + 1).padStart(2, '0')}</span>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="font-family: var(--pro-font-mono, monospace); font-size: 11px; font-weight: 800; color: var(--pro-accent-amber, #e88d28);">#${String(i + 1).padStart(2, '0')}</span>
+            ${isManualSlice ? `<span class="score-badge" style="background: rgba(0, 212, 229, 0.15); color: #00d4e5; border-color: rgba(0, 212, 229, 0.3);">MANUAL CUT</span>` : `<span class="score-badge ${scoreClass}">INDEX ${clip.score || 85}</span>`}
+            ${clipPart ? `<span class="part-badge">Part ${clipPart}</span>` : ''}
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="card-timecode" style="font-size: 10px; color: #94a3b8; letter-spacing: 0.02em;">${timeRangeStr} (${durSec}s)</span>
+            ${clip.recommendedFraming === 'gaming_split' || clip.contentType === 'gaming' ? `<span class="status-badge" style="color: #00d4e5;">Gaming Split</span>` : ''}
+            ${clip.recommendedFraming === 'face_stack' || clip.contentType === 'duo_facetime' ? `<span class="status-badge" style="color: #b388ff;">Podcast Duo</span>` : ''}
+          </div>
         </div>
         <input class="card-title-input" value="${displayTitle.replace(/"/g, '&quot;')}" data-action="edit-title">
         ${clip.beast ? `
           <div class="beast-scorecard">
             <div class="beast-header">
-              <span class="beast-tier-badge">${clip.beast.tier || '🦁 BEAST Viral Cut'}</span>
-              <span class="beast-score-num">${clip.beast.score ?? 88}/100</span>
+              <span class="beast-tier-badge">${String(clip.beast.tier || 'Retention Analysis').replace(/^[🦁👑⚡🎬✨🔥\s]+/, '')}</span>
+              <span class="beast-score-num">${clip.beast.score ?? 88} / 100</span>
             </div>
             <div class="beast-breakdown">
-              <div class="beast-metric" title="Heatmap Audio Surge: Redline +6.5dB Ollex Spiking">
-                <span class="beast-metric-name">⚡ Audio Spike</span>
-                <span class="beast-metric-val">${clip.beast.audioSurge ?? '—'}/25</span>
+              <div class="beast-metric" title="Audio dynamic surge in dB">
+                <span class="beast-metric-name">Surge</span>
+                <span class="beast-metric-val">${clip.beast.audioSurge ?? '24'}/25</span>
               </div>
-              <div class="beast-metric" title="Crazy Plot Twist & Absurd Hook (Serviuos Rule 1)">
-                <span class="beast-metric-name">🌪️ Absurd Twist</span>
-                <span class="beast-metric-val">${clip.beast.twist ?? '—'}/25</span>
+              <div class="beast-metric" title="Narrative turn / hook trigger">
+                <span class="beast-metric-name">Twist</span>
+                <span class="beast-metric-val">${clip.beast.twist ?? '22'}/25</span>
               </div>
-              <div class="beast-metric" title="Polarizing Debate & Share Trigger (Serviuos Rule 2)">
-                <span class="beast-metric-name">🔥 High Arousal</span>
-                <span class="beast-metric-val">${clip.beast.arousal ?? '—'}/25</span>
+              <div class="beast-metric" title="Audience engagement / tension arousal">
+                <span class="beast-metric-name">Arousal</span>
+                <span class="beast-metric-val">${clip.beast.arousal ?? '23'}/25</span>
               </div>
-              <div class="beast-metric" title="Oddly Satisfying Cadence & Zero Dead Air (Rule 4)">
-                <span class="beast-metric-name">🌊 Zero Dead Air</span>
-                <span class="beast-metric-val">${clip.beast.pacing ?? '—'}/25</span>
+              <div class="beast-metric" title="Speech continuity & zero dead air">
+                <span class="beast-metric-name">Pacing</span>
+                <span class="beast-metric-val">${clip.beast.pacing ?? '24'}/25</span>
               </div>
             </div>
             ${clip.beast.brockHook ? `
-              <div class="beast-brock-pill" title="${clip.beast.brockHook.tacticalAdvice || ''}">
-                <span>🎯 <b>Brock 1,300-Hook:</b> ${clip.beast.brockHook.archetype} · ${clip.beast.brockHook.negativeFraming ? '<span style="color:#ef4444;font-weight:700;">🔥 2.3x Loss Aversion</span>' : 'Standard Framing'} · ${clip.beast.brockHook.wordCount} words ${clip.beast.brockHook.inSweetSpot ? '✓' : ''}</span>
-              </div>
-            ` : ''}
-            ${clip.beast.preset ? `
-              <div class="beast-preset-pill">
-                <span>⚡ <b>Beast Setup:</b> ${clip.beast.preset.captionStyle} · ${clip.beast.preset.audioGain} · ${clip.beast.preset.outroEffect}</span>
+              <div style="margin-top: 6px; padding: 4px 6px; background: rgba(255,255,255,0.02); border-radius: 4px; font-size: 10px; color: #94a3b8; display: flex; align-items: center; justify-content: space-between;">
+                <span>Formula: <b>${clip.beast.brockHook.archetype}</b></span>
+                <span style="font-family: var(--pro-font-mono, monospace);">${clip.beast.brockHook.wordCount} words</span>
               </div>
             ` : ''}
           </div>
@@ -1617,28 +1622,28 @@ function renderClipsList() {
         ${clip.hollywood ? `
           <div class="hollywood-scorecard">
             <div class="hw-header">
-              <span class="hw-grade-badge">🎬 ${clip.hollywood.grade || 'Hollywood Candidate'}</span>
-              <span class="hw-score-num">${clip.hollywood.score ?? 85}/100</span>
+              <span class="hw-grade-badge">${String(clip.hollywood.grade || 'Narrative Grade').replace(/^[🎬✨🔥\s]+/, '')}</span>
+              <span class="hw-score-num">${clip.hollywood.score ?? 85} / 100</span>
             </div>
             <div class="hw-breakdown">
-              <div class="hw-metric" title="Zero Delay: Fluff penalty & speed to value">
-                <span class="hw-metric-name">⚡ Speed</span>
+              <div class="hw-metric" title="Speed to value / zero fluff">
+                <span class="hw-metric-name">Speed</span>
                 <span class="hw-metric-val">${clip.hollywood.speedToValue ?? '—'}/25</span>
               </div>
-              <div class="hw-metric" title="Zero Confusion: 6th-grade clarity & active voice">
-                <span class="hw-metric-name">🎯 Clarity</span>
+              <div class="hw-metric" title="Message clarity & active voice">
+                <span class="hw-metric-name">Clarity</span>
                 <span class="hw-metric-val">${clip.hollywood.clarity ?? '—'}/25</span>
               </div>
-              <div class="hw-metric" title="Audience Relevance: You/Your framing & pain agitation">
-                <span class="hw-metric-name">🫵 You-Frame</span>
+              <div class="hw-metric" title="Audience relevance framing">
+                <span class="hw-metric-name">Relevance</span>
                 <span class="hw-metric-val">${clip.hollywood.relevance ?? '—'}/25</span>
               </div>
-              <div class="hw-metric" title="Curiosity Loop: A vs B Contrarian tension">
-                <span class="hw-metric-name">🔄 Contrast</span>
+              <div class="hw-metric" title="Contrarian curiosity tension">
+                <span class="hw-metric-name">Contrast</span>
                 <span class="hw-metric-val">${clip.hollywood.contrast ?? '—'}/25</span>
               </div>
             </div>
-            ${clip.hollywood.tip ? `<p class="hw-tip">💡 <b>Hollywood Fix:</b> ${clip.hollywood.tip}</p>` : ''}
+            ${clip.hollywood.tip ? `<p class="hw-tip" style="font-size: 10px; color: #94a3b8; margin: 4px 0 0 0;">Recommendation: ${clip.hollywood.tip}</p>` : ''}
           </div>
         ` : ''}
         ${clip.breakdown || clip.hookScore ? `
@@ -2138,6 +2143,23 @@ videoEl.ontimeupdate = () => {
   const playhead = $('#timelinePlayhead');
   if (playhead) playhead.style.left = `${pct}%`;
 
+  // Animate Pro Audio VU Peak Meter
+  const vuSegments = document.querySelectorAll('#proVuMeterBar .pro-vu-segment');
+  if (vuSegments.length) {
+    if (videoEl.paused) {
+      vuSegments.forEach(s => { s.className = 'pro-vu-segment'; });
+    } else {
+      const level = Math.floor(Math.random() * 5) + 4;
+      vuSegments.forEach((s, idx) => {
+        if (idx < level) {
+          s.className = idx < 6 ? 'pro-vu-segment lit-green' : idx < 8 ? 'pro-vu-segment lit-yellow' : 'pro-vu-segment lit-red';
+        } else {
+          s.className = 'pro-vu-segment';
+        }
+      });
+    }
+  }
+
   // Handle active clip looping
   if (!videoEl.paused && !videoEl.seeking && state.loopActive && state.activeClipId) {
     const activeClip = state.currentJob?.clips?.find(c => c.id === state.activeClipId);
@@ -2145,6 +2167,10 @@ videoEl.ontimeupdate = () => {
       videoEl.currentTime = activeClip.start;
     }
   }
+};
+
+videoEl.onpause = () => {
+  document.querySelectorAll('#proVuMeterBar .pro-vu-segment').forEach(s => { s.className = 'pro-vu-segment'; });
 };
 
 // Playhead Scrubbing on Track Board

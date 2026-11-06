@@ -19,9 +19,10 @@
   <link rel="stylesheet" href="/workspace-rebuild.css">
   <link rel="stylesheet" href="/silver-surge.css">
   <link rel="stylesheet" href="/phone-feed.css">
+  <link rel="stylesheet" href="/pro-studio.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@600;800;900&family=Bangers&family=Roboto:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="studio-obsidian" data-theme="dark">
   <div class="app-layout">
@@ -721,30 +722,30 @@
           <div class="candidates-header">
             <h3>AI highlights</h3>
             <div style="display: flex; align-items: center; gap: 6px;">
-              <select id="studioRatingSystemSelect" style="padding: 5px 8px; border-radius: 6px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,170,0,0.4); color: #ffaa00; font-size: 11px; font-weight: 700; cursor: pointer;">
-                <option value="beast" selected>🦁 CRAZY BEAST</option>
-                <option value="hollywood" selected>🎬 HOLLYWOOD Rating</option>
-                <option value="offline_v3">⚡ Offline v3 Engine</option>
-                <option value="claude">🧠 Claude 3.5 Sonnet</option>
-                <option value="openai">🟢 OpenAI GPT-4o</option>
-                <option value="gemini">✨ Gemini 1.5 Flash</option>
+              <select id="studioRatingSystemSelect" style="padding: 4px 8px; border-radius: 6px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.12); color: #e2e8f0; font-size: 11px; font-weight: 600; cursor: pointer;">
+                <option value="beast" selected>Retention Dynamics (Brock &amp; Surge)</option>
+                <option value="hollywood">Narrative Flow (Hollywood 4-Pillar)</option>
+                <option value="offline_v3">Offline Lexical Engine v3</option>
+                <option value="gemini">Gemini 1.5 Flash (Multimodal)</option>
+                <option value="claude">Claude 3.5 Sonnet</option>
+                <option value="openai">OpenAI GPT-4o</option>
               </select>
-              <button type="button" id="reanalyzeClipsBtn" class="pill-btn" title="Re-evaluate viral moments with new rating criteria">⚡ Re-Score Clips</button>
-              <button type="button" id="batchScheduleAllClipsBtn" class="pill-btn lava-glow-btn" title="Batch post or schedule all clips across social accounts">⚡ Batch Post / Schedule</button>
-              <button id="addClipBtn" class="pill-btn">+ Add Custom Clip</button>
+              <button type="button" id="reanalyzeClipsBtn" class="pill-btn" title="Re-evaluate viral moments with selected criteria">Re-Analyze</button>
+              <button type="button" id="batchScheduleAllClipsBtn" class="pill-btn" title="Batch post or schedule all clips across social accounts">Schedule All</button>
+              <button id="addClipBtn" class="pill-btn">+ Add Clip</button>
             </div>
           </div>
 
           <!-- Stream Multi-Part Bar -->
           <div id="streamPartsBar" class="stream-parts-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; padding: 6px 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;">
             <div id="partFilterTabs" class="part-filter-tabs" style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-              <button type="button" class="part-tab-btn active" data-part="all">🌟 All Clips (<span id="partCountAll">0</span>)</button>
-              <button type="button" class="part-tab-btn" data-part="1">🎬 Part 1 (<span id="partCount1">0</span>)</button>
-              <button type="button" class="part-tab-btn" data-part="2">🎬 Part 2 (<span id="partCount2">0</span>)</button>
-              <button type="button" class="part-tab-btn" data-part="3">🎬 Part 3 (<span id="partCount3">0</span>)</button>
+              <button type="button" class="part-tab-btn active" data-part="all">All (<span id="partCountAll">0</span>)</button>
+              <button type="button" class="part-tab-btn" data-part="1">Part 1 (<span id="partCount1">0</span>)</button>
+              <button type="button" class="part-tab-btn" data-part="2">Part 2 (<span id="partCount2">0</span>)</button>
+              <button type="button" class="part-tab-btn" data-part="3">Part 3 (<span id="partCount3">0</span>)</button>
             </div>
             <div style="display: flex; align-items: center; gap: 6px;">
-              <button type="button" id="splitStreamBtn" class="pill-btn mini-pill" title="Split stream into 2 or 3 parts & discover clips part-by-part" style="background: rgba(113,87,255,0.15); border: 1px solid rgba(113,87,255,0.4); color: #D8FF3E; font-size: 11px; font-weight: 600;">✂️ Split Stream</button>
+              <button type="button" id="splitStreamBtn" class="pill-btn mini-pill" title="Split long footage into multi-part sequences">Split Stream</button>
             </div>
           </div>
 
@@ -766,13 +767,25 @@
             </div>
             <div class="canvas-bar-right">
               <div class="preset-pill-group">
-                <button type="button" class="preset-pill-btn active" data-mode="smart" title="Smart AI Centered Crop">🎯 Smart</button>
-                <button type="button" class="preset-pill-btn" data-mode="gaming_split" title="Kai Cenat / Speed Gaming Split (Facecam Top + Game Bottom)">🎮 Gaming Split</button>
-                <button type="button" class="preset-pill-btn" data-mode="face_stack" title="2-Host FaceTime / Discord Podcast Stack">🎙️ Podcast Duo</button>
-                <button type="button" class="preset-pill-btn" data-mode="blur" title="Blurred Canvas Backing for 16:9 in Vertical">🌊 Blur</button>
+                <button type="button" class="preset-pill-btn active" data-mode="smart" title="Smart AI Centered Crop">Smart Crop</button>
+                <button type="button" class="preset-pill-btn" data-mode="gaming_split" title="Facecam Top + Gameplay Bottom Split">Gaming Split</button>
+                <button type="button" class="preset-pill-btn" data-mode="face_stack" title="2-Host FaceTime / Discord Podcast Stack">Podcast Duo</button>
+                <button type="button" class="preset-pill-btn" data-mode="blur" title="Blurred Canvas Backing for 16:9 in Vertical">Blur Backing</button>
               </div>
-              <button type="button" id="toggleSafeZoneBtn" class="pill-btn mini-pill" title="Toggle TikTok / Shorts Social Safe Zone Overlay">📐 Safe Zone</button>
-              <button type="button" id="toggleLoopBtn" class="pill-btn mini-pill active" title="Toggle Looping Clip Playback">🔁 Loop</button>
+              <div id="proVuMeterBar" class="pro-vu-meter-bar" title="Peak Audio VU Meter" style="width: 72px;">
+                <div class="pro-vu-segment lit-green"></div>
+                <div class="pro-vu-segment lit-green"></div>
+                <div class="pro-vu-segment lit-green"></div>
+                <div class="pro-vu-segment lit-green"></div>
+                <div class="pro-vu-segment lit-green"></div>
+                <div class="pro-vu-segment lit-yellow"></div>
+                <div class="pro-vu-segment lit-yellow"></div>
+                <div class="pro-vu-segment"></div>
+                <div class="pro-vu-segment"></div>
+                <div class="pro-vu-segment"></div>
+              </div>
+              <button type="button" id="toggleSafeZoneBtn" class="pill-btn mini-pill" title="Toggle 9:16 Social Safe Zone Overlay">Safe Zone</button>
+              <button type="button" id="toggleLoopBtn" class="pill-btn mini-pill active" title="Toggle Looping Playback [L]">Loop</button>
             </div>
           </div>
 
@@ -1371,22 +1384,22 @@
         </div>
 
         <div class="pfeed-block">
-          <span class="pfeed-block-title">🦁 CRAZY BEAST Retention Score</span>
+          <span class="pfeed-block-title">Retention &amp; Pacing Telemetry</span>
           <div class="pfeed-metrics-grid">
             <div class="pfeed-metric-item">
-              <span class="pfeed-metric-name">🌪️ Absurd Twist</span>
+              <span class="pfeed-metric-name">Narrative Pivot</span>
               <span id="pfeedMetricTwist" class="pfeed-metric-val">23/25</span>
             </div>
             <div class="pfeed-metric-item">
-              <span class="pfeed-metric-name">⚡ Audio Surge</span>
+              <span class="pfeed-metric-name">Peak Surge</span>
               <span id="pfeedMetricAudio" class="pfeed-metric-val">24/25</span>
             </div>
             <div class="pfeed-metric-item">
-              <span class="pfeed-metric-name">🔥 High Arousal</span>
+              <span class="pfeed-metric-name">Tension Index</span>
               <span id="pfeedMetricArousal" class="pfeed-metric-val">22/25</span>
             </div>
             <div class="pfeed-metric-item">
-              <span class="pfeed-metric-name">🌊 Zero Dead Air</span>
+              <span class="pfeed-metric-name">Continuity</span>
               <span id="pfeedMetricPacing" class="pfeed-metric-val">24/25</span>
             </div>
           </div>
@@ -1395,10 +1408,10 @@
         <div class="pfeed-block">
           <span class="pfeed-block-title">Subtitle Typography Style</span>
           <div class="pfeed-style-pills">
-            <button type="button" class="pfeed-style-pill-btn active" data-style="viral_pop">💥 Hormozi Pop</button>
-            <button type="button" class="pfeed-style-pill-btn" data-style="beast_neon">⚡ Beast Lime</button>
-            <button type="button" class="pfeed-style-pill-btn" data-style="clean_podcast">🎙️ Clean Podcast</button>
-            <button type="button" class="pfeed-style-pill-btn" data-style="cyber_neon">💎 Cyber Neon</button>
+            <button type="button" class="pfeed-style-pill-btn active" data-style="viral_pop">Alex Pop</button>
+            <button type="button" class="pfeed-style-pill-btn" data-style="beast_neon">Electric Lime</button>
+            <button type="button" class="pfeed-style-pill-btn" data-style="clean_podcast">Clean Editorial</button>
+            <button type="button" class="pfeed-style-pill-btn" data-style="cyber_neon">Cyan Minimal</button>
           </div>
         </div>
 

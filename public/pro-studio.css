@@ -1,0 +1,518 @@
+/* ========================================================
+   AUTOCLIPIN — Pro Studio Design System (Obsidian & Titanium)
+   Industrial NLE aesthetic: DaVinci Resolve / Linear tier
+   ======================================================== */
+
+:root {
+  --pro-bg-base: #07080b;
+  --pro-bg-panel: #0d0f15;
+  --pro-bg-card: #131620;
+  --pro-bg-card-hover: #181d2a;
+  --pro-bg-active: #1e2434;
+  --pro-border-subtle: rgba(255, 255, 255, 0.06);
+  --pro-border-medium: rgba(255, 255, 255, 0.12);
+  --pro-border-active: rgba(232, 141, 40, 0.55);
+  
+  --pro-accent-amber: #e88d28;
+  --pro-accent-amber-glow: rgba(232, 141, 40, 0.16);
+  --pro-accent-cyan: #00d4e5;
+  --pro-meter-green: #10b981;
+  --pro-meter-yellow: #f59e0b;
+  --pro-meter-red: #ef4444;
+
+  --pro-text-primary: #f1f5f9;
+  --pro-text-secondary: #94a3b8;
+  --pro-text-muted: #555e70;
+
+  --pro-font-ui: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --pro-font-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  
+  --pro-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --pro-duration: 140ms;
+}
+
+/* Base Body & Reset */
+body.studio-obsidian,
+body[data-theme="dark"] {
+  background-color: var(--pro-bg-base) !important;
+  color: var(--pro-text-primary) !important;
+  font-family: var(--pro-font-ui) !important;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Monospace Tabular Elements */
+.tabular-data,
+.card-timecode,
+.timeline-timecode,
+.beast-metric-val,
+.pfeed-card-idx,
+.pfeed-card-score,
+.pfeed-card-meta,
+.sz-icon-mock,
+.transport-time,
+.time-display {
+  font-family: var(--pro-font-mono) !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+/* ========================================================
+   1. TOPBAR & NAVIGATION RAIL
+   ======================================================== */
+
+.studio-topbar {
+  background: var(--pro-bg-panel) !important;
+  border-bottom: 1px solid var(--pro-border-subtle) !important;
+  height: 48px !important;
+  padding: 0 16px !important;
+  backdrop-filter: blur(20px);
+}
+
+.studio-rail {
+  background: var(--pro-bg-panel) !important;
+  border-right: 1px solid var(--pro-border-subtle) !important;
+}
+
+.rail-btn {
+  border-radius: 8px !important;
+  transition: all var(--pro-duration) var(--pro-ease) !important;
+}
+
+.rail-btn:hover {
+  background: var(--pro-bg-card) !important;
+  color: #fff !important;
+}
+
+.rail-btn.active {
+  background: var(--pro-bg-active) !important;
+  color: var(--pro-accent-amber) !important;
+  box-shadow: inset 0 0 0 1px var(--pro-border-active) !important;
+}
+
+.rail-btn.active .rail-icon svg {
+  stroke: var(--pro-accent-amber) !important;
+}
+
+/* ========================================================
+   2. STREAMLINED DESKTOP COMMAND RIBBON
+   ======================================================== */
+
+.workspace-header {
+  background: var(--pro-bg-panel) !important;
+  border-bottom: 1px solid var(--pro-border-subtle) !important;
+  padding: 8px 16px !important;
+  min-height: 44px !important;
+}
+
+.workspace-controls {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+/* Clean Mode Switch */
+.mode-switch {
+  background: var(--pro-bg-base) !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  border-radius: 6px !important;
+  padding: 2px !important;
+}
+
+.mode-btn {
+  background: transparent !important;
+  border: none !important;
+  color: var(--pro-text-secondary) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 5px 11px !important;
+  border-radius: 4px !important;
+  transition: all var(--pro-duration) var(--pro-ease) !important;
+}
+
+.mode-btn:hover {
+  color: var(--pro-text-primary) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+.mode-btn.active {
+  background: var(--pro-bg-card-hover) !important;
+  color: var(--pro-text-primary) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Primary Action Buttons */
+.primary-btn,
+.pill-btn {
+  font-family: var(--pro-font-ui) !important;
+  border-radius: 6px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  padding: 6px 14px !important;
+  transition: all var(--pro-duration) var(--pro-ease) !important;
+}
+
+.primary-btn.render-btn,
+#renderBtn {
+  background: var(--pro-accent-amber) !important;
+  color: #07080b !important;
+  font-weight: 700 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 2px 8px rgba(232, 141, 40, 0.25) !important;
+}
+
+.primary-btn.render-btn:hover,
+#renderBtn:hover {
+  background: #f59e0b !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(232, 141, 40, 0.4) !important;
+}
+
+.pill-btn {
+  background: var(--pro-bg-card) !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  color: var(--pro-text-secondary) !important;
+}
+
+.pill-btn:hover {
+  background: var(--pro-bg-card-hover) !important;
+  border-color: var(--pro-border-medium) !important;
+  color: var(--pro-text-primary) !important;
+}
+
+.pill-btn.lava-glow-btn {
+  background: var(--pro-bg-card) !important;
+  border: 1px solid rgba(232, 141, 40, 0.3) !important;
+  color: #ffaa33 !important;
+  box-shadow: none !important;
+}
+
+.pill-btn.lava-glow-btn:hover {
+  background: var(--pro-accent-amber-glow) !important;
+  border-color: var(--pro-accent-amber) !important;
+  color: #ffb84d !important;
+}
+
+/* ========================================================
+   3. CANDIDATE HIGHLIGHTS COLUMN (HIGH DENSITY NLE)
+   ======================================================== */
+
+.candidates-column {
+  background: var(--pro-bg-panel) !important;
+  border-right: 1px solid var(--pro-border-subtle) !important;
+}
+
+.candidates-header {
+  padding: 10px 14px !important;
+  border-bottom: 1px solid var(--pro-border-subtle) !important;
+  background: var(--pro-bg-panel) !important;
+}
+
+.candidates-header h3 {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--pro-text-secondary) !important;
+}
+
+/* Candidate Clip Cards */
+.candidate-card {
+  background: var(--pro-bg-card) !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  border-radius: 8px !important;
+  padding: 10px 12px !important;
+  margin-bottom: 8px !important;
+  transition: all var(--pro-duration) var(--pro-ease) !important;
+  position: relative;
+}
+
+.candidate-card:hover {
+  background: var(--pro-bg-card-hover) !important;
+  border-color: var(--pro-border-medium) !important;
+  transform: translateY(-1px);
+}
+
+.candidate-card.active-preview {
+  background: var(--pro-bg-active) !important;
+  border-color: var(--pro-accent-amber) !important;
+  box-shadow: 0 0 0 1px var(--pro-accent-amber), 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Card Top Row */
+.card-top {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 8px !important;
+  gap: 6px !important;
+}
+
+.score-badge {
+  font-family: var(--pro-font-mono) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  padding: 2px 7px !important;
+  border-radius: 4px !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  color: var(--pro-text-primary) !important;
+}
+
+.score-badge.score-high {
+  background: rgba(232, 141, 40, 0.14) !important;
+  border-color: rgba(232, 141, 40, 0.4) !important;
+  color: #ffaa33 !important;
+}
+
+.part-badge,
+.category-badge,
+.status-badge {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  color: var(--pro-text-secondary) !important;
+}
+
+/* Card Title Input */
+.card-title-input {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  color: var(--pro-text-primary) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+  padding: 4px 6px !important;
+  margin-bottom: 8px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  transition: all var(--pro-duration) var(--pro-ease) !important;
+}
+
+.card-title-input:hover {
+  background: rgba(0, 0, 0, 0.3) !important;
+  border-color: var(--pro-border-subtle) !important;
+}
+
+.card-title-input:focus {
+  background: #000 !important;
+  border-color: var(--pro-accent-amber) !important;
+  outline: none !important;
+}
+
+/* Clean Telemetry Scorecard (De-Cringed) */
+.beast-scorecard,
+.hollywood-scorecard {
+  background: rgba(0, 0, 0, 0.35) !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  border-radius: 6px !important;
+  padding: 8px !important;
+  margin-top: 6px !important;
+}
+
+.beast-header,
+.hw-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 6px !important;
+}
+
+.beast-tier-badge,
+.hw-grade-badge {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--pro-text-secondary) !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.beast-score-num,
+.hw-score-num {
+  font-family: var(--pro-font-mono) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: var(--pro-accent-amber) !important;
+}
+
+.beast-breakdown,
+.hw-breakdown {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 4px !important;
+}
+
+.beast-metric,
+.hw-metric {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+  border-radius: 4px !important;
+  padding: 4px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+.beast-metric-name,
+.hw-metric-name {
+  font-size: 9px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  color: var(--pro-text-muted) !important;
+}
+
+.beast-metric-val,
+.hw-metric-val {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: var(--pro-text-primary) !important;
+}
+
+/* ========================================================
+   4. CENTER VIEWPORT & HARDWARE VU METERS
+   ======================================================== */
+
+.preview-column {
+  background: var(--pro-bg-base) !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.canvas-header-bar {
+  background: var(--pro-bg-panel) !important;
+  border-bottom: 1px solid var(--pro-border-subtle) !important;
+  height: 38px !important;
+  padding: 0 12px !important;
+}
+
+.aspect-pill-btn,
+.preset-pill-btn {
+  background: transparent !important;
+  border: none !important;
+  color: var(--pro-text-secondary) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 4px 9px !important;
+  border-radius: 4px !important;
+  transition: all var(--pro-duration) var(--pro-ease) !important;
+}
+
+.aspect-pill-btn:hover,
+.preset-pill-btn:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: #fff !important;
+}
+
+.aspect-pill-btn.active,
+.preset-pill-btn.active {
+  background: var(--pro-bg-card-hover) !important;
+  color: var(--pro-accent-amber) !important;
+  box-shadow: inset 0 0 0 1px var(--pro-border-active) !important;
+}
+
+/* Video Container & Canvas */
+.video-container {
+  background: #000 !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8) !important;
+  border: 1px solid var(--pro-border-subtle) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+/* Audio VU Meter Strip (Hardware Ballistics) */
+.pro-vu-meter-bar {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 2px 4px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.pro-vu-segment {
+  flex: 1;
+  height: 100%;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  transition: background 60ms linear;
+}
+
+.pro-vu-segment.lit-green {
+  background: var(--pro-meter-green);
+  box-shadow: 0 0 4px rgba(16, 185, 129, 0.6);
+}
+
+.pro-vu-segment.lit-yellow {
+  background: var(--pro-meter-yellow);
+  box-shadow: 0 0 4px rgba(245, 158, 11, 0.6);
+}
+
+.pro-vu-segment.lit-red {
+  background: var(--pro-meter-red);
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.8);
+}
+
+/* ========================================================
+   5. RIGHT INSPECTOR DRAWER
+   ======================================================== */
+
+.inspector-column {
+  background: var(--pro-bg-panel) !important;
+  border-left: 1px solid var(--pro-border-subtle) !important;
+}
+
+.editor-tabs {
+  background: var(--pro-bg-panel) !important;
+  border-bottom: 1px solid var(--pro-border-subtle) !important;
+}
+
+.editor-tab {
+  color: var(--pro-text-secondary) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 8px 12px !important;
+  border-bottom: 2px solid transparent !important;
+  transition: all var(--pro-duration) var(--pro-ease) !important;
+}
+
+.editor-tab:hover {
+  color: #fff !important;
+}
+
+.editor-tab.active {
+  color: var(--pro-accent-amber) !important;
+  border-bottom-color: var(--pro-accent-amber) !important;
+}
+
+/* ========================================================
+   6. SCROLLBARS & MICRO-DETAILS
+   ======================================================== */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}

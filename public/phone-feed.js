@@ -130,9 +130,9 @@
           <div class="pfeed-slide-hud">
             <div class="pfeed-hud-top">
               <span class="pfeed-hud-badge ${isUltra ? 'viral' : ''}">
-                ${isUltra ? '🔥 VIRAL HIGH TENSION' : '★ CURATED MOMENT'}
+                ${isUltra ? 'HIGH RETENTION' : 'CANDIDATE'}
               </span>
-              <span class="pfeed-hud-badge">
+              <span class="pfeed-hud-badge" style="font-family: var(--pro-font-mono, monospace);">
                 ${i + 1} / ${clips.length}
               </span>
             </div>
@@ -144,25 +144,25 @@
               </div>
             </div>
 
-            <!-- TikTok Right Rails -->
+            <!-- Mobile Right Rails -->
             <div class="pfeed-hud-right-rail">
-              <button type="button" class="pfeed-rail-action-btn" title="Viral Prediction Score">
-                <div class="pfeed-action-circle">★</div>
-                <span class="pfeed-action-label">${clip.score || 88}</span>
+              <button type="button" class="pfeed-rail-action-btn" title="Retention Index">
+                <div class="pfeed-action-circle" style="font-family: var(--pro-font-mono, monospace); font-size: 11px; font-weight: 800;">${clip.score || 88}</div>
+                <span class="pfeed-action-label">Score</span>
               </button>
 
-              <button type="button" class="pfeed-rail-action-btn" data-action="edit-timeline" title="Edit in Studio Timeline">
+              <button type="button" class="pfeed-rail-action-btn" data-action="edit-timeline" title="Open in Studio Timeline">
                 <div class="pfeed-action-circle">✂️</div>
-                <span class="pfeed-action-label">Edit</span>
+                <span class="pfeed-action-label">Timeline</span>
               </button>
 
-              <button type="button" class="pfeed-rail-action-btn" data-action="copy-hook" title="Copy Viral Hook & Title">
+              <button type="button" class="pfeed-rail-action-btn" data-action="copy-hook" title="Copy Clip Title & Hook">
                 <div class="pfeed-action-circle">📋</div>
                 <span class="pfeed-action-label">Copy</span>
               </button>
 
               <button type="button" class="pfeed-rail-action-btn" data-action="render-single" title="Render Clip in 9:16">
-                <div class="pfeed-action-circle" style="background: linear-gradient(135deg, #ff4500, #ff8c00);">🚀</div>
+                <div class="pfeed-action-circle" style="background: var(--pro-accent-amber, #e88d28); color: #000; font-weight: 800;">⚡</div>
                 <span class="pfeed-action-label">Render</span>
               </button>
             </div>
@@ -171,11 +171,11 @@
             <div class="pfeed-hud-bottom">
               <div class="pfeed-hud-author">
                 <span>@autoclip</span>
-                <span style="font-size: 10px; color: #ffaa00; background: rgba(255,170,0,0.2); padding: 1px 6px; border-radius: 4px;">VERIFIED CUT</span>
+                <span style="font-family: var(--pro-font-mono, monospace); font-size: 10px; color: var(--pro-accent-amber, #e88d28); background: rgba(232, 141, 40, 0.15); padding: 1px 6px; border-radius: 4px;">VERIFIED</span>
               </div>
               <div class="pfeed-hud-title">${escapeHtml(clip.title || '')}</div>
               <div class="pfeed-hud-sound">
-                <span>🎵 Original Audio · ${dur}s loop</span>
+                <span style="font-family: var(--pro-font-mono, monospace);">Original Audio · ${dur}s loop</span>
               </div>
             </div>
           </div>
