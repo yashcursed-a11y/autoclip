@@ -7160,32 +7160,20 @@ function renderLicenseStatus() {
   const quotaBar = $('#weeklyQuotaBar');
   const resetText = $('#weeklyResetText');
 
-  if (lic.isMax) {
+  if (lic.isMax || lic.isUnlimited || lic.tier === 'unlimited_free') {
     if (statusBtn) {
-      statusBtn.style.borderColor = 'rgba(255, 221, 0, 0.6)';
-      statusBtn.style.background = 'rgba(255, 221, 0, 0.15)';
-      statusBtn.style.color = '#ffdd00';
+      statusBtn.style.borderColor = 'rgba(34, 197, 94, 0.5)';
+      statusBtn.style.background = 'rgba(34, 197, 94, 0.15)';
+      statusBtn.style.color = '#4ade80';
     }
     if (pillIcon) pillIcon.textContent = '👑';
-    if (pillText) pillText.textContent = 'AUTOCLIPIN Max';
+    if (pillText) pillText.textContent = '100% Free & Unlimited';
 
     if (tierBadge) {
-      if (lic.tier === 'ultra') {
-        tierBadge.textContent = '🔥 AUTOCLIPIN Ultra (Unlimited)';
-        tierBadge.style.background = 'rgba(168, 85, 247, 0.2)';
-        tierBadge.style.color = '#c084fc';
-        tierBadge.style.borderColor = 'rgba(168, 85, 247, 0.4)';
-      } else if (lic.tier === 'yearly') {
-        tierBadge.textContent = '👑 Yearly VIP Pass (365 Days)';
-        tierBadge.style.background = 'rgba(234, 179, 8, 0.2)';
-        tierBadge.style.color = '#facc15';
-        tierBadge.style.borderColor = 'rgba(234, 179, 8, 0.4)';
-      } else {
-        tierBadge.textContent = '⚡ AUTOCLIPIN Max (1,200 Clips/mo)';
-        tierBadge.style.background = 'rgba(59, 130, 246, 0.2)';
-        tierBadge.style.color = '#60a5fa';
-        tierBadge.style.borderColor = 'rgba(59, 130, 246, 0.4)';
-      }
+      tierBadge.textContent = '👑 100% Free Creator Edition (Unlimited)';
+      tierBadge.style.background = 'rgba(34, 197, 94, 0.2)';
+      tierBadge.style.color = '#4ade80';
+      tierBadge.style.borderColor = 'rgba(34, 197, 94, 0.4)';
     }
     if (holderTitle) holderTitle.textContent = `${lic.holder || 'Creator'} (${lic.tierName || 'Pro Unlocked'})`;
     if (subtitle) subtitle.textContent = lic.isUnlimited ? 'Unlimited 4K vertical exports active' : '1,200 Monthly clip quota active';
