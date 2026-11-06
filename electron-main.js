@@ -203,17 +203,9 @@ function setupAppMenu() {
         },
         { type: 'separator' },
         {
-          label: 'Check for Updates',
+          label: 'Check for Updates...',
           click: () => {
-            if (app.isPackaged) {
-              autoUpdater.checkForUpdatesAndNotify();
-            } else {
-              dialog.showMessageBox(mainWindow, {
-                type: 'info',
-                title: 'AutoClip Updater',
-                message: 'Auto-update is active for packaged desktop builds (.exe).'
-              });
-            }
+            triggerManualUpdateCheck();
           }
         }
       ]
@@ -224,24 +216,115 @@ function setupAppMenu() {
   Menu.setApplicationMenu(menu);
 }
 
+let isManualCheck = false;
+
+function triggerManualUpdateCheck() {
+  const isPortable = Boolean(process.env.PORTABLE_EXECUTABLE_DIR || process.env.PORTABLE_EXECUTABLE_FILE);
+
+  if (isPortable) {
+    dialog.showMessageBox(mainWindow, {
+      type: 'info',
+      title: 'AUTOCLIPIN Portable Edition',
+      message: `You are running the Portable (zero-install) edition of AUTOCLIPIN v${app.getVersion()}.\n\nPortable builds do not support in-place patching. Would you like to check for the latest release on GitHub?`,
+      buttons: ['Download from GitHub', 'Close']
+    }).then(res => {
+      if (res.response === 0) {
+        shell.openExternal('https://github.com/yashcursed-a11y/autoclip/releases');
+      }
+    });
+    return;
+  }
+
+  if (!app.isPackaged) {
+    dialog.showMessageBox(mainWindow, {
+      type: 'info',
+      title: 'AUTOCLIPIN Development',
+      message: `Running in local development mode (v${app.getVersion()}). Auto-updates are active in packaged .exe builds.`
+    });
+    return;
+  }
+
+  isManualCheck = true;
+  dialog.showMessageBox(mainWindow, {
+    type: 'info',
+    title: 'AUTOCLIPIN Updater',
+    message: 'Checking GitHub for new updates...'
+  });
+
+  autoUpdater.checkForUpdates().catch(err => {
+    isManualCheck = false;
+    dialog.showMessageBox(mainWindow, {
+      type: 'warning',
+      title: 'Update Check Notice',
+      message: `Could not reach GitHub updater: ${err.message}\n\nYou can always download the latest release directly from GitHub.`,
+      buttons: ['Open GitHub Releases', 'Dismiss']
+    }).then(res => {
+      if (res.response === 0) {
+        shell.openExternal('https://github.com/yashcursed-a11y/autoclip/releases');
+      }
+    });
+  });
+}
+
 /**
- * Configure silent automatic background updates
+ * Configure automatic background updates with user notifications
  */
 function setupAutoUpdater() {
   if (!app.isPackaged) return;
 
+  autoUpdater.logger = console;
   autoUpdater.autoDownload = true;
   autoUpdater.autoInstallOnAppQuit = true;
 
+  autoUpdater.on('checking-for-update', () => {
+    console.log('[AutoUpdater] Checking for updates on GitHub...');
+  });
+
   autoUpdater.on('update-available', (info) => {
     console.log('[AutoUpdater] Found update:', info.version);
+    isManualCheck = false;
+    dialog.showMessageBox(mainWindow, {
+      type: 'info',
+      title: 'Update Found',
+      message: `A new version of AUTOCLIPIN (v${info.version}) is available!\n\nDownloading the update in the background now...`,
+      buttons: ['OK']
+    });
+  });
+
+  autoUpdater.on('update-not-available', (info) => {
+    console.log('[AutoUpdater] App is up to date:', info.version);
+    if (isManualCheck) {
+      isManualCheck = false;
+      dialog.showMessageBox(mainWindow, {
+        type: 'info',
+        title: 'AUTOCLIPIN is Up to Date',
+        message: `You are already using the newest version of AUTOCLIPIN (v${app.getVersion()})!`
+      });
+    }
+  });
+
+  autoUpdater.on('error', (err) => {
+    console.warn('[AutoUpdater] Error:', err.message);
+    if (isManualCheck) {
+      isManualCheck = false;
+      dialog.showMessageBox(mainWindow, {
+        type: 'warning',
+        title: 'Update Check',
+        message: `Could not verify update: ${err.message}`,
+        buttons: ['Visit GitHub Releases', 'OK']
+      }).then(res => {
+        if (res.response === 0) {
+          shell.openExternal('https://github.com/yashcursed-a11y/autoclip/releases');
+        }
+      });
+    }
   });
 
   autoUpdater.on('update-downloaded', (info) => {
     dialog.showMessageBox(mainWindow, {
-      type: 'info',
-      title: 'AutoClip Update Ready',
-      message: `AutoClip v${info.version} has been downloaded. Restart to update now?`,
+      type: 'question',
+      title: 'AUTOCLIPIN Update Ready',
+      message: `AUTOCLIPIN v${info.version} has finished downloading.\n\nRestart now to apply the update?`,
       buttons: ['Restart and Install', 'Later']
     }).then((btn) => {
       if (btn.response === 0) {
@@ -250,10 +333,13 @@ function setupAutoUpdater() {
     });
   });
 
-  // Check on launch after 4 seconds
-  setTimeout(() => {
-    autoUpdater.checkForUpdatesAndNotify().catch(() => {});
-  }, 4000);
+  // Check on launch after 5 seconds (only for installed app)
+  const isPortable = Boolean(process.env.PORTABLE_EXECUTABLE_DIR || process.env.PORTABLE_EXECUTABLE_FILE);
+  if (!isPortable) {
+    setTimeout(() => {
+      autoUpdater.checkForUpdatesAndNotify().catch(() => {});
+    }, 5000);
+  }
 }
 
 // App lifecycle

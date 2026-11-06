@@ -1747,6 +1747,55 @@ app.post('/api/accounts/verify-instagram', async (req, res) => {
   }
 });
 
+// Check for latest AUTOCLIPIN version on GitHub
+app.get('/api/system/check-update', async (_req, res) => {
+  try {
+    const pkg = JSON.parse(await fsp.readFile(path.join(ROOT, 'package.json'), 'utf8'));
+    const currentVersion = pkg.version || '1.0.1';
+
+    const resp = await fetch('https://api.github.com/repos/yashcursed-a11y/autoclip/releases/latest', {
+      headers: { 'User-Agent': 'AUTOCLIPIN-App' }
+    });
+    if (!resp.ok) {
+      return res.json({ hasUpdate: false, currentVersion, message: 'Could not fetch GitHub releases.' });
+    }
+    const data = await resp.json();
+    const latestTag = data.tag_name || '';
+    const latestVersion = latestTag.replace(/^v/, '');
+
+    const semverCompare = (v1, v2) => {
+      const p1 = v1.split('.').map(Number);
+      const p2 = v2.split('.').map(Number);
+      for (let i = 0; i < Math.max(p1.length, p2.length); i++) {
+        const num1 = p1[i] || 0;
+        const num2 = p2[i] || 0;
+        if (num1 > num2) return 1;
+        if (num1 < num2) return -1;
+      }
+      return 0;
+    };
+
+    const hasUpdate = semverCompare(latestVersion, currentVersion) > 0;
+
+    res.json({
+      hasUpdate,
+      currentVersion,
+      latestVersion,
+      releaseName: data.name,
+      releaseUrl: data.html_url,
+      releaseNotes: data.body,
+      publishedAt: data.published_at,
+      assets: (data.assets || []).map(a => ({
+        name: a.name,
+        size: a.size,
+        downloadUrl: a.browser_download_url
+      }))
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Upload Custom Video Clip directly from PC for Scheduling & Auto Upload
 app.post('/api/posts/upload-clip', upload.single('video'), async (req, res) => {
   try {

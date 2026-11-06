@@ -29,8 +29,25 @@ Upgraded UI, Advanced Adaptive Framing & Timeline Engine.
 ### ⬇️ Download & Install
 Download **AutoClip-Setup-${VERSION}.exe** below and double-click to install on Windows.`;
 
-const SETUP_EXE_PATH = path.join(__dirname, '..', 'dist', `AutoClip Setup ${VERSION}.exe`);
-const PORTABLE_EXE_PATH = path.join(__dirname, '..', 'dist', `AutoClip ${VERSION}.exe`);
+const SETUP_CANDIDATES = [
+  path.join(__dirname, '..', 'dist', `AUTOCLIPIN Setup ${VERSION}.exe`),
+  path.join(__dirname, '..', 'dist', `AUTOCLIPIN-Setup-${VERSION}.exe`),
+  path.join(__dirname, '..', 'dist', `AutoClip Setup ${VERSION}.exe`)
+];
+const SETUP_EXE_PATH = SETUP_CANDIDATES.find(p => fs.existsSync(p)) || SETUP_CANDIDATES[0];
+
+const PORTABLE_CANDIDATES = [
+  path.join(__dirname, '..', 'dist', `AUTOCLIPIN ${VERSION}.exe`),
+  path.join(__dirname, '..', 'dist', `AutoClip ${VERSION}.exe`)
+];
+const PORTABLE_EXE_PATH = PORTABLE_CANDIDATES.find(p => fs.existsSync(p)) || PORTABLE_CANDIDATES[0];
+
+const ZIP_CANDIDATES = [
+  path.join(__dirname, '..', 'dist', `AUTOCLIPIN-Windows-v${VERSION}.zip`),
+  path.join(__dirname, '..', 'dist', `AUTOCLIPIN-${VERSION}-win.zip`)
+];
+const ZIP_PATH = ZIP_CANDIDATES.find(p => fs.existsSync(p)) || null;
+const LATEST_YML_PATH = path.join(__dirname, '..', 'dist', 'latest.yml');
 
 function githubRequest(url, options = {}, postData = null) {
   return new Promise((resolve, reject) => {
@@ -204,33 +221,43 @@ async function main() {
     throw new Error(`File not found: ${SETUP_EXE_PATH}`);
   }
 
-  // Delete existing asset if it exists with same name
-  const setupAssetName = `AutoClip-Setup-${VERSION}.exe`;
-  const portableAssetName = `AutoClip-Portable-${VERSION}.exe`;
+  const setupAssetName = `AUTOCLIPIN-Setup-${VERSION}.exe`;
+  const portableAssetName = `AUTOCLIPIN-Portable-${VERSION}.exe`;
+  const zipAssetName = `AUTOCLIPIN-Windows-v${VERSION}.zip`;
 
   const existingAssets = release.assets || [];
-  const existingAsset = existingAssets.find(a => a.name === setupAssetName || a.name === 'AutoClip-Setup-1.0.0.exe');
-  if (existingAsset) {
-    console.log(`Deleting existing asset ${existingAsset.name} (ID: ${existingAsset.id})...`);
-    await githubRequest(`https://api.github.com/repos/${user.login}/${REPO_NAME}/releases/assets/${existingAsset.id}`, {
-      method: 'DELETE'
-    });
+  for (const name of [setupAssetName, portableAssetName, zipAssetName, 'latest.yml', `AUTOCLIPIN-Setup-${VERSION}.exe.blockmap`]) {
+    const existing = existingAssets.find(a => a.name === name);
+    if (existing) {
+      console.log(`Deleting previous ${name} (ID: ${existing.id})...`);
+      await githubRequest(`https://api.github.com/repos/${user.login}/${REPO_NAME}/releases/assets/${existing.id}`, {
+        method: 'DELETE'
+      });
+    }
   }
 
   const asset = await uploadAsset(release.upload_url, SETUP_EXE_PATH, setupAssetName);
   console.log(`✓ Setup Installer uploaded successfully!`);
 
-  // Step 5: Upload Portable edition if available
+  // Step 5: Upload latest.yml (Required for electron-updater automatic background updates!)
+  if (fs.existsSync(LATEST_YML_PATH)) {
+    console.log(`\n[Step 5] Uploading latest.yml auto-updater manifest...`);
+    await uploadAsset(release.upload_url, LATEST_YML_PATH, 'latest.yml');
+    console.log(`✓ latest.yml auto-updater manifest uploaded!`);
+  }
+
+  // Step 6: Upload Portable edition if available
   if (fs.existsSync(PORTABLE_EXE_PATH)) {
-    console.log(`\n[Step 5] Uploading Portable Executable...`);
-    const existingPortable = existingAssets.find(a => a.name === portableAssetName || a.name === 'AutoClip-Portable-1.0.0.exe');
-    if (existingPortable) {
-      await githubRequest(`https://api.github.com/repos/${user.login}/${REPO_NAME}/releases/assets/${existingPortable.id}`, {
-        method: 'DELETE'
-      });
-    }
+    console.log(`\n[Step 6] Uploading Portable Executable...`);
     await uploadAsset(release.upload_url, PORTABLE_EXE_PATH, portableAssetName);
     console.log(`✓ Portable Executable uploaded successfully!`);
+  }
+
+  // Step 7: Upload Zip Archive if available
+  if (ZIP_PATH && fs.existsSync(ZIP_PATH)) {
+    console.log(`\n[Step 7] Uploading Zip Archive (${path.basename(ZIP_PATH)})...`);
+    await uploadAsset(release.upload_url, ZIP_PATH, zipAssetName);
+    console.log(`✓ Zip Archive uploaded successfully!`);
   }
 
   console.log('\n======================================================');
