@@ -1,10 +1,27 @@
-const { app, BrowserWindow, Menu, shell, dialog } = require('electron');
+const { app, BrowserWindow, Menu, shell, dialog, ipcMain } = require('electron');
+const fs = require('fs');
 const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const http = require('http');
 
 let mainWindow = null;
 const PORT = process.env.PORT || 4173;
+const APP_ZOOM_STEPS = [.6,.67,.75,.8,.9,1,1.1,1.25,1.5];
+let appZoom = 1, zoomConfigured = false;
+function persistAppZoom(factor) {
+  if (!Number.isFinite(factor)) return { factor:appZoom, configured:zoomConfigured };
+  appZoom = Math.max(.6, Math.min(1.5, factor));zoomConfigured = true;
+  mainWindow?.webContents.setZoomFactor(appZoom);
+  try { fs.writeFileSync(path.join(app.getPath('userData'),'interface-zoom.json'), JSON.stringify({factor:appZoom})); } catch (error) { console.warn('Could not persist interface zoom:',error.message); }
+  mainWindow?.webContents.send('autoclip:zoom-changed',{factor:appZoom,configured:true});
+  return { factor:appZoom, configured:true };
+}
+function authorizedZoomSender(event) {
+  if (!mainWindow || event.sender !== mainWindow.webContents) return false;
+  try { const url = new URL(event.senderFrame?.url || event.sender.getURL());return url.protocol==='http:' && ['localhost','127.0.0.1'].includes(url.hostname) && url.port===String(PORT); } catch { return false; }
+}
+ipcMain.handle('autoclip:get-zoom',event=>{if(!authorizedZoomSender(event))throw new Error('Unavailable outside the local studio');return {factor:appZoom,configured:zoomConfigured};});
+ipcMain.handle('autoclip:set-zoom',(event,factor)=>{if(!authorizedZoomSender(event))throw new Error('Unavailable outside the local studio');return persistAppZoom(factor);});
 
 /**
  * Check if the AutoClip backend server is already running
@@ -50,6 +67,7 @@ async function ensureServerRunning() {
  * Create the main desktop application window
  */
 function createWindow() {
+  try { const saved=JSON.parse(fs.readFileSync(path.join(app.getPath('userData'),'interface-zoom.json'),'utf8'));if(Number.isFinite(saved.factor)){appZoom=Math.max(.6,Math.min(1.5,saved.factor));zoomConfigured=true;} } catch {}
   mainWindow = new BrowserWindow({
     width: 1440,
     height: 920,
@@ -59,6 +77,7 @@ function createWindow() {
     backgroundColor: '#0a0c10',
     show: false, // Don't show until ready-to-show for smooth appearance
     webPreferences: {
+      preload: path.join(__dirname,'electron-preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
       webSecurity: true
@@ -67,6 +86,13 @@ function createWindow() {
 
   // Load the local CapCut Studio app
   mainWindow.loadURL(`http://localhost:${PORT}`);
+  mainWindow.webContents.on('did-finish-load',()=>{mainWindow?.webContents.setZoomFactor(appZoom);mainWindow?.webContents.send('autoclip:zoom-changed',{factor:appZoom,configured:zoomConfigured});});
+  mainWindow.webContents.on('before-input-event',(event,input)=>{
+    if(input.type!=='keyDown'||(!input.control&&!input.meta)||input.alt)return;
+    if(['+','=','Add'].includes(input.key)){event.preventDefault();persistAppZoom(APP_ZOOM_STEPS.find(value=>value>appZoom+.001)??1.5);}
+    else if(['-','_','Subtract'].includes(input.key)){event.preventDefault();persistAppZoom([...APP_ZOOM_STEPS].reverse().find(value=>value<appZoom-.001)??.6);}
+    else if(input.key==='0'){event.preventDefault();persistAppZoom(1);}
+  });
 
   // Show window smoothly when content is ready
   mainWindow.once('ready-to-show', () => {
@@ -89,7 +115,13 @@ function createWindow() {
     mainWindow = null;
   });
 
-  setupAppMenu();
+  // Keep Windows/Linux chrome clean; Alt should not restore the legacy menu.
+  if (process.platform === 'darwin') {
+    setupAppMenu();
+  } else {
+    Menu.setApplicationMenu(null);
+    mainWindow.removeMenu();
+  }
 }
 
 /**

@@ -106,6 +106,7 @@ function escapeHtml(str) {
     setupConnectionHelpUI();
     setupAiMcpUI();
     setupMaxAutomateUI();
+    document.dispatchEvent(new Event('autoclip-ready'));
 
     // Setup drag and drop
     setupDragAndDrop();
@@ -259,6 +260,7 @@ function setupDragAndDrop() {
 function getJobOptions() {
   const targetLen = Math.max(20, Number($('#clipLength').value) || 35);
   return {
+    ratingSystem: $('#activeRatingSystemSelect')?.value || 'hollywood',
     templateId: state.selectedTemplate,
     customBrief: $('#customBrief').value.trim(),
     clipCount: Number($('#clipCount').value),
@@ -1316,7 +1318,12 @@ $('#createJob').onclick = async () => {
     let job;
     const options = getJobOptions();
 
-    if (state.activeTab === 'file') {
+    if (state.activeTab === 'max') {
+      btn.disabled = false;
+      progressWrap.classList.add('hidden');
+      $('#maxBoomBtn')?.click();
+      return;
+    } else if (state.activeTab === 'file') {
       const file = $('#videoFile').files[0];
       if (!file) throw new Error('Please choose a video file first.');
 
@@ -1555,12 +1562,76 @@ function renderClipsList() {
           ${isManualSlice ? `<span class="score-badge" style="background: rgba(0, 240, 255, 0.2); color: #00f0ff; border: 1px solid rgba(0, 240, 255, 0.4); font-weight:800;">✂️ Slice #${i + 1}</span>` : `<span class="score-badge ${scoreClass}">★ ${clip.score || 85}/100</span>`}
           ${clipPart ? `<span class="part-badge">Part ${clipPart}</span>` : ''}
           ${clip.viralBadge ? `<span class="viral-tier-badge">${clip.viralBadge}</span>` : ''}
+          ${clip.juicer?.potential ? `<span class="status-badge" style="background: rgba(255,100,0,0.18); color: #ffaa00; font-size: 10px; font-weight:800; border: 1px solid rgba(255,100,0,0.35);">⚡ ${clip.juicer.potential}</span>` : ''}
           ${clip.category ? `<span class="category-badge">${clip.category}</span>` : ''}
           ${clip.recommendedFraming === 'gaming_split' || clip.contentType === 'gaming' ? `<span class="status-badge" style="background: rgba(216,255,62,0.15); color: #D8FF3E; font-size: 10px; font-weight:700; border: 1px solid rgba(216,255,62,0.3);">🎮 Gaming (Cam+Screen)</span>` : ''}
           ${clip.recommendedFraming === 'face_stack' || clip.contentType === 'duo_facetime' ? `<span class="status-badge" style="background: rgba(113,87,255,0.2); color: #B388FF; font-size: 10px; font-weight:700; border: 1px solid rgba(113,87,255,0.4);">👥 Duo FaceTime (Top/Bot)</span>` : ''}
           <span style="font-size:12px; font-weight:800; color:var(--violet);">#${String(i + 1).padStart(2, '0')}</span>
         </div>
         <input class="card-title-input" value="${displayTitle.replace(/"/g, '&quot;')}" data-action="edit-title">
+        ${clip.beast ? `
+          <div class="beast-scorecard">
+            <div class="beast-header">
+              <span class="beast-tier-badge">${clip.beast.tier || '🦁 BEAST Viral Cut'}</span>
+              <span class="beast-score-num">${clip.beast.score ?? 88}/100</span>
+            </div>
+            <div class="beast-breakdown">
+              <div class="beast-metric" title="Heatmap Audio Surge: Redline +6.5dB Ollex Spiking">
+                <span class="beast-metric-name">⚡ Audio Spike</span>
+                <span class="beast-metric-val">${clip.beast.audioSurge ?? '—'}/25</span>
+              </div>
+              <div class="beast-metric" title="Crazy Plot Twist & Absurd Hook (Serviuos Rule 1)">
+                <span class="beast-metric-name">🌪️ Absurd Twist</span>
+                <span class="beast-metric-val">${clip.beast.twist ?? '—'}/25</span>
+              </div>
+              <div class="beast-metric" title="Polarizing Debate & Share Trigger (Serviuos Rule 2)">
+                <span class="beast-metric-name">🔥 High Arousal</span>
+                <span class="beast-metric-val">${clip.beast.arousal ?? '—'}/25</span>
+              </div>
+              <div class="beast-metric" title="Oddly Satisfying Cadence & Zero Dead Air (Rule 4)">
+                <span class="beast-metric-name">🌊 Zero Dead Air</span>
+                <span class="beast-metric-val">${clip.beast.pacing ?? '—'}/25</span>
+              </div>
+            </div>
+            ${clip.beast.brockHook ? `
+              <div class="beast-brock-pill" title="${clip.beast.brockHook.tacticalAdvice || ''}">
+                <span>🎯 <b>Brock 1,300-Hook:</b> ${clip.beast.brockHook.archetype} · ${clip.beast.brockHook.negativeFraming ? '<span style="color:#ef4444;font-weight:700;">🔥 2.3x Loss Aversion</span>' : 'Standard Framing'} · ${clip.beast.brockHook.wordCount} words ${clip.beast.brockHook.inSweetSpot ? '✓' : ''}</span>
+              </div>
+            ` : ''}
+            ${clip.beast.preset ? `
+              <div class="beast-preset-pill">
+                <span>⚡ <b>Beast Setup:</b> ${clip.beast.preset.captionStyle} · ${clip.beast.preset.audioGain} · ${clip.beast.preset.outroEffect}</span>
+              </div>
+            ` : ''}
+          </div>
+        ` : ''}
+        ${clip.hollywood ? `
+          <div class="hollywood-scorecard">
+            <div class="hw-header">
+              <span class="hw-grade-badge">🎬 ${clip.hollywood.grade || 'Hollywood Candidate'}</span>
+              <span class="hw-score-num">${clip.hollywood.score ?? 85}/100</span>
+            </div>
+            <div class="hw-breakdown">
+              <div class="hw-metric" title="Zero Delay: Fluff penalty & speed to value">
+                <span class="hw-metric-name">⚡ Speed</span>
+                <span class="hw-metric-val">${clip.hollywood.speedToValue ?? '—'}/25</span>
+              </div>
+              <div class="hw-metric" title="Zero Confusion: 6th-grade clarity & active voice">
+                <span class="hw-metric-name">🎯 Clarity</span>
+                <span class="hw-metric-val">${clip.hollywood.clarity ?? '—'}/25</span>
+              </div>
+              <div class="hw-metric" title="Audience Relevance: You/Your framing & pain agitation">
+                <span class="hw-metric-name">🫵 You-Frame</span>
+                <span class="hw-metric-val">${clip.hollywood.relevance ?? '—'}/25</span>
+              </div>
+              <div class="hw-metric" title="Curiosity Loop: A vs B Contrarian tension">
+                <span class="hw-metric-name">🔄 Contrast</span>
+                <span class="hw-metric-val">${clip.hollywood.contrast ?? '—'}/25</span>
+              </div>
+            </div>
+            ${clip.hollywood.tip ? `<p class="hw-tip">💡 <b>Hollywood Fix:</b> ${clip.hollywood.tip}</p>` : ''}
+          </div>
+        ` : ''}
         ${clip.breakdown || clip.hookScore ? `
           <div class="score-breakdown-row">
             <span class="breakdown-pill hook" title="First 3s retention hook score">⚡ Hook: <b>${clip.breakdown?.hook ?? clip.hookScore ?? 'N/A'}</b></span>
@@ -1705,7 +1776,7 @@ async function promptSplitStream() {
 }
 window.promptSplitStream = promptSplitStream;
 
-function selectClip(clipId, playImmediately = false) {
+function selectClip(clipId, playImmediately = false, seekPosition = null) {
   state.activeClipId = clipId;
   const clip = state.currentJob?.clips?.find(c => c.id === clipId);
   if (!clip) return;
@@ -1715,7 +1786,7 @@ function selectClip(clipId, playImmediately = false) {
 
   // Seek video
   const video = $('#previewVideo');
-  video.currentTime = clip.start;
+  video.currentTime = seekPosition === null ? clip.start : seekPosition;
   if (playImmediately) video.play();
 
   // Update live caption preview text
@@ -1783,19 +1854,25 @@ function updateClipData(clipId, patch) {
   }
 }
 
+let clipSaveQueue = Promise.resolve();
 async function saveClipsToServer() {
   if (!state.currentJob) return;
-  try {
-    await api(`/api/jobs/${state.currentJob.id}/clips`, {
+  const jobId = state.currentJob.id;
+  const payload = JSON.stringify({ clips: state.currentJob.clips, options: state.currentJob.options });
+  const save = async () => { try {
+    await api(`/api/jobs/${jobId}/clips`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ clips: state.currentJob.clips, options: state.currentJob.options })
+      body: payload
     });
     return true;
   } catch (err) {
     console.error('Failed to save clips:', err);
     return false;
-  }
+  }};
+  const pending = clipSaveQueue.then(save, save);
+  clipSaveQueue = pending.catch(() => false);
+  return pending;
 }
 
 // 6. CapCut-Style Multi-Track Timeline & Manual Trimming Centre
@@ -1921,17 +1998,17 @@ function renderCapCutTimeline() {
   if (markersContainer && state.currentJob?.clips) {
     markersContainer.innerHTML = state.currentJob.clips.map((c, idx) => {
       const leftPct = (c.start / duration) * 100;
-      const widthPct = Math.max(0.6, ((c.end - c.start) / duration) * 100);
+      const widthPct = Math.max(0, ((c.end - c.start) / duration) * 100);
       const isActive = c.id === state.activeClipId;
       const isManual = c.isManual || state.isManualMode;
       return `
         <div class="timeline-clip-range ${isActive ? 'active-clip-range' : ''} ${isManual ? 'manual-slice' : ''}"
              data-clip-id="${c.id}"
              style="left: ${leftPct}%; width: ${widthPct}%;"
-             title="${c.title} (${(c.end - c.start).toFixed(1)}s)">
+             title="${escapeHtml(c.title || 'Clip')} (${(c.end - c.start).toFixed(1)}s)">
           <div class="clip-range-handle left-handle" data-clip-id="${c.id}" data-handle="start" title="Drag to adjust clip start"></div>
           <div class="clip-range-content">
-            <span class="clip-range-title">${isManual ? '✂️ Slice ' + (idx + 1) : '#' + (idx + 1) + ' ' + (c.title || 'Clip')}</span>
+            <span class="clip-range-title">${isManual ? '✂️ Slice ' + (idx + 1) : '#' + (idx + 1) + ' ' + escapeHtml(c.title || 'Clip')}</span>
             <span class="clip-range-score">${c.score || 80}★</span>
           </div>
           <div class="clip-range-handle right-handle" data-clip-id="${c.id}" data-handle="end" title="Drag to adjust clip end"></div>
@@ -1980,29 +2057,25 @@ function renderCapCutTimeline() {
   // 4. Audio Waveform & Energy Surge Lane
   const audioLane = $('#audioWaveLane');
   if (audioLane) {
-    const barCount = Math.min(120, Math.max(40, Math.floor(duration * 2)));
-    const energyData = state.currentJob?.audioAnalysis?.energyLevels || [];
+    const energyData = state.currentJob?.audioAnalysis?.energyLevels?.length ? state.currentJob.audioAnalysis.energyLevels : (state.currentJob?.transcript?.audio_energy || []);
+    const barCount = Math.min(900, energyData.length);
+    audioLane.style.setProperty('--audio-bin-count',String(Math.max(1,barCount)));
+    const maxEnergy = energyData.reduce((max,value)=>Number.isFinite(value)?Math.max(max,value):max,.000001);
     let barsHtml = '';
     for (let i = 0; i < barCount; i++) {
       const pct = (i / barCount) * 100;
-      let energy = 0.35;
-      if (energyData.length > 0) {
-        const dataIdx = Math.floor((i / barCount) * energyData.length);
-        energy = energyData[dataIdx] || 0.3;
-      } else {
-        energy = 0.2 + (Math.sin(i * 0.4) * 0.25 + Math.cos(i * 0.9) * 0.25 + 0.3) * 0.5;
-        if (i % 7 === 0 || i % 11 === 0) energy = Math.min(1.0, energy + 0.45);
-      }
+      const dataIdx = Math.floor((i / barCount) * energyData.length);
+      const energy = Math.max(0, Math.min(1, (Number(energyData[dataIdx]) || 0) / maxEnergy));
       const isSurge = energy >= 0.72;
-      const heightPct = Math.max(15, Math.round(energy * 100));
+      const heightPct = Math.max(2, Math.round(energy * 100));
       barsHtml += `
         <div class="audio-energy-bar ${isSurge ? 'surge-spike' : ''}"
              data-time="${(i / barCount) * duration}"
              style="left: ${pct}%; height: ${heightPct}%;"
-             title="Energy: ${Math.round(energy * 100)}% ${isSurge ? '(Laughter / Volume Surge!)' : ''}">
+             title="Relative measured audio level: ${Math.round(energy * 100)}%">
         </div>`;
     }
-    audioLane.innerHTML = barsHtml;
+    audioLane.innerHTML = barsHtml || '<span class="manual-audio-unavailable">Audio levels unavailable for this source</span>';
 
     audioLane.querySelectorAll('.audio-energy-bar').forEach(bar => {
       bar.onclick = (e) => {
@@ -2539,6 +2612,7 @@ function setupCapCutShortcuts() {
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     if (e.target.closest('button,[role=button],[role=separator]')) return;
     if (document.getElementById('studioView')?.classList.contains('hidden')) return;
+    if (document.querySelector('.modal-backdrop:not(.hidden),.companion-customize:not([hidden]),dialog[open]')) return;
     if (e.target.closest('.template-card,.cps-preset-card,.framing-mode-card')) return;
     const key = e.key.toLowerCase();
     if (e.code === 'Space') {
@@ -2578,6 +2652,7 @@ if (reanalyzeBtn) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          ratingSystem: $('#studioRatingSystemSelect')?.value || $('#activeRatingSystemSelect')?.value || 'hollywood',
           clipCount: Number($('#clipCount')?.value || 5),
           minScore: Number($('#advMinScore')?.value || 75),
           hookSensitivity: $('#advHookSensitivity')?.value || 'aggressive',
@@ -2627,7 +2702,8 @@ $$('.editor-tab').forEach(b => {
     $('#subFraming').classList.toggle('hidden', state.activeSubtab !== 'framing');
     $('#subWatermark').classList.toggle('hidden', state.activeSubtab !== 'watermark');
     $('#subOverlays').classList.toggle('hidden', state.activeSubtab !== 'overlays');
-    $('#subTranscript').classList.toggle('hidden', state.activeSubtab !== 'transcript');
+    $('#subTranscript').classList.toggle('hidden', state.activeSubtab !== 'transcript');
+    if ($('#subBeast')) $('#subBeast').classList.toggle('hidden', state.activeSubtab !== 'beast');
   };
 });
 
@@ -2721,6 +2797,8 @@ $('#saveTranscriptBtn').onclick = async () => {
 // 9. Rendering Pipeline Execution
 $('#renderBtn').onclick = async () => {
   if (!state.currentJob) return;
+  const exportClips = typeof window.getEditorExportClips === 'function' ? window.getEditorExportClips() : state.currentJob.clips;
+  if (!exportClips.length) { alert('Choose at least one clip to export.'); return; }
   const btn = $('#renderBtn');
   btn.disabled = true;
   btn.textContent = 'Rendering...';
@@ -2759,13 +2837,14 @@ $('#renderBtn').onclick = async () => {
       overlays: getActiveClipOverlays(state.activeClipId),
       uploadToDrive: $('#uploadDrive').checked,
       trashOriginalInDrive: $('#trashDriveOriginal').checked,
-      deleteOriginalAfterSuccess: $('#cleanupLocal').checked
+      deleteOriginalAfterSuccess: $('#cleanupLocal').checked,
+      ...(typeof window.getEditorRenderOverrides === 'function' ? window.getEditorRenderOverrides() : {})
     };
 
     await api(`/api/jobs/${state.currentJob.id}/render`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ clips: state.currentJob.clips, options: renderOptions })
+      body: JSON.stringify({ clips: exportClips, options: renderOptions })
     });
 
     // Start polling render progress
@@ -3309,7 +3388,21 @@ function setupSchedulerControls() {
     if (navScheduler) navScheduler.classList.toggle('active', view === 'scheduler');
     if (navProcesses) navProcesses.classList.toggle('active', view === 'processes');
 
-    if (ingestView) ingestView.classList.toggle('hidden', view !== 'ingest');
+    if (ingestView) ingestView.classList.toggle('hidden', view !== 'ingest' && view !== 'max');
+    const railMax = $('#railMaxAutomateBtn');
+    if (railMax) railMax.classList.toggle('active', view === 'max');
+    if (view === 'max') {
+      state.activeTab = 'max';
+      $$('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === 'max'));
+      $('#filePane')?.classList.add('hidden');
+      $('#urlPane')?.classList.add('hidden');
+      const maxPane = $('#maxPane');
+      if (maxPane) {
+        maxPane.classList.remove('hidden');
+        maxPane.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      setTimeout(() => $('#maxChannelUrl')?.focus(), 100);
+    }
     if (studioView) studioView.classList.toggle('hidden', view !== 'studio');
     if (captionPhoneView) captionPhoneView.classList.toggle('hidden', view !== 'captions');
     if (watchView) watchView.classList.toggle('hidden', view !== 'watch');
@@ -6277,6 +6370,7 @@ function setupProcessesAndDiagnostics() {
 
   // 1. Render Hardware Telemetry
   function renderTelemetry(data) {
+    document.dispatchEvent(new CustomEvent('autoclip-telemetry', { detail: data }));
     if (!data) return;
 
     // Health Card
@@ -7057,6 +7151,7 @@ function setupAiMcpUI() {
 // MAX AUTOMATE: One-Click YouTube Channel Scraper & Multi-Video Clipper
 // ------------------------------------------------------------------
 function setupMaxAutomateUI() {
+  const topbarBtn = $('#topbarMaxBtn');
   const railBtn = $('#railMaxAutomateBtn');
   const maxTab = $('#maxTabBtn');
   const maxPane = $('#maxPane');
@@ -7066,27 +7161,42 @@ function setupMaxAutomateUI() {
   const videoCountInput = $('#maxVideoCount');
   const clipsPerVideoSelect = $('#maxClipsPerVideo');
   const qualitySelect = $('#maxQuality');
+  const statusMsg = $('#maxStatusMsg');
   const batchContainer = $('#maxBatchContainer');
   const channelTitleText = $('#maxChannelTitleText');
   const batchMetaText = $('#maxBatchMetaText');
   const batchCountBadge = $('#maxBatchCountBadge');
   const videoGrid = $('#maxVideoGrid');
 
-  // Activate MAX tab
-  function activateMaxTab() {
-    window.switchAppView('ingest');
-    state.activeTab = 'max';
-    $$('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === 'max'));
-    $('#filePane')?.classList.add('hidden');
-    $('#urlPane')?.classList.add('hidden');
-    if (maxPane) {
-      maxPane.classList.remove('hidden');
-      maxPane.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  function showStatus(text, color = '#ffaa00') {
+    if (!statusMsg) return;
+    statusMsg.style.display = 'block';
+    statusMsg.style.color = color;
+    statusMsg.textContent = text;
   }
 
-  if (railBtn) railBtn.onclick = activateMaxTab;
-  if (maxTab) maxTab.onclick = activateMaxTab;
+  function hideStatus() {
+    if (statusMsg) statusMsg.style.display = 'none';
+  }
+
+  // Open & Focus MAX Automate
+  function openMaxAutomate() {
+    window.switchAppView('max');
+  }
+
+  if (topbarBtn) topbarBtn.onclick = openMaxAutomate;
+  if (railBtn) railBtn.onclick = openMaxAutomate;
+  if (maxTab) maxTab.onclick = openMaxAutomate;
+
+  // Channel input: Enter key triggers Inspection or BOOM
+  if (channelInput) {
+    channelInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        inspectChannel();
+      }
+    });
+  }
 
   // Sample Channel Quick Buttons
   $$('.max-sample-btn').forEach(btn => {
@@ -7112,10 +7222,12 @@ function setupMaxAutomateUI() {
   async function inspectChannel(targetUrl = null) {
     const raw = targetUrl || channelInput?.value.trim();
     if (!raw) {
-      alert('Please enter a YouTube Channel URL or @handle.');
+      showStatus('⚠️ Please enter a YouTube Channel URL or @handle.', '#ff5555');
       channelInput?.focus();
       return;
     }
+
+    showStatus('⏳ Resolving channel and fetching recent videos...', '#ffaa00');
 
     if (inspectBtn) {
       inspectBtn.disabled = true;
@@ -7142,8 +7254,9 @@ function setupMaxAutomateUI() {
 
       renderPreviewCards(res.videos || []);
       if (batchContainer) batchContainer.classList.remove('hidden');
+      showStatus('✓ Channel found: ' + res.channelTitle + ' (' + (res.videos?.length || 0) + ' videos ready). Hit BOOM to start clipping!', '#10b981');
     } catch (err) {
-      alert('Failed to inspect channel: ' + err.message);
+      showStatus('❌ Failed to inspect channel: ' + err.message, '#ff5555');
     } finally {
       if (inspectBtn) {
         inspectBtn.disabled = false;
@@ -7197,7 +7310,7 @@ function setupMaxAutomateUI() {
     boomBtn.onclick = async () => {
       const channelUrl = channelInput?.value.trim();
       if (!channelUrl) {
-        alert('Please paste a YouTube Channel URL or @handle first.');
+        showStatus('⚠️ Please paste a YouTube Channel URL or @handle first.', '#ff5555');
         channelInput?.focus();
         return;
       }
@@ -7209,6 +7322,7 @@ function setupMaxAutomateUI() {
       boomBtn.disabled = true;
       boomBtn.innerHTML = '💥 BOOMING... SCRAPING &amp; QUEUING VIDEOS...';
       boomBtn.style.opacity = '0.7';
+      showStatus('💥 BOOM INITIATED: Scraper fetching ' + count + ' videos from ' + channelUrl + '...', '#ffaa00');
 
       try {
         const res = await api('/api/automate/launch', {
@@ -7220,6 +7334,7 @@ function setupMaxAutomateUI() {
             clipsPerVideo,
             options: {
               streamQuality,
+              ratingSystem: $('#maxRatingSystem')?.value || 'hollywood',
               minDuration: 20,
               clipCount: clipsPerVideo
             }
@@ -7250,8 +7365,9 @@ function setupMaxAutomateUI() {
 
         boomBtn.innerHTML = '⚡ BOOM ACTIVE! ' + res.queuedCount + ' VIDEOS CLIPPING IN BACKGROUND';
         boomBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        showStatus('⚡ BOOM ACTIVE: ' + res.queuedCount + ' videos from ' + res.channelTitle + ' are now auto-clipping in the background!', '#10b981');
       } catch (err) {
-        alert('BOOM launch failed: ' + err.message);
+        showStatus('❌ BOOM launch failed: ' + err.message, '#ff5555');
         boomBtn.disabled = false;
         boomBtn.innerHTML = '💥 BOOM! AUTOMATE CLIPPING NOW';
         boomBtn.style.opacity = '1';
@@ -7386,3 +7502,204 @@ function setupMaxAutomateUI() {
     }, 2000);
   }
 }
+
+
+// ==========================================================================
+// 🦁 BEAST & AUDIO ENGINEERING UI EVENT HANDLERS
+// ==========================================================================
+(function initBeastAudioControls() {
+  const musicSlider = document.getElementById('beastMusicVolSlider');
+  const musicLabel = document.getElementById('beastMusicVolLabel');
+  if (musicSlider && musicLabel) {
+    musicSlider.addEventListener('input', (e) => {
+      const pct = Math.round(Number(e.target.value) * 100);
+      musicLabel.textContent = `-${Math.round((1 - Number(e.target.value)) * 24)} dB (${pct}%)`;
+    });
+  }
+
+  const applyBeastBtn = document.getElementById('applyBeastPresetBtn');
+  if (applyBeastBtn) {
+    applyBeastBtn.addEventListener('click', () => {
+      // 1. Select Lemon Milk Bold / Hormozi Phrase
+      const capFont = document.getElementById('editCapFont');
+      if (capFont) capFont.value = 'Oxanium';
+      const capDisplay = document.getElementById('editCapDisplayMode');
+      if (capDisplay) capDisplay.value = 'phrase';
+
+      // 2. Select Gaming Split or Smart Face Lock
+      const framingSelect = document.getElementById('framingPresetSelect');
+      if (framingSelect) framingSelect.value = 'gaming_split';
+
+      // 3. Select Beast Phonk music bed
+      const musicSelect = document.getElementById('beastMusicSelect');
+      if (musicSelect) musicSelect.value = 'beast_phonk_pulse.mp3';
+
+      // 4. Ensure toggles are active
+      if (document.getElementById('beastSeamlessLoopToggle')) document.getElementById('beastSeamlessLoopToggle').checked = true;
+      if (document.getElementById('beastMoodTintToggle')) document.getElementById('beastMoodTintToggle').checked = true;
+      if (document.getElementById('beastDynamicZoomToggle')) document.getElementById('beastDynamicZoomToggle').checked = true;
+
+      alert('🦁 CRAZY BEAST Preset Applied!\n• Music: Beast Phonk Pulse (-20dB ducked)\n• Retention: Daniel Bitton 200% Rewatch Loop\n• Framing: Gaming Split / Smart Face Lock\n• Captions: Lemon Milk Active Word Glow\n• Mood: Threat Red Emotion Grading');
+    });
+  }
+})();
+
+// ==========================================================================
+// 🤖 AUTOCLIP IN-APP AI COPILOT & INTERACTIVE WALKTHROUGH ENGINE
+// ==========================================================================
+(function setupAppAssistant() {
+  const modal = document.getElementById('appAssistantModal');
+  const openBtn = document.getElementById('floatingAiBotBtn');
+  const closeBtn = document.getElementById('closeAssistantModalBtn');
+  const feed = document.getElementById('assistantChatFeed');
+  const input = document.getElementById('assistantInput');
+  const sendBtn = document.getElementById('assistantSendBtn');
+  const sysDiagBtn = document.getElementById('assistantSysDiagBtn');
+  const sysHeaderBtn = document.getElementById('sysStatusBtn');
+  const topHelpBtn = document.getElementById('topbarHelpBtn');
+
+  if (!modal) return;
+
+  function formatMarkdown(md) {
+    if (!md) return '';
+    return md
+      .replace(/### (.*?)\n/g, '<h4 style="margin: 8px 0 4px; color: #fff; font-size: 14px;">$1</h4>')
+      .replace(/#### (.*?)\n/g, '<h5 style="margin: 6px 0 2px; color: #ffaa00; font-size: 13px;">$1</h5>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/`([^`]+)`/g, '<code style="background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #d8ff3e;">$1</code>')
+      .replace(/```([a-z]*)\n([\s\S]*?)```/g, '<pre style="background: #000; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; overflow-x: auto; font-family: monospace; font-size: 12px; color: #38bdf8;">$2</pre>')
+      .replace(/\n/g, '<br>');
+  }
+
+  function appendMessage(sender, htmlContent, actionBtn = null) {
+    if (!feed) return;
+    const bubble = document.createElement('div');
+    bubble.className = `chat-bubble ${sender}`;
+    bubble.innerHTML = htmlContent;
+
+    if (actionBtn && actionBtn.action) {
+      const btn = document.createElement('button');
+      btn.className = 'pill-btn lava-glow-btn';
+      btn.style.marginTop = '10px';
+      btn.style.fontSize = '12px';
+      btn.style.padding = '6px 12px';
+      btn.textContent = actionBtn.text || 'Action';
+      btn.onclick = () => {
+        if (actionBtn.action === 'open_processes') {
+          modal.classList.add('hidden');
+          if (typeof window.switchAppView === 'function') window.switchAppView('processes');
+        }
+      };
+      bubble.appendChild(document.createElement('br'));
+      bubble.appendChild(btn);
+    }
+
+    feed.appendChild(bubble);
+    feed.scrollTop = feed.scrollHeight;
+  }
+
+  async function sendQuery(queryText) {
+    const text = String(queryText || '').trim();
+    if (!text) return;
+
+    appendMessage('user', text);
+    if (input) input.value = '';
+
+    const typingId = 'typing_' + Date.now();
+    const typingBubble = document.createElement('div');
+    typingBubble.className = 'chat-bubble bot';
+    typingBubble.id = typingId;
+    typingBubble.innerHTML = '<em>Thinking &amp; searching AutoClip knowledge base...</em>';
+    feed.appendChild(typingBubble);
+    feed.scrollTop = feed.scrollHeight;
+
+    try {
+      const res = await fetch('/api/assistant/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+      const data = await res.json();
+      const el = document.getElementById(typingId);
+      if (el) el.remove();
+
+      appendMessage('bot', formatMarkdown(data.text), data.actionButton);
+    } catch (err) {
+      const el = document.getElementById(typingId);
+      if (el) el.remove();
+      appendMessage('bot', `<span style="color:#ff5555;">⚠️ Error connecting to assistant: ${err.message}</span>`);
+    }
+  }
+
+  function openAssistant(initialTopic = null) {
+    modal.classList.remove('hidden');
+    if (feed && feed.children.length === 0) {
+      appendMessage('bot', `
+        <h4 style="margin: 0 0 6px 0; color: #fff; font-size: 15px;">👋 Hi! I'm your AutoClip AI Copilot.</h4>
+        <p style="margin: 0; font-size: 12.5px; color: #cbd5e1; line-height: 1.5;">
+          I'm here to answer any questions about the app and walk you step-by-step through:
+        </p>
+        <ul style="margin: 8px 0 8px 18px; padding: 0; font-size: 12px; color: #94a3b8;">
+          <li><b>YouTube Data API v3</b> &amp; 1-click publishing setup</li>
+          <li><b>Google Drive API</b> auto-upload &amp; cloud backups</li>
+          <li><b>MCP Protocol Server</b> (Claude Desktop &amp; Cursor integration)</li>
+          <li><b>CRAZY BEAST Engine v2.0</b> (Brock Johnson 1,300 hooks &amp; 2.3x CTR)</li>
+          <li><b>Daniel Bitton 31s Golden Zone</b> &amp; 200% rewatch retention loop</li>
+        </ul>
+        <p style="margin: 0; font-size: 12px; color: #a855f7;">Click any topic pill above or ask your question below!</p>
+      `);
+    }
+
+    if (initialTopic) {
+      sendQuery(initialTopic);
+    }
+  }
+
+  if (openBtn) openBtn.onclick = () => openAssistant();
+  if (closeBtn) closeBtn.onclick = () => modal.classList.add('hidden');
+  if (topHelpBtn) topHelpBtn.onclick = () => openAssistant('How to link YouTube and Google Drive');
+
+  // When clicking sysStatusBtn, open Assistant with Live Diagnostics
+  if (sysHeaderBtn) {
+    sysHeaderBtn.onclick = (e) => {
+      e.preventDefault();
+      openAssistant('Show system status and hardware diagnostics');
+    };
+  }
+
+  if (sysDiagBtn) {
+    sysDiagBtn.onclick = () => {
+      modal.classList.add('hidden');
+      if (typeof window.switchAppView === 'function') window.switchAppView('processes');
+    };
+  }
+
+  if (sendBtn && input) {
+    sendBtn.onclick = () => sendQuery(input.value);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        sendQuery(input.value);
+      }
+    });
+  }
+
+  // Quick Topic Chips
+  document.querySelectorAll('.assistant-chip').forEach(chip => {
+    chip.onclick = () => {
+      const topicId = chip.dataset.topic;
+      const topicNames = {
+        youtube_api: 'How do I create and connect YouTube API?',
+        google_drive: 'How do I connect Google Drive API?',
+        mcp_protocol: 'How do I connect Claude Desktop or Cursor via MCP?',
+        beast_engine: 'Tell me how the CRAZY BEAST Engine v2.0 and Brock hooks work',
+        daniel_bitton_loop: 'How does Daniel Bitton $1M/month 31 second rewatch loop work?',
+        hollywood_rating: 'How does the Hollywood Rating System work?',
+        max_batch_clipper: 'How do I use MAX Autonomous Batch Auto-Clipper?',
+        troubleshooting: 'Troubleshooting: how do I fix common video and download errors?'
+      };
+      sendQuery(topicNames[topicId] || chip.textContent);
+    };
+  });
+})();

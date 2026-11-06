@@ -1,0 +1,71 @@
+/* Selectable interface structures. Retro rules never touch media pixels. */
+.retro-nav-icon { display:none; }
+.ui-style-options { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:20px 0; }
+.ui-style-options button { display:flex; flex-direction:column; gap:9px; min-width:0; text-align:left; padding:12px; }
+.ui-style-options button[aria-pressed=true] { outline:2px solid var(--theme-accent,#c4b5fd); outline-offset:2px; }
+.ui-style-options strong { font-size:12px; }.ui-style-options small { font-size:10px; line-height:1.5; }
+.ui-style-preview { display:block; height:115px; width:100%; position:relative; overflow:hidden; }
+.ui-style-preview i { position:absolute; inset:0 0 auto; padding:4px 7px; font:10px 'Segoe UI',sans-serif; font-style:normal; }
+.ui-style-preview > span { position:absolute; inset:27px 12px 28px; display:grid; place-items:center; }
+.ui-style-preview b { position:absolute; left:12px; right:12px; bottom:10px; height:8px; background:#9678d4; }
+.preview-modern { background:#18191e; border-radius:12px; color:#e1d5f8; }.preview-modern > span { background:#29272f; border-radius:8px; }
+.preview-retro { background:#c0c0c0; border:2px outset #eee; color:#000; }.preview-retro i { background:#000080; color:#fff; }.preview-retro > span { border:2px inset #eee; background:#fff; }.preview-retro b { background:#008080; }
+.ui-style-status { font-size:11px; }
+body.retro95-ui { --retro-face:var(--theme-surface,#c0c0c0); --retro-ink:var(--theme-text,#000); --retro-shadow:var(--theme-border,#808080); --retro-light:#fff; --retro-title:var(--theme-accent,#000080); --retro-title-ink:var(--theme-on-accent,#fff); }
+body.retro95-ui[data-retro-palette=classic] { --retro-face:#c0c0c0; --retro-ink:#111; --retro-shadow:#808080; --retro-light:#fff; --retro-title:#000080; --retro-title-ink:#fff; --theme-base:#008080; --theme-surface:#c0c0c0; --theme-raised:#d4d0c8; --theme-text:#111; --theme-muted:#414141; --theme-border:#808080; --theme-accent:#000080; --theme-on-accent:#fff; --theme-tint:#d4d0c8; --app-bg:#008080; --ink:#111; --muted:#414141; --line:#808080; }
+body.retro95-ui[data-theme] :is(.app-layout,.app-content,.app-viewport) { background:var(--theme-base,#008080) !important; }
+body.retro95-ui[data-theme] :is(.source-card,.system-metric,.system-history-card,.system-detail-card,.max-channel-card,.modal-card,#connectionHelpModal .modal-card,#licenseModal .modal-card,.companion-customize-card,.theme-world-panel,.editor-shell .candidates-column,.editor-shell .inspector-column,.editor-shell .full-width-timeline,.studio-hub-panel,.companion-panel) {
+ background:var(--retro-face) !important; color:var(--retro-ink) !important; border:2px solid !important; border-color:var(--retro-light) #404040 #404040 var(--retro-light) !important; border-radius:0 !important; box-shadow:inset -1px -1px 0 var(--retro-shadow),inset 1px 1px 0 #dfdfdf !important; backdrop-filter:none !important;
+}
+body.retro95-ui[data-theme] :is(button,.primary-btn,.pill-btn,#createJob,#renderBtn,#maxBoomBtn,.theme-choice,.font-pack-card,.studio-hub-trigger,.companion-customize-trigger):not(.companion-pet):not(.rail-btn) { background:var(--retro-face) !important; color:var(--retro-ink) !important; border:2px solid !important; border-color:var(--retro-light) #404040 #404040 var(--retro-light) !important; border-radius:0 !important; box-shadow:inset -1px -1px var(--retro-shadow) !important; transition:none !important; transform:none !important; }
+body.retro95-ui[data-theme] button:not(.companion-pet):active { border-color:#404040 var(--retro-light) var(--retro-light) #404040 !important; box-shadow:inset 1px 1px var(--retro-shadow) !important; }
+body.retro95-ui[data-theme] button:focus-visible { outline:1px dotted var(--retro-ink) !important; outline-offset:-5px; }
+body.retro95-ui[data-theme] :is(input:not([type=range]):not([type=checkbox]):not([type=color]),select,textarea,.drop-zone,#diagLogsBox) { border:2px inset #eee !important; border-radius:0 !important; background:var(--theme-surface) !important; color:var(--retro-ink) !important; box-shadow:none !important; }
+body.retro95-ui[data-retro-palette=classic] :is(input:not([type=range]):not([type=checkbox]):not([type=color]),select,textarea,#diagLogsBox) { background:#fff !important; color:#000 !important; }
+body.retro95-ui[data-theme] :is(.studio-topbar,.workspace-header,.cps-header,.system-dashboard-header,.scheduler-header,.companion-customize-card > header,.companion-panel > header) { background:var(--retro-title) !important; border:0 !important; border-radius:0 !important; box-shadow:none !important; color:var(--retro-title-ink) !important; }
+body.retro95-ui[data-theme] :is(.studio-topbar,.workspace-header,.cps-header,.system-dashboard-header,.scheduler-header,.companion-customize-card > header,.companion-panel > header) :is(h1,h2,h3,p,small,strong,.project-title,.project-meta,.current-section-name,#jobTitle,#jobSub,.theme-illustrated-heading) { color:var(--retro-title-ink) !important; }
+body.retro95-ui[data-theme] .studio-topbar { padding-top:7px; padding-bottom:7px; border:2px outset #eee !important; }
+body.retro95-ui[data-theme] .current-section-name::before { content:'▣ '; }
+body.retro95-ui[data-theme] .theme-art-strip { border-radius:0; border-top:1px dotted var(--retro-shadow); background-color:transparent; }
+body.retro95-ui[data-theme] :is(.project-pane-label,.editor-toolbar,.canvas-header-bar,.capcut-toolbar,.tracks-headers-col,.customize-nav) { background:var(--retro-face) !important; color:var(--retro-ink) !important; border-radius:0 !important; border-bottom:1px solid var(--retro-shadow); }
+body.retro95-ui.workspace-redesign.capsule-navigation[data-theme] .app-rail { width:94px; padding:10px 7px; background:var(--retro-face) !important; border-right:2px outset #eee; }
+body.retro95-ui.workspace-redesign.capsule-navigation[data-theme] .rail-nav { padding:3px; gap:4px; border:2px inset #eee !important; border-radius:0 !important; background:var(--retro-face) !important; box-shadow:none !important; }
+body.retro95-ui.workspace-redesign.capsule-navigation[data-theme] .rail-nav .rail-btn { width:66px; height:53px; border:2px outset #eee !important; border-radius:0 !important; background:var(--retro-face) !important; color:var(--retro-ink) !important; gap:2px; }
+body.retro95-ui.workspace-redesign.capsule-navigation[data-theme] .rail-nav .rail-btn.active { border:2px inset #eee !important; background:var(--theme-tint,#d4d0c8) !important; color:var(--retro-ink) !important; }
+body.retro95-ui.workspace-redesign.capsule-navigation[data-theme] .rail-btn .rail-label { position:static; width:auto; height:auto; clip-path:none; overflow:visible; font:10px/1.2 var(--theme-font,'Segoe UI'),sans-serif; white-space:normal; color:var(--retro-ink) !important; }
+body.retro95-ui .rail-btn > .rail-icon { display:none; } body.retro95-ui .retro-nav-icon { display:block; width:22px; height:22px; } body.retro95-ui .retro-nav-icon svg { display:block; image-rendering:pixelated; }
+body.retro95-ui .capsule-active-indicator { display:none !important; }
+body.retro95-ui[data-theme] .studio-hub-panel { width:310px; height:auto; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; padding:8px; animation:none; }
+body.retro95-ui .studio-hub-panel[hidden] { display:none !important; } body.retro95-ui .studio-hub-center { display:none; }
+body.retro95-ui[data-theme] .studio-hub-panel [data-hub-action] { position:static !important; inset:auto !important; width:auto; height:58px; min-width:0; transform:none !important; scale:1 !important; font-size:10px !important; }
+body.retro95-ui[data-theme] .studio-hub-trigger::before { content:'▤ '; }
+body.retro95-ui[data-theme] :is(.timeline-clip-range,.candidate-card,.new-framing-card,.property-disclosure,.project-setting-disclosure,.editor-shell .preview-column) { border-radius:0 !important; }
+body.retro95-ui[data-theme] .timeline-clip-range { border:2px outset #ddd !important; background:var(--retro-title) !important; }
+body.retro95-ui[data-theme] :is(.customize-nav button[aria-current=page],.theme-choice[aria-pressed=true],.font-pack-card[aria-pressed=true]) { outline:1px dotted var(--retro-ink); outline-offset:-5px; border-style:inset !important; }
+body.retro95-ui[data-retro-palette=classic] :is(.landing-pill,.modal-card a,.max-channel-card a) { color:#0000ee !important; text-decoration:underline; }
+body.retro95-ui[data-theme] :is(.editor-playback,.companion-bubble) { border-radius:0 !important; border:2px outset #eee; background:var(--retro-face) !important; color:var(--retro-ink) !important; backdrop-filter:none; }
+body.retro95-ui[data-theme] .companion-customize { backdrop-filter:none; background:#0005; }
+body.retro95-ui[data-theme] .theme-scene-art { image-rendering:pixelated; }
+body.retro95-ui[data-theme] .project-pane-label { transform:none !important; }
+body.retro95-ui[data-theme] :is(.theme-choice,.font-pack-card):hover { transform:none !important; }
+@media(max-height:760px) { body.retro95-ui.workspace-redesign.capsule-navigation[data-theme] .rail-nav .rail-btn { height:47px; } }
+@media(max-width:600px) { .ui-style-options { grid-template-columns:1fr; } }
+body.retro95-ui[data-retro-palette=classic] { --theme-font:Tahoma,'Segoe UI',Arial,sans-serif; --theme-heading-font:Tahoma,'Segoe UI',Arial,sans-serif; }
+body.retro95-ui[data-theme] :is(.hero h1,.hero .lede,.hero .eyebrow,.project-settings-heading,.project-settings-description,.editor-library-heading,.new-framing-card strong,.new-framing-card small,.new-framing-summary,.system-health-mark,#diagHealthMsg,#diagCpuPct,#diagRamPct,#diagCpuModel,#diagRamDetail,#diagDiskSummary,#diagServerUptime,.system-chart-header h3,.system-chart-footer,.system-overline,.system-history-summary,.track-header,.ruler-time-label,.customize-page h3,.customize-page p,.customize-page label,.customize-page small,.theme-choice strong,.theme-choice small,.font-pack-card strong,.font-pack-card small,.theme-current,.companion-current) { color:var(--retro-ink) !important; }
+body.retro95-ui[data-theme] :is(.system-detail-card,.max-channel-card,.source-card,.inspector-column,.candidates-column) :is(h2,h3,h4,label,p,small) { color:var(--retro-ink) !important; }
+body.retro95-ui[data-theme] .font-live-specimen { border:2px inset #eee; border-radius:0; }
+body.retro95-ui[data-theme] .hero { border:2px outset #eee; background:var(--retro-face) !important; padding:18px; margin:12px 0; }
+body.retro95-ui[data-theme] .hero h1 { font-size:28px; font-weight:700; letter-spacing:0; }
+
+/* Retro readability pass: inherited content text and explicit title-bar contrast. */
+body.retro95-ui[data-theme] { color:var(--retro-ink); }
+body.retro95-ui[data-theme] :is(.project-settings-column,.project-setting-disclosure,.sub-panel,.sub-grid,.editor-source-card,.candidate-card,.sched-form-card,.sched-config-card,.cps-controls-sidebar,.cps-presets-sidebar,.cps-control-group,.cps-control-section,.font-live-specimen,.theme-bot-identity) { background:var(--retro-face) !important; color:var(--retro-ink) !important; border-color:var(--retro-shadow) !important; }
+body.retro95-ui[data-theme] :is(.source-card,.project-settings-column,.new-framing-section,.inspector-column,.candidates-column,.system-metric,.system-history-card,.system-detail-card,.max-channel-card,.modal-card,.companion-customize-card,.companion-panel,.sched-form-card,.sched-config-card,.cps-controls-sidebar,.cps-presets-sidebar)
+:is(h1,h2,h3,h4,p,small,label,summary,span,strong,td,th,output,legend):not(:is(.companion-customize-card > header,.companion-panel > header,.cps-card-sample,.theme-workspace-preview,.ui-style-preview,.font-pack-sample) *) { color:var(--retro-ink) !important; text-shadow:none !important; }
+body.retro95-ui[data-theme] :is(.studio-topbar,.workspace-header,.cps-header,.system-dashboard-header,.scheduler-header,.companion-customize-card > header,.companion-panel > header)
+:is(h1,h2,h3,p,small,strong,span):not(button *):not(.status-pill *) { color:var(--retro-title-ink) !important; }
+body.retro95-ui[data-theme] :is(.canvas-header-bar,.editor-toolbar,.editor-playback,.capcut-toolbar) :is(span,output,label,small) { color:var(--retro-ink) !important; }
+body.retro95-ui[data-theme] input::placeholder,body.retro95-ui[data-theme] textarea::placeholder { color:#555 !important; opacity:1; }
+body.retro95-ui[data-retro-palette=theme] input::placeholder,body.retro95-ui[data-retro-palette=theme] textarea::placeholder { color:var(--theme-muted) !important; }
+body.retro95-ui[data-theme] .timeline-clip-range :is(span,.clip-range-title) { color:var(--retro-title-ink) !important; }
+body.retro95-ui[data-theme] :is(.theme-choice,.font-pack-card,.ui-style-options button) small { opacity:1; }

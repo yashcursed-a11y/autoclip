@@ -1,0 +1,52 @@
+[
+  {
+    "family": "Space Grotesk",
+    "slug": "spacegrotesk",
+    "source": "https://github.com/google/fonts/tree/main/ofl/spacegrotesk"
+  },
+  {
+    "family": "Syne",
+    "slug": "syne",
+    "source": "https://github.com/google/fonts/tree/main/ofl/syne"
+  },
+  {
+    "family": "Unbounded",
+    "slug": "unbounded",
+    "source": "https://github.com/google/fonts/tree/main/ofl/unbounded"
+  },
+  {
+    "family": "Oxanium",
+    "slug": "oxanium",
+    "source": "https://github.com/google/fonts/tree/main/ofl/oxanium"
+  },
+  {
+    "family": "Fraunces",
+    "slug": "fraunces",
+    "source": "https://github.com/google/fonts/tree/main/ofl/fraunces"
+  },
+  {
+    "family": "Fredoka",
+    "slug": "fredoka",
+    "source": "https://github.com/google/fonts/tree/main/ofl/fredoka"
+  },
+  {
+    "family": "Bricolage Grotesque",
+    "slug": "bricolagegrotesque",
+    "source": "https://github.com/google/fonts/tree/main/ofl/bricolagegrotesque"
+  },
+  {
+    "family": "Space Mono",
+    "slug": "spacemono",
+    "source": "https://github.com/google/fonts/tree/main/ofl/spacemono"
+  },
+  {
+    "family": "UnifrakturCook",
+    "slug": "unifrakturcook",
+    "source": "https://github.com/google/fonts/tree/main/ofl/unifrakturcook"
+  },
+  {
+    "family": "Rubik Glitch",
+    "slug": "rubikglitch",
+    "source": "https://github.com/google/fonts/tree/main/ofl/rubikglitch"
+  }
+]

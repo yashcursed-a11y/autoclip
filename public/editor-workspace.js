@@ -221,7 +221,7 @@
   closeOutputs.classList.add('editor-output-close');$('.outputs-header')?.append(closeOutputs);
   document.addEventListener('keydown',event=>{
     if($('#studioView').classList.contains('hidden') || event.target.closest('input,textarea,select,[contenteditable=true],.modal-backdrop'))return;
-    if(document.querySelector('.modal-backdrop:not(.hidden)'))return;
+    if(document.querySelector('.modal-backdrop:not(.hidden),.companion-customize:not([hidden]),dialog[open],.editor-context-menu:not([hidden])'))return;
     if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='z'){
       event.preventDefault();event.stopImmediatePropagation();restoreHistory(event.shiftKey?1:-1);
     } else if(!event.ctrlKey&&!event.metaKey&&!event.altKey&&event.key.toLowerCase()==='f'){

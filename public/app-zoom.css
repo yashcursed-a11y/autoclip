@@ -1,0 +1,33 @@
+/* Native app zoom needs no CSS scaling. This fallback supports browser-hosted AutoClip. */
+:root { --app-zoom-factor:1; --app-viewport-height:calc(100dvh / var(--app-zoom-factor)); --app-viewport-width:calc(100dvw / var(--app-zoom-factor)); }
+.app-zoom-controls { display:flex; align-items:center; gap:0; border:1px solid var(--theme-border,#45404f); border-radius:6px; overflow:hidden; flex-shrink:0; }
+.app-zoom-controls button { min-width:24px; height:27px; padding:3px 5px; border:0; border-radius:0; background:var(--theme-surface,#25222c); color:var(--theme-text,#ded7e9); font-size:11px; cursor:pointer; }
+.app-zoom-controls button:disabled { opacity:.35; cursor:default; }
+.app-zoom-controls .app-zoom-reset { min-width:42px; font:10px Consolas,monospace !important; border-left:1px solid #8883; border-right:1px solid #8883; }
+.app-zoom-controls button:hover:not(:disabled) { background:var(--theme-tint,#3b304e); }
+.app-zoom-setting { margin-top:20px; border-top:1px solid var(--theme-border,#45404f); padding-top:16px; }
+.app-zoom-setting label { display:flex; align-items:center; justify-content:space-between; gap:14px; font-size:13px; }
+.app-zoom-setting select { min-width:90px; padding:6px; }
+.app-zoom-setting small { display:block; margin:10px 0; font-size:11px; line-height:1.6; }
+.app-zoom-status { font-size:11px; }
+body.css-app-zoom { zoom:var(--app-zoom-factor); width:var(--app-viewport-width); min-height:var(--app-viewport-height); }
+body.css-app-zoom :is(.app-layout,.app-viewport) { min-height:var(--app-viewport-height); }
+body.css-app-zoom.desktop-clip-editor:has(#studioView:not(.hidden)),
+body.css-app-zoom.desktop-clip-editor:has(#studioView:not(.hidden)) :is(.app-layout,.app-viewport,.app-rail) { height:var(--app-viewport-height) !important; }
+body.css-app-zoom :is(.modal-backdrop,.companion-customize) { inset:0 auto auto 0; width:var(--app-viewport-width); height:var(--app-viewport-height); }
+body.css-app-zoom .editor-context-menu { max-height:calc(var(--app-viewport-height) - 12px); max-width:calc(var(--app-viewport-width) - 12px); }
+/* All five tracks fit the default timeline; small rows retain independent scroll when needed. */
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .studio-layout-capcut { grid-template-rows:minmax(0,1fr) 6px clamp(220px,var(--manual-timeline-height,250px),46%) 18px; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .tracks-lanes-content { height:142px !important; min-height:142px !important; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell :is(#rulerLane,.ruler-lane,.ruler-header) { height:24px !important; min-height:24px !important; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell :is(.video-lane,.video-header) { height:42px !important; min-height:42px; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell :is(.caption-lane,.caption-header) { height:24px !important; min-height:24px; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell :is(.audio-wave-lane,.audio-header) { height:30px !important; min-height:30px; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell :is(.overlay-lane,.overlay-header) { height:22px !important; min-height:22px; }
+body.desktop-clip-editor .editor-shell .timeline-clip-range { top:5px; bottom:5px; }
+body.desktop-clip-editor .editor-shell .caption-block-pill { top:3px; bottom:3px; height:18px; }
+body.desktop-clip-editor .editor-shell .overlay-block-pill { max-height:18px; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell.is-focus .studio-layout-capcut { grid-template-rows:minmax(0,1fr); }
+body.css-app-zoom .manual-shortcuts { max-height:calc(var(--app-viewport-height) * .8); }
+@media(max-width:1000px) { body.desktop-clip-editor .topbar-project-info { max-width:250px; } body.desktop-clip-editor .studio-topbar .project-meta { display:none; } }
+body.desktop-clip-editor .manual-marker-layer { height:24px; }

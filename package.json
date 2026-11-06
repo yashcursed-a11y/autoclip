@@ -11,9 +11,15 @@
     "start": "electron electron-main.js",
     "app": "electron electron-main.js",
     "build:exe": "electron-builder --win",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux",
+    "build:all": "electron-builder -mwl",
     "server": "node server.js",
     "check": "node --check server.js && node --check public/app.js && node --check electron-main.js",
-    "test": "node test/e2e.test.js"
+    "test": "node test/e2e.test.js",
+    "build:website": "npm --prefix website run build",
+    "sync:website": "node scripts/sync-website.cjs"
   },
   "build": {
     "appId": "com.autoclip.pro",
@@ -27,6 +33,33 @@
         "portable"
       ]
     },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "category": "public.app-category.video",
+      "hardenedRuntime": true
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Video"
+    },
     "nsis": {
       "oneClick": true,
       "createDesktopShortcut": true,
@@ -36,7 +69,9 @@
     "files": [
       "**/*",
       "!dist/**",
-      "!work/**"
+      "!work/**",
+      "!website/**",
+      "!.github/**"
     ]
   },
   "keywords": [],

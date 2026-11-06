@@ -1,0 +1,22 @@
+/* Font browser shares each theme's palette, with independent type specimens. */
+.font-live-specimen { display:flex; flex-direction:column; gap:10px; padding:20px; margin:18px 0; background:var(--theme-tint,#30283f); border:1px solid var(--theme-border,#51445f); border-radius:12px; color:var(--theme-text,#eee9f5); }
+.font-specimen-label { font:10px/1.4 'Segoe UI',sans-serif; letter-spacing:.13em; color:var(--theme-muted,#b8b0c6); }
+.font-live-heading { font-family:var(--theme-heading-font,var(--theme-font)); font-size:26px; line-height:1.3; overflow-wrap:anywhere; }
+.font-live-body { font-family:var(--theme-font); font-size:12px; line-height:1.6; }
+.font-live-specimen code { font:11px/1.5 Consolas,'Courier New',monospace; }
+.font-role-controls { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.font-role-controls label { display:flex; flex-direction:column; gap:7px; font-size:11px; color:var(--theme-muted,#b8b0c6); min-width:0; }
+.font-role-controls select { width:100%; min-width:0; padding:9px; color:var(--theme-text,#eee9f5); background:var(--theme-raised,#30283f); border:1px solid var(--theme-border,#51445f); border-radius:7px; font-size:11px; }
+.font-theme-reset { margin:12px 0 20px; }
+.font-pack-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+body[data-theme] .companion-customize-card .font-pack-card { display:flex; flex-direction:column; align-items:stretch; gap:6px; min-width:0; padding:14px; text-align:left; background:var(--theme-surface,#24212c) !important; border:1px solid var(--theme-border,#51445f) !important; border-radius:10px; color:var(--theme-text,#eee9f5) !important; }
+body[data-theme] .companion-customize-card .font-pack-card:hover { background:var(--theme-tint,#30283f) !important; }
+body[data-theme] .companion-customize-card .font-pack-card[aria-pressed=true] { border-color:var(--theme-accent,#c4b5fd) !important; box-shadow:0 0 0 1px var(--theme-accent,#c4b5fd); }
+.font-pack-sample { display:flex; align-items:center; min-height:64px; padding-bottom:12px; margin-bottom:6px; font-size:22px; line-height:1.35; border-bottom:1px solid var(--theme-border,#51445f); overflow-wrap:anywhere; }
+.font-pack-card strong { font-size:12px; }
+.font-pack-card small,.font-pack-families { color:var(--theme-muted,#b8b0c6) !important; font:10px/1.5 'Segoe UI',sans-serif !important; }
+.font-pack-families { margin-top:4px; }
+.font-selection-status { font-size:11px; margin:15px 0 8px; }
+.fonts-page .font-pack-footnote { font-size:10px; opacity:.75; }
+body[data-theme] :is(.editor-playback output,.ruler-time-label,#timeDisplay) { font-family:Consolas,'Courier New',monospace !important; }
+@media(max-width:600px) { .font-pack-grid,.font-role-controls { grid-template-columns:1fr; } }

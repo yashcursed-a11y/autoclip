@@ -5,10 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AUTOCLIP — AI Short-Form Video Studio</title>
   <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/editor-workspace.css">
-  <link rel="stylesheet" href="/interface.css">
-  <link rel="stylesheet" href="/adaptive-framing.css">
-  <link rel="stylesheet" href="/new-framing.css">
+  <link rel="stylesheet" href="/themes.css">
+  <link rel="stylesheet" href="/assets/fonts/fonts.css">
+  <link rel="stylesheet" href="/font-packs.css">
+  <link rel="stylesheet" href="/ui-styles.css">
+  <link rel="stylesheet" href="/manual-editor.css">
+  <link rel="stylesheet" href="/editor-desktop.css">
+  <link rel="stylesheet" href="/app-zoom.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@600;800;900&family=Bangers&family=Roboto:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -79,6 +82,7 @@
           </div>
         </div>
         <div class="topbar-right">
+          <button id="topbarMaxBtn" class="status-pill max-pill" title="⚡ MAX AUTOMATE: YouTube Channel Auto-Clipper" style="background: linear-gradient(135deg, rgba(255, 140, 0, 0.25), rgba(255, 60, 0, 0.25)); border: 1px solid rgba(255, 150, 0, 0.5); color: #ffaa00; font-weight: 800; cursor: pointer;">⚡ MAX AUTOMATE</button>
           <button id="topbarAiMcpBtn" class="status-pill ai-pill" title="Connect Claude, ChatGPT, Gemini, or MCP Server" style="background: linear-gradient(135deg, rgba(147, 51, 234, 0.25), rgba(59, 130, 246, 0.25)); border: 1px solid rgba(168, 85, 247, 0.4); color: #c084fc; font-weight: 700;">🤖 AI &amp; MCP Hub</button>
           <button id="licenseStatusBtn" class="status-pill license-pill">
             <span id="licensePillIcon">⚡</span>
@@ -100,9 +104,9 @@
           <section class="hero">
             <div class="hero-content">
               <div class="yashcursed-hero-credit">⚡ ARCHITECTURE &amp; CREATIVE DESIGN · <span>MADE BY yashcursed</span></div>
-              <p class="eyebrow">YOUR CREATIVE ADVANTAGE</p>
-              <h1>Find your next<br><em>standout moment.</em></h1>
-              <p class="lede">Long recordings. Great moments. One focused workspace to discover, cut, and caption your next short.</p>
+              <p class="eyebrow">NEW PROJECT</p>
+              <h1>A little less footage.<br><em>A lot more story.</em></h1>
+              <p class="lede">Bring in your recording. We’ll help you find the moments worth sharing.</p>
             </div>
           </section>
 
@@ -127,7 +131,7 @@
           <label class="drop-zone" id="dropZone">
             <input id="videoFile" type="file" accept="video/*">
             <div class="drop-icon">🎬</div>
-            <strong>Drop a recording. Start creating.</strong>
+            <strong>Drop your video here</strong>
             <small>Supports MP4, MOV, MKV, WebM, AVI (up to 100 GB)</small>
             <b id="fileName">Choose a video to get started</b>
           </label>
@@ -145,7 +149,9 @@
               </select>
             </div>
             <small class="hint">⚡ Fast multi-fragment download with real-time speed & ETA. Optimized for long streams.</small>
-          
+          </div>
+        </div>
+
         <!-- MAX AUTOMATE TAB PANE -->
         <div id="maxPane" class="hidden" style="margin-top: 14px;">
           <div style="background: radial-gradient(circle at top, rgba(255, 140, 0, 0.12), rgba(18, 20, 26, 0.95)); border: 1px solid rgba(255, 150, 0, 0.35); border-radius: 12px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 30px rgba(255, 140, 0, 0.1);">
@@ -222,11 +228,27 @@
               </div>
             </div>
 
+            <!-- Field 2b: Auto Clip Rating System -->
+            <div style="margin-bottom: 20px;">
+              <label for="maxRatingSystem" style="display: block; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #ffaa00; margin-bottom: 6px;">
+                🎬 Auto Clip Rating System
+              </label>
+              <select id="maxRatingSystem" style="width: 100%; padding: 10px 14px; border-radius: 8px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,170,0,0.4); color: #fff; font-size: 13px; font-weight: 700;">
+                <option value="beast" selected>🦁 CRAZY BEAST Engine (Deagzzz &amp; Ollex 10M+ Outliers) — 👑 ULTIMATE</option>
+                <option value="hollywood">🎬 HOLLYWOOD Rating System (Zero Delay, 6th-Grade Clarity, Pain Agitation &amp; Contrast Loops) — Recommended</option>
+                <option value="offline_v3">⚡ Offline v3 Engine (High-energy audio &amp; density markers)</option>
+                <option value="claude">🧠 Anthropic Claude 3.5 Sonnet (Deep narrative &amp; hook retention)</option>
+                <option value="openai">🟢 OpenAI GPT-4o Viral Engine</option>
+                <option value="gemini">✨ Google Gemini 1.5 Flash</option>
+              </select>
+            </div>
+
             <!-- Field 3: THE BOOM BUTTON -->
             <div style="margin-bottom: 16px;">
               <button type="button" id="maxBoomBtn" class="pill-btn lava-glow-btn" style="width: 100%; font-size: 16px; font-weight: 900; padding: 16px 24px; background: linear-gradient(135deg, #ff8800, #ff2200); color: #fff; border: none; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; border-radius: 10px; box-shadow: 0 0 35px rgba(255, 100, 0, 0.45); transition: all 0.2s ease;">
                 💥 BOOM! AUTOMATE CLIPPING NOW
               </button>
+              <div id="maxStatusMsg" style="margin-top: 10px; font-size: 13px; font-weight: 700; text-align: center; display: none;"></div>
             </div>
 
             <!-- Field 4: Live Channel & Batch Feed -->
@@ -304,6 +326,17 @@
           </select>
           <small class="hint">Canvas aspect ratio</small>
         </label>
+        <label>
+          🎬 Auto Clip Rating System
+          <select id="activeRatingSystemSelect">
+            <option value="hollywood" selected>🎬 HOLLYWOOD Rating System (Recommended)</option>
+            <option value="offline_v3">⚡ Offline v3 Engine (Density &amp; Energy)</option>
+            <option value="claude">🧠 Anthropic Claude 3.5 Sonnet</option>
+            <option value="openai">🟢 OpenAI GPT-4o Viral Engine</option>
+            <option value="gemini">✨ Google Gemini 1.5 Flash</option>
+          </select>
+          <small class="hint">Zero delay, 6th-grade clarity &amp; curiosity loops</small>
+        </label>
       </div>
 
       <section class="new-framing-section" aria-label="AI auto framing">
@@ -336,13 +369,14 @@
         </div>
       </section>
 
-      <details class="studio-disclosure"><summary>Caption style &amp; transcription <span>Customize your output</span></summary>
+      <details class="studio-disclosure"><summary>More options <span>Customize your output</span></summary>
       <!-- Advanced Style & Transcription Quick Picks -->
       <div class="settings-grid">
         <label>
           Caption Preset
           <select id="captionPresetSelect">
-            <option value="viral-pop" selected>🔥 Viral Pop (Neon yellow, pop animation, uppercase)</option>
+            <option value="lemon-milk-speed" selected>🍋 Lemon Milk Bold (iShowSpeed &amp; Deagzzz Viral Pop)</option>
+            <option value="viral-pop">🔥 Viral Pop (Neon yellow, pop animation, uppercase)</option>
             <option value="clean-podcast">🎙️ Clean Podcast (Subtle cyan highlight, clean phrase)</option>
             <option value="gaming-energy">⚡ Gaming Energy (Impact font, red/orange fire glow)</option>
             <option value="minimal">✨ Minimal (Elegant white text, subtle shadow)</option>
@@ -667,6 +701,14 @@
           <div class="candidates-header">
             <h3>AI highlights</h3>
             <div style="display: flex; align-items: center; gap: 6px;">
+              <select id="studioRatingSystemSelect" style="padding: 5px 8px; border-radius: 6px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,170,0,0.4); color: #ffaa00; font-size: 11px; font-weight: 700; cursor: pointer;">
+                <option value="beast" selected>🦁 CRAZY BEAST</option>
+                <option value="hollywood" selected>🎬 HOLLYWOOD Rating</option>
+                <option value="offline_v3">⚡ Offline v3 Engine</option>
+                <option value="claude">🧠 Claude 3.5 Sonnet</option>
+                <option value="openai">🟢 OpenAI GPT-4o</option>
+                <option value="gemini">✨ Gemini 1.5 Flash</option>
+              </select>
               <button type="button" id="reanalyzeClipsBtn" class="pill-btn" title="Re-evaluate viral moments with new rating criteria">⚡ Re-Score Clips</button>
               <button type="button" id="batchScheduleAllClipsBtn" class="pill-btn lava-glow-btn" title="Batch post or schedule all clips across social accounts">⚡ Batch Post / Schedule</button>
               <button id="addClipBtn" class="pill-btn">+ Add Custom Clip</button>
@@ -1078,6 +1120,74 @@
                 <button id="saveTranscriptBtn" class="pill-btn">💾 Save Transcript Edits</button>
               </div>
               <div id="transcriptList" class="transcript-list"></div>
+
+
+            <!-- Subpanel: Beast & Audio Engineering -->
+            <div id="subBeast" class="sub-panel hidden">
+              <div style="background: radial-gradient(circle at top left, rgba(255, 68, 0, 0.15), rgba(20, 20, 25, 0.95)); border: 1px solid rgba(255, 68, 0, 0.4); border-radius: 10px; padding: 14px; margin-bottom: 12px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                  <strong style="color: #ff5500; font-size: 13px;">🦁 Beast Editing Engine v2.0</strong>
+                  <span class="beast-score-num" id="beastCurrentScoreBadge">BEAST MODE</span>
+                </div>
+                <p style="font-size: 11px; color: #9ca3af; margin-bottom: 12px; line-height: 1.4;">
+                  Engineered from Money Groot (Deagzzz 539M views), Daniel Bitton ($1M/mo 31s shorts), and Brock Johnson (1,300 Hook study).
+                </p>
+
+                <!-- Background Music Selector -->
+                <div style="margin-bottom: 12px;">
+                  <label style="display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #fed7aa; margin-bottom: 4px;">
+                    🎵 Background Music Bed (Auto-Ducked)
+                  </label>
+                  <select id="beastMusicSelect" style="width: 100%; padding: 8px 10px; border-radius: 6px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,100,0,0.4); color: #fff; font-size: 12px;">
+                    <option value="">🚫 None (Original Dialogue Only)</option>
+                    <option value="beast_phonk_pulse.mp3" selected>⚡ Beast Phonk Pulse (130 BPM Hype &amp; Rage)</option>
+                    <option value="suspense_tension_drone.mp3">🌪️ Suspense &amp; Tension Drone (180° Twists &amp; Revelations)</option>
+                    <option value="lofi_viral_groove.mp3">☕ Lofi Viral Storytelling (Daniel Bitton Chill Groove)</option>
+                  </select>
+                </div>
+
+                <!-- Music Volume Slider -->
+                <div style="margin-bottom: 12px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 11px; color: #9ca3af; margin-bottom: 4px;">
+                    <span>Audio Ducking Level (Under Speech)</span>
+                    <span id="beastMusicVolLabel">-20 dB (15%)</span>
+                  </div>
+                  <input type="range" id="beastMusicVolSlider" min="0.05" max="0.4" step="0.01" value="0.15" style="width: 100%; accent-color: #ff5500;">
+                </div>
+
+                <!-- Daniel Bitton 200% Rewatch Loop -->
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; margin-bottom: 8px;">
+                  <div>
+                    <div style="font-size: 12px; font-weight: 700; color: #fff;">🔄 Daniel Bitton 200% Rewatch Loop</div>
+                    <div style="font-size: 10px; color: #9ca3af;">Snaps outro tail into 3s hook without trailing dead air</div>
+                  </div>
+                  <input type="checkbox" id="beastSeamlessLoopToggle" checked style="accent-color: #ff5500; width: 16px; height: 16px;">
+                </div>
+
+                <!-- Threat / Conflict Red Mood Tint -->
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; margin-bottom: 8px;">
+                  <div>
+                    <div style="font-size: 12px; font-weight: 700; color: #fff;">🚨 Emotion Threat Red Mood Tint</div>
+                    <div style="font-size: 10px; color: #9ca3af;">Auto-grades color saturation &amp; redline on high-conflict beats</div>
+                  </div>
+                  <input type="checkbox" id="beastMoodTintToggle" checked style="accent-color: #ff5500; width: 16px; height: 16px;">
+                </div>
+
+                <!-- Dynamic Zoom Cuts -->
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; margin-bottom: 12px;">
+                  <div>
+                    <div style="font-size: 12px; font-weight: 700; color: #fff;">🔍 Deagzzz Dynamic Zoom Punch-Ins</div>
+                    <div style="font-size: 10px; color: #9ca3af;">1.25x camera scale pops on high-energy speech spikes</div>
+                  </div>
+                  <input type="checkbox" id="beastDynamicZoomToggle" checked style="accent-color: #ff5500; width: 16px; height: 16px;">
+                </div>
+
+                <!-- 1-Click Beast Preset Button -->
+                <button type="button" id="applyBeastPresetBtn" class="pill-btn lava-glow-btn" style="width: 100%; justify-content: center; font-size: 12px; padding: 9px; font-weight: 800;">
+                  ⚡ 1-Click Apply Full Beast Editing Setup
+                </button>
+              </div>
+            </div>
             </div>
           </div>
         </div>
@@ -3115,5 +3225,26 @@ AUTOCLIP/
   <script src="/editor-workspace.js"></script>
   <script src="/adaptive-framing.js"></script>
   <script src="/new-framing.js"></script>
-</body>
+  <script src="/workspace-layout.js"></script>
+  <script src="/selection-controls.js"></script>
+  <script src="/studio-composition.js"></script>
+  <script src="/watch-composition.js"></script>
+  <script src="/timeline-interaction.js"></script>
+  <script src="/channel-workspace.js"></script>
+  <script src="/system-dashboard.js"></script>
+  <script src="/studio-hub.js"></script>
+  <script src="/editor-backdrop.js"></script>
+  <script src="/studio-companion.js"></script>
+  <script src="/companion-personality.js"></script>
+  <script src="/customize-settings.js"></script>
+  <script src="/themes.js"></script>
+  <script src="/theme-companions.js"></script>
+  <script src="/font-packs.js"></script>
+  <script src="/ui-styles.js"></script>
+  <script src="/manual-editor.js"></script>
+  <script src="/editor-desktop.js"></script>
+  <script src="/app-zoom.js"></script>
+
+
+  </body>
 </html>

@@ -1,0 +1,75 @@
+/* A bounded desktop workspace: the editor fills its parent, never stacks beyond it. */
+body.desktop-clip-editor:has(#studioView:not(.hidden)) { height:100dvh; overflow:hidden; }
+body.desktop-clip-editor:has(#studioView:not(.hidden)) :is(.app-layout,.app-viewport) { height:100dvh; min-height:0 !important; overflow:hidden; }
+body.desktop-clip-editor:has(#studioView:not(.hidden)) .app-viewport { min-width:0; }
+body.desktop-clip-editor:has(#studioView:not(.hidden)) .studio-topbar { flex:0 0 46px; height:46px; min-height:46px; padding:6px 14px; }
+body.desktop-clip-editor:has(#studioView:not(.hidden)) .app-content { display:flex; flex-direction:column; flex:1 1 0; min-height:0 !important; height:auto; padding:0 !important; overflow:hidden; }
+body.desktop-clip-editor #studioView:not(.hidden) { display:flex; flex-direction:column; flex:1 1 0; min-height:0; width:100%; height:100%; overflow:hidden; }
+body.workspace-redesign.composed-studio.desktop-clip-editor #studioView #workspace:not(.hidden) { display:flex; flex-direction:column; flex:1 1 0; height:100% !important; min-height:0; width:100%; max-width:none; margin:0 !important; border-radius:0; overflow:hidden; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .workspace-header { flex:0 0 43px; min-height:43px; padding:5px 12px !important; flex-wrap:nowrap; gap:10px; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .workspace-controls { gap:5px; flex-wrap:nowrap; flex-shrink:0; }
+body.desktop-clip-editor .editor-shell #jobTitle { max-width:clamp(120px,27vw,420px); font-size:12px; }
+body.desktop-clip-editor .editor-shell #jobSub { font-size:10px; margin:3px 0 0; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .editor-toolbar { flex:0 0 34px; min-height:34px; padding:3px 10px !important; gap:8px; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .studio-layout-capcut { flex:1 1 0; height:0; min-height:0; width:100%; max-width:100%; padding:0; grid-template-rows:minmax(0,1fr) 6px clamp(170px,var(--manual-timeline-height,250px),42%) 18px; gap:0; overflow:hidden; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .studio-main-viewport { grid-template-columns:205px minmax(0,1fr) 240px; gap:1px; min-height:0; max-height:none; padding:0; overflow:hidden; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .studio-main-viewport.library-closed { grid-template-columns:0 minmax(0,1fr) 240px; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .studio-main-viewport.inspector-closed { grid-template-columns:205px minmax(0,1fr) 0; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .studio-main-viewport.library-closed.inspector-closed { grid-template-columns:0 minmax(0,1fr) 0; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .full-width-timeline { width:100%; height:100% !important; min-height:0; max-height:100%; border-radius:0; }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell :is(.candidates-column,.preview-column,.inspector-column) { min-width:0; min-height:0; height:100%; max-height:100%; margin:0; border-radius:0; }
+body.desktop-clip-editor .editor-shell .candidates-column { display:flex; flex-direction:column; overflow:hidden; }
+body.desktop-clip-editor .editor-shell .manual-cut-bin { flex:1 1 0; min-height:0; }
+body.desktop-clip-editor .editor-shell .inspector-column { overflow:auto; overscroll-behavior:contain; }
+body.desktop-clip-editor .editor-shell .preview-column { overflow:hidden; }
+body.desktop-clip-editor .editor-shell #videoContainer { flex:1 1 0; width:100%; height:0; min-height:0; max-height:none; padding:0 !important; margin:0; aspect-ratio:auto; }
+body.desktop-clip-editor .editor-shell #previewVideo { max-width:100%; max-height:100%; object-fit:contain; }
+body.desktop-clip-editor .editor-shell .canvas-header-bar { flex:0 0 30px; min-height:30px; width:100%; max-width:100%; overflow-x:auto; overflow-y:hidden; flex-wrap:nowrap; white-space:nowrap; }
+body.desktop-clip-editor .editor-shell .editor-playback { flex:0 0 38px; min-height:38px; height:38px; padding:4px 8px; max-width:100%; overflow:hidden; }
+body.desktop-clip-editor .editor-playback-row { height:100%; min-width:0; }
+body.desktop-clip-editor .editor-playback-buttons { min-width:0; flex-shrink:0; }
+body.desktop-clip-editor .editor-shell .capcut-toolbar { min-height:34px; flex:0 0 34px; padding:3px 8px; flex-wrap:nowrap; gap:6px; overflow:visible; }
+body.desktop-clip-editor .ct-left { min-width:0; gap:3px; }
+body.desktop-clip-editor .ct-right { flex-shrink:0; gap:4px; }
+body.desktop-clip-editor .editor-shell .ct-btn { padding:5px 6px; font-size:10px; white-space:nowrap; }
+body.desktop-clip-editor .manual-range-bar { min-height:31px; flex:0 0 31px; height:31px; padding:3px 10px; }
+body.desktop-clip-editor .capcut-tracks-board { min-height:0; flex:1 1 0; overflow:hidden; }
+body.desktop-clip-editor #tracksLanesScroll { min-width:0; min-height:0; overflow:auto; }
+body.desktop-clip-editor .manual-editor-status { padding:0 9px; height:18px; }
+body.desktop-clip-editor .timeline-clip-range { cursor:grab; }
+body.desktop-clip-editor .timeline-clip-range:active { cursor:grabbing; }
+body.desktop-clip-editor .clip-range-handle { cursor:ew-resize; width:8px; }
+body.desktop-clip-editor .desktop-select-tool[aria-pressed=true] { background:var(--theme-tint,#302c43); border-color:var(--theme-accent,#c4b5fd); }
+/* A flat three-pane studio, distinct from the rounded setup-page cards. */
+body.desktop-clip-editor[data-theme=dark][data-ui-style=modern] #studioView { --theme-surface:#171a20; --theme-raised:#22262f; --theme-border:#30353f; --theme-text:#dce1eb; --theme-muted:#929bab; }
+body.workspace-redesign.composed-studio.desktop-clip-editor[data-theme=dark][data-ui-style=modern] .editor-shell :is(.candidates-column,.preview-column,.inspector-column,.full-width-timeline) { border:0; border-radius:0; box-shadow:none; }
+body.desktop-clip-editor[data-theme=dark][data-ui-style=modern] .studio-main-viewport { background:#30353f; }
+body.desktop-clip-editor[data-theme=dark][data-ui-style=modern] .editor-shell .preview-column { background:#0b0e13; }
+body.desktop-clip-editor[data-theme=dark][data-ui-style=modern] .editor-shell .candidates-column,body.desktop-clip-editor[data-theme=dark][data-ui-style=modern] .editor-shell .inspector-column { background:#16191f; }
+body.desktop-clip-editor[data-theme=dark][data-ui-style=modern] .manual-cut-row { border-radius:4px; }
+body.desktop-clip-editor[data-theme=dark][data-ui-style=modern] .manual-cut-row.active { background:#29263a; border-color:#7f70a4; }
+body.desktop-clip-editor[data-theme=dark][data-ui-style=modern] .manual-timeline-resize { background:#252a34; }
+/* Context menu anchors to the viewport and scrolls within small windows. */
+.editor-context-menu { position:fixed; width:258px; max-width:calc(100vw - 12px); max-height:calc(100dvh - 12px); overflow-y:auto; z-index:1000; padding:5px; border:1px solid var(--theme-border,#42404c); border-radius:7px; background:var(--theme-surface,#22232b); color:var(--theme-text,#e1e1eb); box-shadow:0 12px 35px #0007; }
+.editor-context-menu[hidden] { display:none !important; }
+.editor-context-menu button { display:flex; align-items:center; justify-content:space-between; width:100%; min-height:29px; gap:16px; padding:6px 9px; border:0; background:transparent; color:inherit; text-align:left; border-radius:3px; font:11px var(--theme-font,'Segoe UI'),sans-serif; cursor:pointer; }
+.editor-context-menu button:hover,.editor-context-menu button:focus-visible { background:var(--theme-tint,#383246); outline:none; }
+.editor-context-menu button:disabled { opacity:.35; cursor:default; }
+.editor-context-menu kbd { color:var(--theme-muted,#a5a0b1); font:10px Consolas,monospace; white-space:nowrap; }
+.editor-context-menu hr { margin:4px 5px; border:0; border-top:1px solid var(--theme-border,#42404c); }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell.is-focus .studio-layout-capcut { grid-template-rows:minmax(0,1fr); }
+body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell.is-focus .studio-main-viewport { grid-template-columns:0 minmax(0,1fr) 0; }
+@media(max-width:1200px) {
+ body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .studio-main-viewport { grid-template-columns:178px minmax(0,1fr) 218px; }
+ body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .studio-main-viewport.library-closed { grid-template-columns:0 minmax(0,1fr) 218px; }
+ body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .studio-main-viewport.inspector-closed { grid-template-columns:178px minmax(0,1fr) 0; }
+ body.workspace-redesign.composed-studio.desktop-clip-editor .editor-shell .studio-main-viewport.library-closed.inspector-closed { grid-template-columns:0 minmax(0,1fr) 0; }
+ body.desktop-clip-editor .editor-playback .editor-volume { display:none; }
+ body.desktop-clip-editor .workspace-controls .mode-btn { padding:5px 7px; font-size:10px; }
+ body.desktop-clip-editor .workspace-controls .manual-button { padding:5px; }
+ body.desktop-clip-editor .editor-shell #jobTitle { max-width:200px; }
+}
+body.desktop-clip-editor .editor-shell .canvas-header-bar { height:32px; min-height:32px; flex-basis:32px; padding:3px 8px !important; align-items:center; }
+body.desktop-clip-editor .workspace-controls #renderBtn { max-width:160px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+body.desktop-clip-editor .workspace-controls .mode-btn { white-space:nowrap; }
+body.desktop-clip-editor:has(#studioView:not(.hidden)) .app-rail { flex-shrink:0; height:100dvh; min-height:0; }

@@ -172,6 +172,37 @@ app.get('/api/memes', async (_req, res) => {
   }
 });
 
+// GET Viral Background Music Catalog (Deagzzz & Daniel Bitton Short-Form Beds)
+app.get('/api/music', (_req, res) => {
+  try {
+    const { MUSIC_CATALOG } = require('./lib/memes');
+    const tracks = (MUSIC_CATALOG || []).map(m => ({
+      ...m,
+      url: `/assets/music/${m.filename}`
+    }));
+    res.json(tracks);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST In-App AI Assistant / Copilot Chat
+app.post('/api/assistant/chat', async (req, res) => {
+  try {
+    const { answerAssistantQuery } = require('./lib/assistant-knowledge');
+    const { message, history } = req.body || {};
+    const reply = await answerAssistantQuery(message, history || []);
+    const suggestions = Array.isArray(reply.suggestedTopics) ? reply.suggestedTopics.map(s => s.title || s) : (reply.suggestions || []);
+    res.json({
+      ...reply,
+      answer: reply.text || reply.answer || '',
+      suggestions
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // POST Custom Overlay Upload (MP4, GIF, PNG)
 app.post('/api/overlays/upload', overlayUpload.single('overlayFile'), async (req, res) => {
   try {
@@ -413,6 +444,54 @@ app.post('/api/settings', async (req, res) => {
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
+});
+
+// Available Auto Clip Rating Systems
+app.get('/api/rating-systems', (_req, res) => {
+  res.json([
+    {
+      id: 'beast',
+      name: '🦁 CRAZY BEAST Engine v2.0 (Brock Johnson, Deagzzz & Ollex)',
+      description: '1,300 Hook Study Data (Negative Framing 2.3x CTR, 5-8 Word Sweet Spot), +6.5dB Audio Redline, 180° Twists & Lemon Milk Bold.',
+      badge: '👑 ULTIMATE BEAST v2.0',
+      type: 'hybrid'
+    },
+    {
+      id: 'hollywood',
+      name: '🎬 HOLLYWOOD Rating System',
+      description: 'Zero delay, 6th-grade clarity, viewer pain relevance & high-contrast curiosity loops.',
+      badge: 'Recommended',
+      type: 'hybrid'
+    },
+    {
+      id: 'offline_v3',
+      name: '⚡ Offline v3 Engine',
+      description: 'High-energy audio/ASR density, pace transitions, exclamation markers & 100% offline analysis.',
+      badge: 'Fast Offline',
+      type: 'offline'
+    },
+    {
+      id: 'claude',
+      name: '🧠 Anthropic Claude 3.5 Sonnet',
+      description: 'Deep semantic storytelling and retention optimization via Claude API.',
+      badge: 'Cloud AI',
+      type: 'ai'
+    },
+    {
+      id: 'openai',
+      name: '🟢 OpenAI GPT-4o Viral Engine',
+      description: 'GPT-4o viral hook detection and retention modeling.',
+      badge: 'Cloud AI',
+      type: 'ai'
+    },
+    {
+      id: 'gemini',
+      name: '✨ Google Gemini 1.5 Flash',
+      description: 'Fast multimodal transcript parsing and topic segmentation.',
+      badge: 'Cloud AI',
+      type: 'ai'
+    }
+  ]);
 });
 
 // Test AI Provider API Key
@@ -920,6 +999,7 @@ app.post('/api/automate/launch', async (req, res) => {
     async function startJob(video) {
       const jobId = crypto.randomUUID();
       const jobOptions = {
+        ratingSystem: options.ratingSystem || 'hollywood',
         ...options,
         clipCount: Math.max(1, Math.min(100, Number(clipsPerVideo) || 5)),
         streamQuality: options.streamQuality || 'turbo',
@@ -1156,21 +1236,38 @@ app.post('/api/jobs/:id/reanalyze', async (req, res) => {
     if (!job) return res.status(404).json({ error: 'Job not found.' });
     if (!job.transcript) return res.status(400).json({ error: 'No transcript available to re-score clips.' });
 
-    delete require.cache[require.resolve('./lib/analyzer')];
-    const { findBestMoments } = require('./lib/analyzer');
-
     const options = {
       ...job.options,
       ...req.body,
       minDuration: 20
     };
 
+    const ratingSystem = options.ratingSystem || job.options?.ratingSystem || 'beast';
     let clips = null;
-    try {
-      const { analyzeWithAI } = require('./lib/ai-providers');
-      clips = await analyzeWithAI(job.transcript, job.duration, options);
-    } catch (aiErr) {
-      console.warn('[AI Analysis] Fallback to offline analyzer:', aiErr.message);
+
+    if (ratingSystem === 'beast') {
+      try {
+        const { findBeastMoments } = require('./lib/beast-analyzer');
+        clips = await findBeastMoments(job.transcript, job.duration, options);
+      } catch (beastErr) {
+        console.warn('[Beast Analyzer] Fallback in reanalyze:', beastErr.message);
+      }
+    } else if (ratingSystem === 'hollywood') {
+      try {
+        const { findHollywoodMoments } = require('./lib/hollywood-analyzer');
+        clips = await findHollywoodMoments(job.transcript, job.duration, options);
+      } catch (hwErr) {
+        console.warn('[Hollywood Analyzer] Fallback in reanalyze:', hwErr.message);
+      }
+    }
+
+    if (!clips || clips.length === 0) {
+      try {
+        const { analyzeWithAI } = require('./lib/ai-providers');
+        clips = await analyzeWithAI(job.transcript, job.duration, options);
+      } catch (aiErr) {
+        console.warn('[AI Analysis] Fallback to offline analyzer:', aiErr.message);
+      }
     }
 
     if (!clips || clips.length === 0) {
@@ -1178,7 +1275,66 @@ app.post('/api/jobs/:id/reanalyze', async (req, res) => {
       const { findBestMoments } = require('./lib/analyzer');
       clips = await findBestMoments(job.transcript, job.duration, options);
     }
-    const parts = clips.parts || null;
+
+    // Enrich clips with Hollywood scorecard
+    if (clips && clips.length) {
+      try {
+        const { scoreHollywoodHook } = require('./lib/hollywood-analyzer');
+        clips = clips.map(c => {
+          if (!c.hollywood && c.hook) {
+            const hw = scoreHollywoodHook(c.hook, c.title || '');
+            return {
+              ...c,
+              hollywood: {
+                score: hw.score,
+                grade: hw.grade,
+                speedToValue: hw.speedToValue.score,
+                clarity: hw.clarity.score,
+                relevance: hw.relevance.score,
+                contrast: hw.contrast.score,
+                tip: hw.improvementTip
+              }
+            };
+          }
+          return c;
+        });
+      } catch (e) {
+        console.warn('[Hollywood Scorecard] Warning:', e.message);
+      }
+    }
+
+    // Enrich clips with Beast scorecard
+    if (clips && clips.length) {
+      try {
+        const { scoreBeastClip } = require('./lib/beast-analyzer');
+        clips = clips.map(c => {
+          if (!c.beast && (c.hook || c.title)) {
+            const b = scoreBeastClip((c.title || '') + ' ' + (c.hook || ''), (c.end || 30) - (c.start || 0), job.transcript?.audio_energy);
+            return {
+              ...c,
+              beast: {
+                score: b.score,
+                tier: b.tier,
+                badge: b.badge,
+                audioSurge: b.audioScore.score,
+                twist: b.twistScore.score,
+                arousal: b.arousalScore.score,
+                pacing: b.pacingScore.score,
+                audioTip: b.audioScore.tip,
+                twistTip: b.twistScore.tip,
+                arousalTip: b.arousalScore.tip,
+                pacingTip: b.pacingScore.tip,
+                brockHook: b.brockHook,
+                preset: b.recommendedPreset
+              }
+            };
+          }
+          return c;
+        });
+      } catch (e) {}
+    }
+
+    const parts = clips?.parts || null;
 
     await updateJob(job.id, {
       clips,

@@ -1,0 +1,50 @@
+{
+  "dark": [
+    "film",
+    "wave",
+    "brackets",
+    "lens",
+    "play",
+    "timeline"
+  ],
+  "white": [
+    "camera",
+    "pencil",
+    "crop",
+    "clapper",
+    "cursor",
+    "sun"
+  ],
+  "minimal": [
+    "brackets",
+    "lens",
+    "play",
+    "timeline",
+    "crop",
+    "wave"
+  ],
+  "flurry": [
+    "cloud",
+    "cat",
+    "bunny",
+    "star",
+    "bow",
+    "flower"
+  ],
+  "goth": [
+    "raven",
+    "rose",
+    "moon",
+    "thorn",
+    "key",
+    "arch"
+  ],
+  "sticker": [
+    "camera",
+    "scissors",
+    "star",
+    "tape",
+    "arrow",
+    "bolt"
+  ]
+}

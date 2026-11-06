@@ -1,0 +1,17 @@
+services:
+  autoclip:
+    build: .
+    container_name: autoclip-studio
+    restart: unless-stopped
+    ports:
+      - "4173:4173"
+    volumes:
+      - autoclip_data:/app/work/data
+      - ./config:/app/config
+    environment:
+      - PORT=4173
+      - NODE_ENV=production
+
+volumes:
+  autoclip_data:
+    driver: local
