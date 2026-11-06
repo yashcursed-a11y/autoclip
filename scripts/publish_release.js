@@ -246,6 +246,14 @@ async function main() {
     console.log(`✓ latest.yml auto-updater manifest uploaded!`);
   }
 
+  // Upload blockmap if available (for differential updates)
+  const blockmapPath = `${SETUP_EXE_PATH}.blockmap`;
+  if (fs.existsSync(blockmapPath)) {
+    console.log(`\nUploading blockmap for differential updates...`);
+    await uploadAsset(release.upload_url, blockmapPath, `${setupAssetName}.blockmap`);
+    console.log(`✓ blockmap uploaded!`);
+  }
+
   // Step 6: Upload Portable edition if available
   if (fs.existsSync(PORTABLE_EXE_PATH)) {
     console.log(`\n[Step 6] Uploading Portable Executable...`);

@@ -1,6 +1,6 @@
 {
   "name": "autoclip",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "AUTOCLIPIN - Personal long-form video clipping studio",
   "main": "electron-main.js",
   "repository": {

@@ -527,7 +527,7 @@ app.post('/api/mcp', async (req, res) => {
         result: {
           protocolVersion: '2024-11-05',
           capabilities: { tools: {} },
-          serverInfo: { name: 'autoclip-mcp', version: '1.0.1' }
+          serverInfo: { name: 'autoclip-mcp', version: '1.0.2' }
         }
       });
     }
@@ -1751,7 +1751,7 @@ app.post('/api/accounts/verify-instagram', async (req, res) => {
 app.get('/api/system/check-update', async (_req, res) => {
   try {
     const pkg = JSON.parse(await fsp.readFile(path.join(ROOT, 'package.json'), 'utf8'));
-    const currentVersion = pkg.version || '1.0.1';
+    const currentVersion = pkg.version || '1.0.2';
 
     const resp = await fetch('https://api.github.com/repos/yashcursed-a11y/autoclip/releases/latest', {
       headers: { 'User-Agent': 'AUTOCLIPIN-App' }
