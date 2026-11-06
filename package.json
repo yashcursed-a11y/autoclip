@@ -24,6 +24,9 @@
   "build": {
     "appId": "com.autoclip.pro",
     "productName": "AUTOCLIPIN",
+    "asarUnpack": [
+      "scripts/**/*"
+    ],
     "directories": {
       "output": "dist"
     },

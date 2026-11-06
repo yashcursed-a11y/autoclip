@@ -1,11 +1,11 @@
-const {cpSync,copyFileSync,existsSync} = require('node:fs');
+const {cpSync,readFileSync,writeFileSync,existsSync} = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname,'..');
 const source = path.join(root,'website');
 if (!existsSync(path.join(source,'index.html'))) throw new Error('Website source not found');
-copyFileSync(path.join(source,'index.html'),path.join(root,'public','landing.html'));
+const html=readFileSync(path.join(source,'index.html'),'utf8').replaceAll('../dist/AUTOCLIPIN-Windows-v1.0.1.zip','./downloads/AUTOCLIPIN-Windows-v1.0.1.zip');
+writeFileSync(path.join(root,'public','landing.html'),html);
 cpSync(path.join(source,'marketing'),path.join(root,'public','marketing'),{recursive:true});
 const {stageDownload} = require(path.join(source,'stage-download.cjs'));
-stageDownload(path.join(source,'downloads'));
 stageDownload(path.join(root,'public','downloads'));
 console.log('Updated the app landing page from website source.');

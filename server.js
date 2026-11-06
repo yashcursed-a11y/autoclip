@@ -64,6 +64,7 @@ const { buildSmartCallouts } = require('./lib/smart-text');
 const { runAutoPilot, getAutoPilotStatus } = require('./lib/autopilot');
 const { getShortsAnalytics } = require('./lib/analytics');
 const { getAllOverlays, saveCustomOverlay } = require('./lib/memes');
+const { getPythonCommand, getScriptPath } = require('./lib/python-helper');
 const {
   getOAuthClient,
   getAuthUrl,
@@ -248,7 +249,7 @@ app.post('/api/watermark/remove-bg', async (req, res) => {
     const baseName = path.basename(resolvedPath, ext);
     const outFilename = `clean_${baseName}_${Date.now()}.png`;
     const outPath = path.join(WATERMARKS_DIR, outFilename);
-    const scriptPath = path.join(ROOT, 'scripts', 'remove_bg.py');
+    const scriptPath = getScriptPath('remove_bg.py');
 
     const args = [
       scriptPath,
@@ -260,7 +261,7 @@ app.post('/api/watermark/remove-bg', async (req, res) => {
       String(feather)
     ];
 
-    const proc = spawn('python', args, { windowsHide: true });
+    const proc = spawn(getPythonCommand(), args, { windowsHide: true });
     let stdout = '';
     let stderr = '';
     proc.stdout.on('data', d => { stdout += d.toString(); });
