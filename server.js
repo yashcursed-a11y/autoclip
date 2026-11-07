@@ -755,6 +755,26 @@ app.post('/api/ai/test', async (req, res) => {
   }
 });
 
+// Model Context Protocol (MCP) Config & Info Endpoint
+app.get('/api/mcp/config', (req, res) => {
+  const mcpScript = path.resolve(__dirname, 'scripts', 'mcp-server.js');
+  const nodeBinary = process.execPath.endsWith('node.exe') || process.execPath.endsWith('node') ? 'node' : process.execPath;
+  const origin = `${req.protocol}://${req.get('host')}`;
+  res.json({
+    success: true,
+    scriptPath: mcpScript,
+    httpEndpoint: `${origin}/api/mcp`,
+    claudeDesktopConfig: {
+      mcpServers: {
+        autoclip: {
+          command: 'node',
+          args: [mcpScript]
+        }
+      }
+    }
+  });
+});
+
 // Model Context Protocol (MCP) HTTP Endpoint for Claude & ChatGPT
 app.post('/api/mcp', async (req, res) => {
   try {

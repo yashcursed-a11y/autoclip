@@ -7405,19 +7405,32 @@ function setupAiMcpUI() {
   }
 
   if (copyClaudeConfigBtn) {
-    copyClaudeConfigBtn.onclick = () => {
-      const snippet = JSON.stringify({
-        mcpServers: {
-          autoclip: {
-            command: "node",
-            args: ["C:\\Users\\intel\\Documents\\Codex\\2026-11-02\\im-x20\\scripts\\mcp-server.js"]
+    copyClaudeConfigBtn.onclick = async () => {
+      try {
+        const res = await fetch('/api/mcp/config');
+        const data = await res.json();
+        const snippet = JSON.stringify(data.claudeDesktopConfig || {
+          mcpServers: {
+            autoclip: {
+              command: "node",
+              args: [data.scriptPath || "scripts/mcp-server.js"]
+            }
           }
-        }
-      }, null, 2);
-      navigator.clipboard.writeText(snippet).then(() => {
-        copyClaudeConfigBtn.textContent = '✓ Copied Config!';
-        setTimeout(() => { copyClaudeConfigBtn.textContent = '📋 Copy Claude Config'; }, 2000);
-      });
+        }, null, 2);
+        navigator.clipboard.writeText(snippet).then(() => {
+          copyClaudeConfigBtn.textContent = '✓ Copied Config!';
+          setTimeout(() => { copyClaudeConfigBtn.textContent = '📋 Copy Claude Config'; }, 2000);
+        });
+      } catch (e) {
+        navigator.clipboard.writeText(JSON.stringify({
+          mcpServers: {
+            autoclip: {
+              command: "node",
+              args: [window.location.origin + "/scripts/mcp-server.js"]
+            }
+          }
+        }, null, 2));
+      }
     };
   }
 
