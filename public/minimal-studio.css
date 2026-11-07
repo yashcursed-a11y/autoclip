@@ -1,0 +1,266 @@
+/* Shared settings host. The scoped Minimal presentation starts below. */
+.settings-standalone[hidden] {display:none!important}
+.settings-standalone {position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:24px;background:#080b10aa}
+.settings-standalone .companion-customize-card {width:min(860px,100%);max-height:min(780px,90dvh);display:flex;flex-direction:column;background:#191d25;color:#edf0f5;border:1px solid #424b5b;border-radius:14px;overflow:hidden;box-shadow:0 24px 80px #0008}
+.settings-standalone header {display:flex;align-items:center;justify-content:space-between;padding:24px;border-bottom:1px solid #ffffff18}
+.settings-standalone header h2 {font-size:22px;margin:6px 0 0}
+.settings-standalone header small {font-size:10px;letter-spacing:1.6px;opacity:.7}
+.settings-standalone header button {width:40px;height:40px;border:1px solid #ffffff28;background:transparent;color:inherit;border-radius:6px;font-size:24px;cursor:pointer}
+.settings-standalone .customize-layout {display:grid;grid-template-columns:168px minmax(0,1fr);min-height:0;overflow:hidden}
+.settings-standalone .customize-nav {display:flex;flex-direction:column;gap:4px;padding:16px;border-right:1px solid #ffffff18}
+.settings-standalone .customize-nav button {padding:12px;text-align:left;color:inherit;background:transparent;border:0;border-radius:6px;cursor:pointer}
+.settings-standalone .customize-nav button[aria-current=page] {background:#dce5fa20}
+.settings-standalone .customize-pages {padding:24px;overflow:auto;min-height:0}
+.settings-standalone .customize-page[hidden] {display:none!important}
+.settings-standalone .bot-setting {display:flex;align-items:center;justify-content:space-between;gap:20px;margin:20px 0}
+.settings-standalone .bot-setting small {display:block;margin-top:6px;opacity:.65;font-size:11px}
+
+/* MINIMAL / GRAPHITE — one presentation layer, independent of saved theme. */
+.minimal-flow,.minimal-finish-tools{display:none}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal]{
+ --m-base:#101619;--m-panel:#1a2227;--m-raised:#252f35;--m-field:#121a1f;
+ --m-ink:#f0f3f4;--m-muted:#b3c0c6;--m-line:#d1e0e626;--m-accent:#c5d7df;--m-accent-ink:#1b2b33;
+ --theme-font:'Space Grotesk','Segoe UI',sans-serif;--theme-heading-font:'Space Grotesk','Segoe UI',sans-serif;
+ --m-shadow:inset 0 1px 0 #ffffff08,0 8px 24px #0000001a;--m-ease:cubic-bezier(.16,1,.3,1);
+ --theme-base:var(--m-base)!important;--theme-bg:var(--m-base)!important;--theme-surface:var(--m-panel)!important;--theme-raised:var(--m-raised)!important;
+ --theme-text:var(--m-ink)!important;--theme-muted:var(--m-muted)!important;--theme-border:var(--m-line)!important;--theme-accent:var(--m-accent)!important;--theme-on-accent:var(--m-accent-ink)!important;--theme-tint:#33444e!important;
+ --pro-bg-base:var(--m-base);--pro-bg-panel:var(--m-panel);--pro-bg-card:var(--m-raised);--pro-bg-card-hover:#303d44;--pro-bg-active:#354650;
+ --pro-text-primary:var(--m-ink);--pro-text-secondary:var(--m-muted);--pro-text-muted:var(--m-muted);--pro-accent-amber:var(--m-accent);--pro-border-subtle:var(--m-line);--pro-border-medium:#d1e0e624;
+ --text-primary:var(--m-ink);--text-muted:var(--m-muted);--border-color:var(--m-line);--accent-color:var(--m-accent);
+ background:var(--m-base)!important;color:var(--m-ink)!important;font-family:var(--theme-font,'Segoe UI'),sans-serif!important;
+}
+/* 01 / Chrome — compact permanent rail, quiet workflow tabs, soft raised controls. */
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(.app-layout,.app-viewport,.app-content){background:var(--m-base)!important;color:var(--m-ink)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .app-content{width:100%!important;min-width:0!important;max-width:none!important;margin:0!important;padding:0!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .app-rail{width:74px!important;min-width:74px!important;padding:17px 9px 12px!important;background:#141c20!important;border-right:1px solid var(--m-line)!important;box-shadow:none!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .rail-logo{width:36px!important;height:36px!important;border-radius:12px!important;box-shadow:0 5px 12px #0003!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .rail-nav{display:flex!important;flex-direction:column;gap:7px!important;width:100%!important;border:0!important;padding:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .rail-btn{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:53px!important;width:100%!important;padding:7px 2px!important;border:1px solid transparent!important;border-radius:14px!important;background:transparent!important;box-shadow:none!important;color:var(--m-muted)!important;transition:background .2s var(--m-ease),border-color .2s var(--m-ease)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .rail-btn.active{background:linear-gradient(150deg,#3b4a52,#29363e)!important;border-color:#aec1cc35!important;box-shadow:inset 0 1px 0 #ffffff0e,0 5px 12px #0002!important;color:var(--m-ink)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .app-rail .rail-btn :is(.rail-icon,.rail-label){color:inherit!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .rail-label{display:block!important;position:static!important;opacity:1!important;transform:none!important;background:none!important;white-space:normal;font:500 8px/1.2 var(--theme-font,'Segoe UI'),sans-serif!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(.capsule-active-indicator,.sidebar-wordmark,.sidebar-section-label,.noir-edition,.noir-hero-index,.theme-art-strip,.theme-world-art){display:none!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .rail-btn.active:before{display:none!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .studio-topbar{height:48px!important;min-height:48px!important;padding:6px 20px!important;background:var(--m-base)!important;border-color:var(--m-line)!important;gap:12px!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .topbar-project-info :is(span,strong){color:var(--m-muted)!important;min-width:0}
+body[data-ui-style=minimal] .minimal-flow{display:flex;align-items:center;gap:4px;flex:0 0 42px;height:42px;padding:0 20px;border-bottom:1px solid var(--m-line);background:var(--m-base)}
+body[data-ui-style=minimal] .minimal-flow button{display:flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid transparent;border-radius:9px;background:transparent;color:var(--m-muted);font:500 11px var(--theme-font,'Segoe UI'),sans-serif;cursor:pointer}
+body[data-ui-style=minimal] .minimal-flow button span{font:9px Consolas,monospace;opacity:.6}
+body[data-ui-style=minimal] .minimal-flow button[aria-current=step]{background:var(--m-raised);border-color:#b1c6cf24;color:var(--m-ink);box-shadow:inset 0 1px #ffffff09}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(.pill-btn,.mode-btn,.count-pill,.editor-tool,.editor-tab,.ct-btn,.manual-button,.editor-icon-btn,.studio-hub-trigger,.companion-customize-trigger,.tag-vault-action-btn,.pfeed-style-pill-btn,.pfeed-nudge-btn){background:linear-gradient(160deg,#2c373e,#222d33)!important;color:var(--m-ink)!important;border:1px solid #c3d4dc18!important;border-radius:9px!important;box-shadow:inset 0 1px 0 #ffffff09,0 3px 8px #0002!important;text-shadow:none!important;min-height:29px;transition:background .18s var(--m-ease),border-color .18s var(--m-ease)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(.primary-btn,.primary-pill,#createJob,#renderBtn){background:linear-gradient(155deg,#d0dde2,#aebfc8)!important;color:var(--m-accent-ink)!important;border:1px solid #e4eef061!important;border-radius:10px!important;box-shadow:inset 0 1px #ffffff99,0 4px 10px #0002!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(.editor-tab.active,.editor-tool[aria-pressed=true],.ct-btn[aria-pressed=true],.mode-btn.active,.count-pill.active,.pfeed-style-pill-btn.active){background:#415762!important;border-color:#a6c6d34d!important;color:#e8f2f6!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(button,input,select,textarea):focus-visible{outline:2px solid #bbd6e4!important;outline-offset:3px}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(button,.pill-btn):hover:not(:disabled){filter:brightness(1.1);transform:none!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(input:not([type=range]):not([type=checkbox]):not([type=radio]):not([type=color]),select,textarea){background:var(--m-field)!important;color:var(--m-ink)!important;border:1px solid #c3d4dc1c!important;border-radius:8px!important;box-shadow:inset 0 2px 5px #0002!important;min-width:0;max-width:100%;font-size:11px}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(input[type=checkbox],input[type=radio],input[type=range]){accent-color:#b6cbd5}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(.muted,.hint,.eyebrow,.project-settings-description,.workspace-meta,.pfeed-sub,.cps-sub){color:var(--m-muted)!important}
+/* Readable interface type; video captions and font-pack specimens stay independent. */
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(button,input,select,textarea,label,summary){font-family:var(--theme-font)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(.pro-ingest-top,.workspace-meta,.minimal-project-library,.companion-customize-card) :is(h1,h2,h3,h4){font-family:var(--theme-heading-font)!important;color:var(--m-ink)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(label,summary,.customize-nav button,.customize-page>p,.studio-hub-menu a,.studio-hub-menu button){color:var(--m-ink)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(input,textarea)::placeholder{color:var(--m-muted)!important;opacity:1!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] select option{background:var(--m-field);color:var(--m-ink)}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(button,input,select,textarea):disabled{opacity:1!important;color:#a2afb6!important;background:#293238!important;cursor:not-allowed}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(.timecode,.player-time,.manual-timecode,.timeline-ruler,code){font-family:Consolas,'Courier New',monospace!important}
+/* 02 / Create — one grouped desk, six compact framing choices, no history feed. */
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #ingestView{padding:22px clamp(18px,3vw,44px) 28px!important;max-width:1440px;margin:auto;width:100%}
+body[data-ui-style=minimal] #ingestView .pro-ingest-top{padding:0 0 18px!important;margin:0!important;border:0!important}
+body[data-ui-style=minimal] #ingestView .pro-ingest-top h1{font-size:23px!important;font-weight:550!important;letter-spacing:-.7px!important;color:var(--m-ink)!important}
+body[data-ui-style=minimal] #ingestView .pro-ingest-top p{color:var(--m-muted)!important;font-size:11px!important;margin-top:7px!important}
+body[data-ui-style=minimal] #ingestView .pro-tag{display:none!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #setupSection{padding:0!important;margin:0!important;background:none!important;border:0!important;box-shadow:none!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #setupSection .project-create-layout{display:grid!important;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)!important;grid-template-areas:'source options' 'framing framing' 'extras extras' 'actions actions';gap:16px!important;align-items:start;padding:20px!important;background:var(--m-panel)!important;border:1px solid var(--m-line)!important;border-radius:20px!important;box-shadow:var(--m-shadow)!important}
+body[data-ui-style=minimal] #setupSection .project-source-column{grid-area:source;min-width:0;display:flex;flex-direction:column;gap:10px}
+body[data-ui-style=minimal] #setupSection .project-settings-column{grid-area:options;min-width:0;display:flex;flex-direction:column;gap:10px;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important}
+body[data-ui-style=minimal] #setupSection :is(.project-pane-label,.project-settings-heading){margin:0!important;padding:0!important;font:500 10px/1.4 var(--theme-font,'Segoe UI'),sans-serif!important;letter-spacing:1px;color:var(--m-muted)!important;text-transform:uppercase}
+body[data-ui-style=minimal] #setupSection .project-settings-description{display:none!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #setupSection .source-card{padding:12px!important;border:1px solid var(--m-line)!important;border-radius:14px!important;background:var(--m-field)!important;box-shadow:inset 0 1px #ffffff05!important;min-height:248px}
+body[data-ui-style=minimal] #setupSection .source-card{margin:0!important}
+body[data-ui-style=minimal] #setupSection :is(#filePane,#urlPane){padding:0!important}
+body[data-ui-style=minimal] #setupSection .source-tabs{display:flex;gap:4px;padding:3px!important;margin-bottom:10px!important;border:1px solid var(--m-line)!important;border-radius:9px!important;background:var(--m-panel)!important}
+body[data-ui-style=minimal] #setupSection .source-tabs .tab{flex:1;font-size:10px!important;border:0!important;background:transparent!important;color:var(--m-muted)!important;border-radius:6px!important;padding:8px 10px!important;box-shadow:none!important}
+body[data-ui-style=minimal] #setupSection .source-tabs .tab.active{background:var(--m-raised)!important;color:var(--m-ink)!important;box-shadow:0 2px 5px #0002!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #dropZone{min-height:168px!important;height:auto!important;padding:22px 18px!important;border:1px dashed #b8ccd133!important;border-radius:10px!important;background:linear-gradient(145deg,#202b31,#182126)!important;gap:8px!important;box-shadow:none!important}
+body[data-ui-style=minimal] #setupSection #dropZone{margin:0!important}
+body[data-ui-style=minimal] #dropZone .drop-icon{width:28px!important;height:28px!important;margin:0 0 5px!important;color:#a5bbc6!important}
+body[data-ui-style=minimal] #dropZone .drop-icon svg{width:28px;height:28px}
+body[data-ui-style=minimal] #dropZone strong{font-size:12px!important;font-weight:500!important;color:var(--m-ink)!important}
+body[data-ui-style=minimal] #dropZone :is(small,.muted){font-size:10px!important;color:var(--m-muted)!important}
+body[data-ui-style=minimal] #fileName{background:#2b3b43!important;color:#c4d4dc!important;border:1px solid #b8d1dc20!important;padding:5px 10px!important;border-radius:7px!important;font-size:10px!important;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body[data-ui-style=minimal] #setupSection .settings-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px 12px!important;margin:0!important;padding:0!important}
+body[data-ui-style=minimal] #setupSection .settings-grid>label{display:flex;flex-direction:column;gap:7px;font-size:9px!important;line-height:1.4;color:var(--m-muted)!important;letter-spacing:.3px}
+body[data-ui-style=minimal] #setupSection .settings-grid :is(input,select){width:100%;height:35px!important;padding:7px 10px!important;font-size:11px!important}
+body[data-ui-style=minimal] #setupSection .settings-grid>label>.hint{display:none!important}
+body[data-ui-style=minimal] #setupSection .clip-count-pills{display:none!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #setupSection .new-framing-section{grid-area:framing;margin:0!important;padding:14px!important;background:var(--m-field)!important;border:1px solid var(--m-line)!important;border-radius:14px!important;box-shadow:none!important}
+body[data-ui-style=minimal] #setupSection .new-framing-section{position:relative}
+body[data-ui-style=minimal] .new-framing-heading{align-items:center;margin:0 0 12px!important}
+body[data-ui-style=minimal] .new-framing-heading h2{font-size:11px!important;font-weight:550!important;margin:0!important;color:var(--m-ink)!important;letter-spacing:0!important}
+body[data-ui-style=minimal] .new-framing-heading :is(.eyebrow,p){display:none!important}
+body[data-ui-style=minimal] .new-framing-local{font:8px Consolas,monospace!important;background:#293942!important;color:#a9c2d0!important;border:0!important;padding:4px 7px!important;border-radius:5px!important}
+body[data-ui-style=minimal] #setupSection .new-framing-local{display:none!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .new-framing-grid.curved-mode-selector{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:8px!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;position:static!important;min-height:0!important}
+body[data-ui-style=minimal] .new-framing-grid:after{display:none!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .new-framing-grid .new-framing-card{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:9px!important;min-width:0;min-height:72px!important;height:72px!important;padding:10px 5px!important;margin:0!important;transform:none!important;text-align:center!important;border:1px solid #a5bfca16!important;border-radius:10px!important;background:linear-gradient(150deg,#2a353c,#202a30)!important;box-shadow:inset 0 1px #ffffff07,0 3px 6px #0002!important;color:var(--m-muted)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .new-framing-card[aria-pressed=true]{background:linear-gradient(145deg,#405661,#2c3f49)!important;border-color:#b0cad05e!important;color:var(--m-ink)!important;box-shadow:inset 0 1px #ffffff12,0 3px 8px #0002!important}
+body[data-ui-style=minimal] .new-framing-card strong{font-size:9px!important;font-weight:500!important;color:inherit!important;order:2;line-height:1.2;white-space:normal}
+body[data-ui-style=minimal] .new-framing-card :is(small,.curve-selection-mark){display:none!important}
+body[data-ui-style=minimal] .new-framing-card .new-framing-diagram{position:relative!important;inset:auto!important;transform:scale(.65)!important;width:40px!important;height:32px!important;min-height:32px!important;margin:-4px 0 -3px!important;order:1;border:0!important;box-shadow:none!important;background:transparent!important;opacity:.8}
+body[data-ui-style=minimal] .new-framing-card .new-framing-diagram i{background:#9bb0bb!important;border-color:#c5d7df35!important}
+body[data-ui-style=minimal] .minimal-framing-details{margin-top:12px;border-top:1px solid var(--m-line);padding-top:9px}
+body[data-ui-style=minimal] .minimal-framing-details>summary{font-size:10px;color:var(--m-muted);cursor:pointer;list-style:none}
+body[data-ui-style=minimal] .minimal-framing-details>summary:after{content:'+';float:right}
+body[data-ui-style=minimal] .minimal-framing-details[open]>summary:after{content:'−'}
+body[data-ui-style=minimal] .minimal-framing-details:not([open]){position:absolute;right:14px;top:8px;width:140px;margin:0;padding:0;border:0}
+body[data-ui-style=minimal] .minimal-framing-details:not([open])>summary{padding:6px 8px;border-radius:6px;background:#26343b;font-size:9px}
+body[data-ui-style=minimal] .minimal-framing-details :is(.new-framing-options,.framing-select-wrapper){margin:12px 0 0!important;padding:0!important;min-width:0}
+body[data-ui-style=minimal] .minimal-setup-extras{grid-area:extras;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;min-width:0}
+body[data-ui-style=minimal] #setupSection .minimal-setup-extras>details{min-width:0;padding:0!important;margin:0!important;border:1px solid var(--m-line)!important;border-radius:10px!important;background:var(--m-raised)!important;box-shadow:inset 0 1px #ffffff07!important}
+body[data-ui-style=minimal] #setupSection .minimal-setup-extras>details>summary{font-size:10px!important;line-height:1.5;padding:12px!important;margin:0!important;color:var(--m-ink)!important;cursor:pointer}
+body[data-ui-style=minimal] #setupSection .minimal-setup-extras>details>summary span{display:none!important}
+body[data-ui-style=minimal] #setupSection .minimal-setup-extras>details[open]>:not(summary){margin:10px!important;max-width:calc(100% - 20px)!important}
+body[data-ui-style=minimal] #setupSection .minimal-setup-extras .settings-grid{grid-template-columns:1fr!important}
+body[data-ui-style=minimal] #setupSection .action-bar{grid-area:actions;display:flex!important;flex-direction:row!important;gap:0!important;align-items:stretch!important;flex-wrap:wrap!important;margin:0!important;padding:4px!important;border:1px solid #b9cdd42b;border-radius:13px;background:#2a363d;box-shadow:inset 0 1px #ffffff0b}
+body[data-ui-style=minimal] #setupSection .action-bar #createJob{flex:1!important;border-radius:9px 0 0 9px!important;min-height:40px;padding:10px 20px!important;font-size:12px!important}
+body[data-ui-style=minimal] #setupSection .action-bar #launchAutoPilotBtn{width:auto!important;flex:0 0 180px!important;border-radius:0 9px 9px 0!important;border-left:0!important;padding:9px 20px!important;font-size:11px!important}
+body[data-ui-style=minimal] #setupSection .action-bar :is(#progressWrap,#message){flex:0 0 100%;margin:0!important}
+body[data-ui-style=minimal] #setupSection .action-bar #message:empty{display:none}
+/* History belongs in the library, not below creation. All original project actions stay live. */
+body[data-ui-style=minimal] #ingestView>.history-section{display:none!important}
+body[data-ui-style=minimal] .minimal-project-library{width:min(1000px,90vw);max-height:84dvh;padding:22px;border:1px solid #b3cad42b;border-radius:20px;background:var(--m-panel);color:var(--m-ink);box-shadow:0 25px 100px #0008}
+body[data-ui-style=minimal] .minimal-project-library::backdrop{background:#05090cbb;backdrop-filter:blur(8px)}
+body[data-ui-style=minimal] .minimal-project-library>header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+body[data-ui-style=minimal] .minimal-project-library h2{font-size:22px;font-weight:500;margin:0}
+body[data-ui-style=minimal] .minimal-project-library>header button{width:34px;height:34px;border:1px solid var(--m-line);border-radius:9px;background:var(--m-raised);color:var(--m-ink);font-size:20px;cursor:pointer}
+body[data-ui-style=minimal] .minimal-project-library .history-section{padding:0!important;margin:0!important;border:0!important;background:none!important}
+body[data-ui-style=minimal] .minimal-project-library .section-title-wrap{display:none!important}
+/* 03 / Edit — large cinema surface, detached media/properties cards, bounded timeline. */
+body[data-ui-style=minimal]:has(#studioView:not(.hidden)){height:100dvh;overflow:hidden}
+body[data-ui-style=minimal]:has(#studioView:not(.hidden)) :is(.app-layout,.app-viewport){height:100dvh;min-height:0!important;overflow:hidden}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal]:has(#studioView:not(.hidden)) .app-content{display:flex;flex-direction:column;flex:1 1 0;height:0;min-height:0!important;overflow:hidden;margin:0!important}
+body[data-ui-style=minimal] #studioView:not(.hidden){display:flex;flex:1 1 0;flex-direction:column;min-height:0;overflow:hidden}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #workspace{flex:1 1 0;min-height:0;background:var(--m-base)!important;color:var(--m-ink)!important;border:0!important}
+body[data-ui-style=minimal] #workspace .workspace-header{flex:0 0 43px;height:43px;min-height:43px!important;margin:0!important;padding:4px 18px!important;background:var(--m-base)!important;border-color:var(--m-line)!important}
+body[data-ui-style=minimal] #workspace .workspace-meta{flex:1 1 160px;min-width:0}
+body[data-ui-style=minimal] #workspace .workspace-controls{flex:0 0 auto;min-width:0;gap:6px;flex-wrap:nowrap}
+body[data-ui-style=minimal] #workspace .workspace-controls button{white-space:nowrap;flex-shrink:0}
+body[data-ui-style=minimal] #workspace .manual-export-scope{width:108px!important;min-width:108px!important;max-width:108px!important}
+body[data-ui-style=minimal] #workspace #jobTitle{font-size:13px!important;font-weight:550!important;letter-spacing:-.2px!important;color:var(--m-ink)!important;max-width:32vw}
+body[data-ui-style=minimal] #workspace #jobSub{font-size:9px!important;color:var(--m-muted)!important;margin-top:4px!important}
+body[data-ui-style=minimal] #workspace .editor-toolbar{flex:0 0 35px;min-height:35px;padding:3px 14px!important;margin:0!important;background:var(--m-base)!important;border:0!important}
+body[data-ui-style=minimal] #workspace .editor-tools-dock{position:static!important;display:flex!important;flex-direction:row!important;gap:5px;padding:0!important;margin:0!important;background:none!important;border:0!important;box-shadow:none!important;width:auto!important}
+body[data-ui-style=minimal] #workspace .editor-tabs{display:flex;flex-direction:row;gap:5px}
+body[data-ui-style=minimal] #workspace .editor-tab{height:27px!important;min-height:27px!important;font-size:10px!important;padding:5px 12px!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #workspace .studio-layout-capcut{flex:1 1 0;height:0;min-height:0;padding:10px 16px 12px!important;gap:7px!important;grid-template-rows:minmax(0,1fr) 5px clamp(162px,22vh,210px) 14px!important;background:var(--m-base)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #workspace .studio-main-viewport{grid-template-columns:188px minmax(0,1fr) 260px;gap:12px!important;min-height:0;background:transparent!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #workspace .studio-main-viewport.library-closed{grid-template-columns:0 minmax(0,1fr) 260px}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #workspace .studio-main-viewport.inspector-closed{grid-template-columns:188px minmax(0,1fr) 0}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #workspace .studio-main-viewport.library-closed.inspector-closed{grid-template-columns:0 minmax(0,1fr) 0}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #workspace.is-focus .studio-layout-capcut{grid-template-rows:minmax(0,1fr)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #workspace.is-focus .studio-main-viewport{grid-template-columns:0 minmax(0,1fr) 0!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #workspace :is(.candidates-column,.preview-column,.inspector-column,.full-width-timeline){border:1px solid #c3d5df1c!important;border-radius:15px!important;background:var(--m-panel)!important;box-shadow:var(--m-shadow)!important;color:var(--m-ink)!important;min-width:0;min-height:0;overflow:hidden}
+body[data-ui-style=minimal] #workspace .inspector-column{overflow:auto!important;padding:12px!important}
+body[data-ui-style=minimal] #workspace :is(.editor-library-heading,.editor-library-tabs,.canvas-header-bar,.editor-playback,.capcut-toolbar,.manual-range-bar){background:var(--m-panel)!important;color:var(--m-muted)!important;border-color:var(--m-line)!important;box-shadow:none!important}
+body[data-ui-style=minimal] #workspace .editor-library-heading{font-size:10px!important;font-weight:500!important;color:var(--m-muted)!important}
+body[data-ui-style=minimal] #workspace :is(.editor-library-tab,.ct-btn,.manual-button){font-size:10px!important;min-height:26px!important}
+body[data-ui-style=minimal] #workspace .canvas-header-bar{flex:0 0 32px;min-height:32px;padding:3px 8px!important}
+body[data-ui-style=minimal] #workspace .editor-playback{flex:0 0 39px;min-height:39px;padding:5px 8px!important;border-top:1px solid var(--m-line)}
+body[data-ui-style=minimal] #workspace .manual-cut-row{background:#202b31!important;border:1px solid #adcad017!important;border-radius:10px!important;margin-bottom:7px!important}
+body[data-ui-style=minimal] #workspace .manual-cut-row.active{background:#344752!important;border-color:#a6c6d34d!important}
+body[data-ui-style=minimal] #workspace .manual-cut-row>.manual-button{border:0!important;box-shadow:none!important;background:transparent!important;color:var(--m-ink)!important}
+body[data-ui-style=minimal] #workspace :is(.manual-cut-row strong,.manual-selected-title,.inspector-header h3,.inspector-title){color:var(--m-ink)!important}
+body[data-ui-style=minimal] #workspace :is(label,small,.manual-selected-duration,.editor-status-indicator,.timeline-status){color:var(--m-muted)!important}
+body[data-ui-style=minimal] #workspace .manual-cut-row small{font:8px/1.5 Consolas,monospace!important}
+body[data-ui-style=minimal] #workspace .full-width-timeline{height:100%!important;min-height:0!important;max-height:100%!important}
+body[data-ui-style=minimal] #workspace :is(.manual-source-range,.source-range-bar,.tracks-headers-col,.timeline-track-label){background:var(--m-panel)!important;color:var(--m-muted)!important;border-color:var(--m-line)!important}
+body[data-ui-style=minimal] #workspace :is(.ruler-time-label,.manual-range-status){color:#a4b5bd!important}
+body[data-ui-style=minimal] #workspace .sub-grid{gap:12px!important}
+/* 04 / Finish & Publish — portrait review and four-card publishing desk. */
+body[data-ui-style=minimal]:has(:is(#phoneFeedView,#schedulerView):not(.hidden)){height:100dvh;overflow:hidden}
+body[data-ui-style=minimal]:has(:is(#phoneFeedView,#schedulerView):not(.hidden)) :is(.app-layout,.app-viewport){height:100dvh;min-height:0!important;overflow:hidden}
+body[data-ui-style=minimal]:has(:is(#phoneFeedView,#schedulerView):not(.hidden)) .app-content{display:flex!important;flex-direction:column;flex:1 1 0;min-height:0!important;overflow:hidden}
+body[data-ui-style=minimal] :is(#phoneFeedView,#schedulerView):not(.hidden){display:flex;flex-direction:column;flex:1 1 0;min-height:0!important;overflow:hidden}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(.phone-feed-screen,.caption-studio-screen,.scheduler-section,.pfeed-header,.cps-header){background:var(--m-base)!important;color:var(--m-ink)!important}
+body[data-ui-style=minimal] .phone-feed-screen{flex:1 1 0;min-height:0;height:100%}
+body[data-ui-style=minimal] .pfeed-header{padding:13px 20px!important;border-color:var(--m-line)!important}
+body[data-ui-style=minimal] :is(.pfeed-header h2,.cps-header h2,.scheduler-header h2){font-size:21px!important;font-weight:500!important;letter-spacing:-.6px;color:var(--m-ink)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #pfeedWorkspaceGrid{height:0!important;flex:1 1 0;min-height:0;display:grid;grid-template-columns:minmax(280px,.9fr) minmax(400px,1.4fr)!important;padding:12px 20px 20px!important;gap:20px!important;background:var(--m-base)!important;overflow:hidden}
+body[data-ui-style=minimal] .pfeed-sidebar-left{display:none!important}
+body[data-ui-style=minimal] .pfeed-ambient-glow{display:none!important}
+body[data-ui-style=minimal] .pfeed-stage{background:var(--m-panel)!important;border:1px solid var(--m-line);border-radius:18px!important;min-height:0!important;padding:16px 54px 16px 18px!important}
+body[data-ui-style=minimal] #phoneFeedView .pfeed-device-frame{width:auto!important;height:100%!important;max-height:100%!important;max-width:100%!important;aspect-ratio:9/16!important;min-height:0;padding:0!important;border:1px solid #bdcedb24!important;border-radius:11px!important;background:#0b1013!important;box-shadow:0 10px 30px #0004!important}
+body[data-ui-style=minimal] .pfeed-device-screen{min-height:0;border-radius:10px!important}
+body[data-ui-style=minimal] .pfeed-device-island{display:none!important}
+body[data-ui-style=minimal] .pfeed-floating-nav{right:9px!important}
+body[data-ui-style=minimal] .pfeed-nav-step-btn{width:34px;height:34px;border-radius:10px;background:var(--m-raised);color:var(--m-ink);border:1px solid var(--m-line);box-shadow:var(--m-shadow)}
+body[data-ui-style=minimal] .pfeed-sidebar-right{display:grid!important;grid-template-columns:1fr 1fr;align-content:start;height:100%;min-height:0;overflow:auto!important;gap:16px!important;padding:20px!important;border:1px solid var(--m-line)!important;border-radius:18px!important;background:var(--m-panel)!important;box-shadow:var(--m-shadow)}
+body[data-ui-style=minimal] .pfeed-inspector-header{grid-column:1/-1;order:-10}
+body[data-ui-style=minimal] .pfeed-inspector-header h3{color:var(--m-ink)!important;font-size:11px!important}
+body[data-ui-style=minimal] .minimal-finish-tools{display:grid;grid-column:1/-1;grid-template-columns:1fr 1fr;gap:10px;order:-9}
+body[data-ui-style=minimal] .minimal-finish-tools button{display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;padding:17px;min-height:88px;border:1px solid #c3d5df19;border-radius:13px;background:linear-gradient(150deg,#2b373e,#222d33);box-shadow:var(--m-shadow);color:var(--m-ink);cursor:pointer}
+body[data-ui-style=minimal] .minimal-finish-tools strong{font-size:13px;font-weight:500}
+body[data-ui-style=minimal] .minimal-finish-tools small{font-size:10px;line-height:1.6;color:var(--m-muted)}
+body[data-ui-style=minimal] .pfeed-block{min-width:0;padding:14px 0!important;background:none!important;border-top:1px solid var(--m-line)!important}
+body[data-ui-style=minimal] :is(.pfeed-block-title,.pfeed-metric-name){color:var(--m-muted)!important;font-size:9px!important}
+body[data-ui-style=minimal] .pfeed-metric-val{color:var(--m-ink)!important}
+body[data-ui-style=minimal] .pfeed-metric-item{background:#202b31!important;border:1px solid var(--m-line)!important;box-shadow:none!important;border-radius:9px!important}
+body[data-ui-style=minimal] .scheduler-section{flex:1 1 0;min-height:0;display:flex;flex-direction:column;padding:16px 20px 20px!important;overflow:hidden}
+body[data-ui-style=minimal] .scheduler-header{flex:0 0 auto;padding:0 0 12px!important;margin:0!important;gap:10px!important;background:transparent!important}
+body[data-ui-style=minimal] .scheduler-header h2{margin:4px 0!important}
+body[data-ui-style=minimal] .scheduler-header p{margin:4px 0!important;font-size:10px!important;color:var(--m-muted)!important}
+body[data-ui-style=minimal] .scheduler-actions{gap:6px!important;margin:0!important}
+body[data-ui-style=minimal] #schedulerView .sched-subpanel{flex:1 1 0;min-height:0;overflow:auto}
+body[data-ui-style=minimal] #schedComposePanel{overflow:hidden!important}
+body[data-ui-style=minimal] #schedComposePanel .sched-composer-grid{display:block!important;height:100%;padding:0!important;min-width:0!important}
+body[data-ui-style=minimal] .sched-composer-grid>[hidden]{display:none!important}
+body[data-ui-style=minimal] #schedComposePanel .minimal-publish-desk{height:100%;display:grid;grid-template-columns:minmax(240px,.85fr) minmax(0,1fr) minmax(0,1fr);grid-template-rows:minmax(180px,.8fr) minmax(220px,1.2fr);grid-template-areas:'preview channels schedule' 'preview copy copy';gap:14px;min-width:0}
+body[data-ui-style=minimal] .minimal-desk-panel{min-width:0;min-height:0;max-height:100%;align-self:stretch;display:flex;flex-direction:column;gap:12px;padding:17px;background:var(--m-panel);border:1px solid var(--m-line);border-radius:16px;box-shadow:var(--m-shadow);color:var(--m-ink);overflow:auto}
+body[data-ui-style=minimal] .minimal-desk-panel>h3{font:500 9px/1.5 var(--theme-font,'Segoe UI'),sans-serif!important;color:var(--m-muted)!important;letter-spacing:1.2px;text-transform:uppercase;margin:0 0 5px!important}
+body[data-ui-style=minimal] .minimal-desk-preview{grid-area:preview}.minimal-desk-channels{grid-area:channels}.minimal-desk-schedule{grid-area:schedule}.minimal-desk-copy{grid-area:copy}
+body[data-ui-style=minimal] .minimal-clip-navigation{display:flex;justify-content:center;align-items:center;gap:16px;color:var(--m-muted);font:10px Consolas,monospace}
+body[data-ui-style=minimal] .minimal-clip-navigation button{width:32px;height:32px;border:1px solid var(--m-line);border-radius:9px;background:var(--m-raised);color:var(--m-ink);box-shadow:var(--m-shadow);cursor:pointer}
+body[data-ui-style=minimal] .minimal-clip-navigation button:disabled{opacity:.3;cursor:default}
+body[data-ui-style=minimal] #schedPreviewVideo{width:100%;height:auto;max-height:500px;aspect-ratio:9/16;object-fit:contain;background:#070c10;border-radius:10px}
+body[data-ui-style=minimal] #schedulerView :is(.accounts-selection-header,.acc-select-shortcuts,.sched-title-row,.desc-preset-actions){flex-wrap:wrap!important;min-width:0!important;max-width:100%!important}
+body[data-ui-style=minimal] .accounts-selection-header{flex-direction:column!important;align-items:stretch!important;gap:10px!important}
+body[data-ui-style=minimal] #schedulerView :is(h3,label,.sched-clip-info,.tag-memory-label){color:var(--m-ink)!important;overflow-wrap:anywhere}
+body[data-ui-style=minimal] :is(.schedule-mode-picker,.sched-accounts-grid){display:grid!important;grid-template-columns:1fr!important;gap:8px!important}
+body[data-ui-style=minimal] #schedulerView :is(.sched-acc-item,.radio-card){background:#222d33!important;color:var(--m-ink)!important;border-color:var(--m-line)!important;border-radius:10px!important;box-shadow:inset 0 1px #ffffff06!important}
+body[data-ui-style=minimal] #schedulerView :is(.sched-acc-item.selected,.radio-card.active){background:#344752!important;border-color:#b5ccd34d!important}
+body[data-ui-style=minimal] #schedulerView :is(.acc-text-info strong,.rc-body strong){color:var(--m-ink)!important}
+body[data-ui-style=minimal] #schedulerView :is(.acc-text-info small,.rc-body small){color:var(--m-muted)!important}
+/* 05 / Remaining surfaces and settings share the same graphite controls. */
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(.system-metric,.system-history-card,.system-detail-card,.max-channel-card,.modal-card,.cps-controls-sidebar,.cps-presets-sidebar,.companion-customize-card,.studio-hub-panel){background:var(--m-panel)!important;color:var(--m-ink)!important;border:1px solid var(--m-line)!important;border-radius:16px!important;box-shadow:var(--m-shadow)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] :is(.system-dashboard-header h2,.system-chart-header h3,.system-health-mark,.system-history-summary,.max-channel-heading h1,.companion-customize-card h2,.companion-customize-card h3,.companion-customize-card p,.companion-customize-card small){color:var(--m-ink)!important}
+body[data-ui-style=minimal] .settings-standalone :is(header,.customize-nav){border-color:var(--m-line)!important;background:var(--m-panel)!important;color:var(--m-ink)!important}
+body[data-ui-style=minimal] .settings-standalone .customize-nav button[aria-current=page]{background:var(--m-raised)!important}
+body[data-ui-style=minimal] .preview-minimal{background:#131b20!important;border:1px solid #bacad025!important;border-radius:12px!important;color:#c5d7df!important}
+body[data-ui-style=minimal] .preview-minimal>span{background:#2d3c45!important;border:1px solid #d0e0e021;border-radius:9px!important;color:#c5d7df!important}
+body[data-ui-style=minimal] .preview-minimal b{background:#778c98!important;border-radius:5px!important}
+body[data-ui-style=minimal] *::-webkit-scrollbar-thumb{background:#51616c!important;border-radius:8px}
+@media(max-width:1180px){
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #workspace .studio-main-viewport{grid-template-columns:160px minmax(0,1fr) 230px}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #workspace .studio-main-viewport.library-closed{grid-template-columns:0 minmax(0,1fr) 230px}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #workspace .studio-main-viewport.inspector-closed{grid-template-columns:160px minmax(0,1fr) 0}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #workspace .studio-main-viewport.library-closed.inspector-closed{grid-template-columns:0 minmax(0,1fr) 0}
+ body[data-ui-style=minimal] #ingestView{padding:16px 20px 22px!important}
+ body[data-ui-style=minimal] #setupSection .project-create-layout{padding:16px!important;gap:12px!important}
+ body[data-ui-style=minimal] #setupSection .new-framing-section{padding:12px!important}
+ body[data-ui-style=minimal] .new-framing-card strong{font-size:8px!important}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #pfeedWorkspaceGrid{grid-template-columns:280px minmax(0,1fr)!important;padding:12px 16px 16px!important;gap:14px!important}
+ body[data-ui-style=minimal] .pfeed-sidebar-right{padding:14px!important;gap:12px!important}
+ body[data-ui-style=minimal] #schedComposePanel .minimal-publish-desk{grid-template-columns:240px minmax(0,1fr);grid-template-rows:minmax(100px,.7fr) minmax(120px,.8fr) minmax(140px,1fr);grid-template-areas:'preview channels' 'preview schedule' 'preview copy'}
+}
+@media(prefers-reduced-motion:reduce){body[data-ui-style=minimal] *{transition:none!important;scroll-behavior:auto!important}}
+@media(max-height:760px){
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #ingestView{padding-top:14px!important;padding-bottom:14px!important}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #setupSection .project-create-layout{padding:16px!important;gap:12px!important}
+ body[data-ui-style=minimal] #ingestView .pro-ingest-top{padding-bottom:12px!important}
+ body[data-ui-style=minimal] #ingestView .pro-ingest-top h1{font-size:20px!important}
+ body[data-ui-style=minimal] #ingestView .pro-ingest-top p{font-size:10px!important;margin-top:4px!important}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #setupSection .source-card{min-height:208px!important}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] #dropZone{min-height:136px!important;height:136px!important;padding:12px!important;gap:5px!important}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=minimal] .new-framing-grid .new-framing-card{height:64px!important;min-height:64px!important;padding-top:7px!important;padding-bottom:7px!important}
+}
+

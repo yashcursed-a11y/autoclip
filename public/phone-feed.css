@@ -359,24 +359,34 @@
 
 .pfeed-caption-bubble {
   display: inline-block;
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 900;
   line-height: 1.25;
   color: #fff;
   text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 0 2px #000;
   text-transform: uppercase;
   letter-spacing: -0.01em;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  max-width: 90%;
+  word-wrap: break-word;
+}
+
+@keyframes hormoziPop {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.22); }
+  60% { transform: scale(0.95); }
+  100% { transform: scale(1); }
 }
 
 .pfeed-caption-bubble .pop-word {
   color: #ffe600;
-  text-shadow: 0 0 14px rgba(255, 230, 0, 0.8);
   display: inline-block;
-  transform: scale(1.08);
+  animation: hormoziPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-origin: center bottom;
+  padding: 0 2px;
 }
 
 /* Right Action Buttons Rail (TikTok Style) */

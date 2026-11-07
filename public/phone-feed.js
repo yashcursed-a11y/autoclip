@@ -11,42 +11,88 @@
   let isScrolling = false;
   let playbackLoopTimer = null;
   let captionStyle = 'viral_pop';
+  let controlsReady = false;
 
   const CAPTION_STYLES = {
     viral_pop: {
       name: 'Viral Pop (Hormozi)',
       color: '#ffe600',
-      font: 'Montserrat, Arial, sans-serif',
+      font: '"Montserrat", "Arial Black", sans-serif',
       uppercase: true
     },
     beast_neon: {
       name: 'MrBeast Electric',
       color: '#00ff88',
-      font: 'Impact, Arial Black, sans-serif',
+      font: '"Impact", "Arial Black", sans-serif',
       uppercase: true
     },
     clean_podcast: {
       name: 'Minimal Podcast',
       color: '#ffffff',
-      font: 'Inter, sans-serif',
+      font: 'Inter, system-ui, sans-serif',
       uppercase: false
     },
     cyber_neon: {
       name: 'Cyber Neon',
       color: '#00f0ff',
-      font: 'JetBrains Mono, monospace',
+      font: '"JetBrains Mono", monospace',
       uppercase: true
     }
   };
 
+  const GREEN_KEYWORDS = new Set([
+    'money', 'cash', 'rich', 'dollar', 'dollars', 'profit', 'free', 'win', 'winning', 'winner', 'yes', 'easy', 'growth', 'gain', 'best', 'boost'
+  ]);
+  const RED_KEYWORDS = new Set([
+    'never', 'worst', 'stop', 'hate', 'dead', 'died', 'kill', 'killed', 'fake', 'broke', 'danger', 'warning', 'lost', 'lose', 'failure', 'fail', 'no', 'wrong', 'banned', 'illegal', 'scam', 'terrible', 'horrible'
+  ]);
+  const GOLD_KEYWORDS = new Set([
+    'insane', 'crazy', 'secret', 'truth', 'genius', 'god', 'goat', 'legend', 'champion', 'billionaire', 'millionaire', 'clutch', 'unbelievable', 'shocking', 'massive', 'huge', 'mindblown'
+  ]);
+  const CYAN_KEYWORDS = new Set([
+    'ai', 'code', 'game', 'gaming', 'speed', 'future', 'robot', 'tech', 'online', 'hacker', 'stream'
+  ]);
+
+  const VIRAL_EMOJI_MAP = {
+    fire: '🔥', lit: '🔥', hot: '🔥', crazy: '🤯', insane: '🤯', mindblown: '🤯',
+    dead: '💀', died: '💀', skull: '💀', lol: '😂', laugh: '😂', funny: '🤣',
+    truth: '💯', real: '💯', fact: '💯', money: '💰', cash: '💵', rich: '🤑',
+    dollar: '💵', bag: '💰', win: '🏆', winner: '🏆', boss: '👑', king: '👑',
+    goat: '🐐', legend: '⭐', flex: '💪', strong: '💪', danger: '⚠️', warning: '⚠️',
+    alert: '🚨', game: '🎮', clutch: '🎯', ai: '🧠', brain: '🧠', speed: '⚡',
+    hype: '⚡', run: '🏃', fly: '🚀', rocket: '🚀', secret: '🤫', quiet: '🤫',
+    love: '❤️', heart: '❤️', chill: '🧊', party: '🎉'
+  };
+
+  function getDynamicWordColor(word, baseColor) {
+    const clean = String(word || '').toLowerCase().replace(/[^a-z0-9$]/g, '');
+    if (/^\$?\d+[%kmb]?$/i.test(clean)) return '#00FF66';
+    if (RED_KEYWORDS.has(clean)) return '#FF3333';
+    if (GOLD_KEYWORDS.has(clean)) return '#FFE600';
+    if (GREEN_KEYWORDS.has(clean)) return '#00FF66';
+    if (CYAN_KEYWORDS.has(clean)) return '#00F0FF';
+    return baseColor;
+  }
+
+  function getWordEmoji(word) {
+    const clean = String(word || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    return VIRAL_EMOJI_MAP[clean] || '';
+  }
+
   function getClips() {
-    return (window.state?.currentJob?.clips || []).slice();
+    return (getStudioState()?.currentJob?.clips || []).slice();
+  }
+
+  // app.js keeps state in a global lexical binding, not a Window property.
+  function getStudioState() {
+    return typeof state === 'object' && state ? state : window.state;
   }
 
   function getSourceVideoUrl() {
-    const job = window.state?.currentJob;
-    if (!job) return '';
-    return `/api/jobs/${job.id}/stream`;
+    const job = getStudioState()?.currentJob;
+    if (!job?.sourcePath) return '';
+    const name = job.sourcePath.split(/[\\/]/).pop();
+    return `/incoming/${encodeURIComponent(name)}`;
   }
 
   function initPhoneFeedReview() {
@@ -70,7 +116,7 @@
     renderPhoneSlides(clips);
 
     // Initial selection
-    const initialId = window.state?.activeClipId;
+    const initialId = getStudioState()?.activeClipId;
     let initialIdx = clips.findIndex(c => c.id === initialId);
     if (initialIdx < 0) initialIdx = 0;
 
@@ -292,6 +338,10 @@
       if (!video) return;
 
       if (i === index) {
+        if (!videoSrc) return;
+        video.onloadedmetadata = () => {
+          video.currentTime = clip.start;
+        };
         // Load source if missing
         if (!video.src || !video.src.includes(videoSrc)) {
           video.src = videoSrc;
@@ -320,16 +370,88 @@
     });
   }
 
+  function getClipTranscriptWords(clip) {
+    const segments = getStudioState()?.currentJob?.transcript?.segments;
+    if (!Array.isArray(segments)) return null;
+    const clipStart = Number(clip.start) || 0;
+    const clipEnd = Number(clip.end) || 30;
+    const words = [];
+    for (const seg of segments) {
+      if (seg.words && seg.words.length > 0) {
+        for (const w of seg.words) {
+          if (w.end >= clipStart && w.start <= clipEnd) {
+            words.push({ word: w.word, start: w.start, end: w.end });
+          }
+        }
+      } else if (seg.end >= clipStart && seg.start <= clipEnd) {
+        const segWords = seg.text.trim().split(/\s+/).filter(Boolean);
+        const segDur = Math.max(0.1, seg.end - seg.start);
+        const wordDur = segWords.length > 0 ? segDur / segWords.length : 0.4;
+        for (let i = 0; i < segWords.length; i++) {
+          const wStart = seg.start + (i * wordDur);
+          const wEnd = wStart + wordDur;
+          if (wEnd >= clipStart && wStart <= clipEnd) {
+            words.push({ word: segWords[i], start: wStart, end: wEnd });
+          }
+        }
+      }
+    }
+    return words.length > 0 ? words : null;
+  }
+
   function renderDynamicCaption(clip, currentTime) {
     const capEl = document.getElementById(`pfeedCap_${clip.id}`);
     if (!capEl) return;
 
     const style = CAPTION_STYLES[captionStyle] || CAPTION_STYLES.viral_pop;
+    const transcriptWords = getClipTranscriptWords(clip);
+
+    if (transcriptWords && transcriptWords.length > 0) {
+      // Find active 3-word phrase
+      const groupSize = 3;
+      let activeGroup = null;
+      let activeWordIdx = -1;
+
+      for (let i = 0; i < transcriptWords.length; i += groupSize) {
+        const group = transcriptWords.slice(i, i + groupSize);
+        const gStart = group[0].start;
+        const gEnd = group[group.length - 1].end;
+        if (currentTime >= gStart - 0.1 && currentTime <= gEnd + 0.3) {
+          activeGroup = group;
+          for (let j = 0; j < group.length; j++) {
+            if (currentTime >= group[j].start && (currentTime < group[j].end || j === group.length - 1)) {
+              activeWordIdx = j;
+              break;
+            }
+          }
+          if (activeWordIdx === -1) activeWordIdx = 0;
+          break;
+        }
+      }
+
+      if (activeGroup) {
+        capEl.innerHTML = activeGroup.map((item, idx) => {
+          let text = style.uppercase ? item.word.toUpperCase() : item.word;
+          const emoji = getWordEmoji(item.word);
+          if (emoji) text += ` ${emoji}`;
+          if (idx === activeWordIdx) {
+            const wordColor = getDynamicWordColor(item.word, style.color);
+            return `<span class="pop-word" style="color: ${wordColor}; text-shadow: 0 0 16px ${wordColor}AA;">${escapeHtml(text)}</span>`;
+          }
+          return `<span>${escapeHtml(text)}</span>`;
+        }).join(' ');
+        capEl.style.fontFamily = style.font;
+        return;
+      }
+    }
+
+    // Fallback: Animated title/hook words
     const text = (clip.hook || clip.title || 'AUTOCLIP').trim();
     const words = text.split(/\s+/);
 
     if (words.length <= 1) {
       capEl.textContent = text;
+      capEl.style.fontFamily = style.font;
       return;
     }
 
@@ -338,9 +460,12 @@
     const activeWordIdx = Math.min(words.length - 1, Math.floor(progress * words.length));
 
     capEl.innerHTML = words.map((w, i) => {
-      const wordText = style.uppercase ? w.toUpperCase() : w;
+      let wordText = style.uppercase ? w.toUpperCase() : w;
+      const emoji = getWordEmoji(w);
+      if (emoji) wordText += ` ${emoji}`;
       if (i === activeWordIdx) {
-        return `<span class="pop-word" style="color: ${style.color}">${escapeHtml(wordText)}</span>`;
+        const wordColor = getDynamicWordColor(w, style.color);
+        return `<span class="pop-word" style="color: ${wordColor}; text-shadow: 0 0 16px ${wordColor}AA;">${escapeHtml(wordText)}</span>`;
       }
       return `<span>${escapeHtml(wordText)}</span>`;
     }).join(' ');
@@ -418,35 +543,35 @@
     if (typeof window.startRenderSingleClip === 'function') {
       window.startRenderSingleClip(clip);
     } else {
-      // Direct render call
-      fetch(`/api/jobs/${window.state?.currentJob?.id}/render`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          clipIds: [clipId],
-          aspectRatio: '9:16',
-          framingMode: clip.recommendedFraming || 'smart'
-        })
-      }).then(r => r.json()).then(res => {
-        if (res.success || res.jobId) {
-          showToast(`🚀 Render started for Clip #${currentIndex + 1}!`);
-          if (typeof window.switchAppView === 'function') {
-            window.switchAppView('studio');
-          }
-        }
-      }).catch(err => {
-        showToast(`Render failed: ${err.message}`, true);
-      });
+      // Use the editor's real export path, including current caption/framing options
+      // and quota/error handling. The render API does not support clipIds.
+      const scope = document.querySelector('.manual-export-scope');
+      const render = document.getElementById('renderBtn');
+      if (!scope || !render || render.disabled || typeof window.getEditorExportClips !== 'function') {
+        showToast('Open the editor to export this clip.', true);
+        return;
+      }
+      window.selectClip?.(clipId, false);
+      window.switchAppView?.('studio');
+      const previous = scope.value;
+      try {
+        scope.value = 'active';
+        render.click();
+      } finally {
+        scope.value = previous;
+      }
     }
   }
 
   function setupKeyboardNavigation() {
+    if (controlsReady) return;
+    controlsReady = true;
     window.addEventListener('keydown', (e) => {
       // Only handle if phone review feed is currently visible
       const view = document.getElementById('phoneFeedView');
       if (!view || view.classList.contains('hidden')) return;
 
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
 
       if (e.key === 'ArrowDown' || e.key === 'j') {
         e.preventDefault();

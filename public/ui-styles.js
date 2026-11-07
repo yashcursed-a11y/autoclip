@@ -3,6 +3,7 @@
   const nav=document.querySelector('.customize-nav'),pages=document.querySelector('.customize-pages');if(!nav||!pages)return;
   const styles=[
     {id:'modern',name:'Modern Studio',note:'Capsule navigation, soft panels and floating tools.',toolbar:'side',menu:'radial'},
+    {id:'minimal',name:'Minimal',note:'Compact graphite workspace. Grouped setup, soft controls and a full-size editing desk.',toolbar:'side',menu:'grid'},
     {id:'retro95',name:'Retro ’95',note:'Classic desktop windows, bevels and pixel icons.',toolbar:'side',menu:'grid'},
 
   ];
@@ -36,11 +37,10 @@
   for(const [id,drawing] of Object.entries(drawings)){const button=document.getElementById(id);if(!button)continue;const icon=document.createElement('span');icon.className='retro-nav-icon';icon.setAttribute('aria-hidden','true');icon.innerHTML='<svg viewBox="0 0 16 16" width="22" height="22" shape-rendering="crispEdges">'+drawing+'</svg>';button.prepend(icon);}
   const apply=()=>{const style=styles.find(item=>item.id===prefs.style);document.body.dataset.uiStyle=prefs.style;document.body.dataset.uiToolbar=style.toolbar;document.body.dataset.uiMenu=style.menu;document.body.dataset.retroPalette=prefs.classic?'classic':'theme';document.body.classList.toggle('retro95-ui',prefs.style==='retro95');document.body.classList.remove('ui-world');palette.checked=!!prefs.classic;palette.closest('label').hidden=prefs.style!=='retro95';
     page.querySelectorAll('[data-ui-choice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.uiChoice===prefs.style)));
-    page.querySelector('.ui-style-status').textContent=prefs.style==='retro95'?`Retro ’95 · ${prefs.classic?'classic desktop palette':'your theme colors'}. Your font selection is preserved.`:`${style.name} active. Your theme and font selection are preserved.`;
+    page.querySelector('.ui-style-status').textContent=prefs.style==='retro95'?`Retro ’95 · ${prefs.classic?'classic desktop palette':'your theme colors'}. Your font selection is preserved.`:prefs.style==='minimal'?'Minimal active · compact graphite desk, soft controls and full-size editing. Your saved theme and font preferences are retained.':`${style.name} active. Your theme and font selection are preserved.`;
     try{localStorage.setItem('autoclip.uiStyle',JSON.stringify(prefs));}catch{}
     document.dispatchEvent(new CustomEvent('autoclip-ui-changed',{detail:{style:prefs.style}}));
     window.dispatchEvent(new Event('resize'));
   };
   page.querySelectorAll('[data-ui-choice]').forEach(button=>button.onclick=()=>{prefs.style=button.dataset.uiChoice;apply();});palette.onchange=()=>{prefs.classic=palette.checked;apply();};apply();
 })();
-
