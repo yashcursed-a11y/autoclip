@@ -786,7 +786,7 @@ app.post('/api/mcp', async (req, res) => {
         result: {
           protocolVersion: '2024-11-05',
           capabilities: { tools: {} },
-          serverInfo: { name: 'autoclip-mcp', version: '1.0.2' }
+          serverInfo: { name: 'autoclip-mcp', version: '2.0.0' }
         }
       });
     }
@@ -2010,7 +2010,7 @@ app.post('/api/accounts/verify-instagram', async (req, res) => {
 app.get('/api/system/check-update', async (_req, res) => {
   try {
     const pkg = JSON.parse(await fsp.readFile(path.join(ROOT, 'package.json'), 'utf8'));
-    const currentVersion = pkg.version || '1.0.2';
+    const currentVersion = pkg.version || '2.0.0';
 
     const resp = await fetch('https://api.github.com/repos/yashcursed-a11y/autoclip/releases/latest', {
       headers: { 'User-Agent': 'AUTOCLIPIN-App' }
@@ -2283,7 +2283,7 @@ app.get('/api/github/status', async (_req, res) => {
     const pkg = require('./package.json');
     const settings = await getSettings();
     res.json({
-      currentVersion: pkg.version || '1.0.2',
+      currentVersion: pkg.version || '2.0.0',
       githubUser: settings.githubUser || null,
       autoCheckOnStartup: settings.githubAutoCheck !== false
     });
@@ -2296,7 +2296,7 @@ app.get('/api/github/check-update', async (_req, res) => {
   try {
     const pkg = require('./package.json');
     const settings = await getSettings();
-    const currentVersion = pkg.version || '1.0.2';
+    const currentVersion = pkg.version || '2.0.0';
 
     const headers = {
       'User-Agent': 'AUTOCLIPIN-Desktop-App',

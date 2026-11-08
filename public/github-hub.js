@@ -34,7 +34,7 @@
       pill.style.borderColor = 'rgba(245, 158, 11, 0.5)';
       pill.style.background = 'rgba(245, 158, 11, 0.12)';
     } else {
-      const ver = data?.currentVersion || '1.0.2';
+      const ver = data?.currentVersion || '2.0.0';
       text.textContent = `v${ver} (Up to date)`;
       dot.style.background = '#22c55e';
       dot.style.boxShadow = '0 0 6px #22c55e';
@@ -126,7 +126,7 @@
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
             <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 10px 14px; border-radius: 8px;">
               <div style="font-size: 11px; color: #8fa5c5;">Installed Version</div>
-              <div id="ghModalCurrentVer" style="font-size: 18px; font-weight: 800; color: #fff; margin-top: 2px;">v1.0.2</div>
+              <div id="ghModalCurrentVer" style="font-size: 18px; font-weight: 800; color: #fff; margin-top: 2px;">v2.0.0</div>
             </div>
             <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 10px 14px; border-radius: 8px;">
               <div style="font-size: 11px; color: #8fa5c5;">Latest on GitHub</div>
