@@ -687,6 +687,11 @@
           <p id="jobSub" class="muted">12 min video · 5 candidates ranked by AI</p>
         </div>
         <div class="workspace-controls">
+          <button type="button" id="fullAiEditToggleBtn" class="pill-btn full-ai-toggle-btn active" title="Toggle Full AI Auto-Editing System (Auto-Framing #2, Kinetic Subtitles, Smart Callouts, SFX)">
+            <span class="full-ai-glow-dot"></span>
+            <span class="full-ai-icon">⚡</span>
+            <span class="full-ai-text">AI AUTO-EDIT: <strong class="full-ai-status">ON</strong></span>
+          </button>
           <button type="button" id="openPhoneCaptionFromHeaderBtn" class="pill-btn lava-glow-btn"> Phone Caption Studio</button>
           <div class="mode-switch studio-clip-mode-switch">
             <button type="button" id="modeAiClips" class="mode-btn active" title="View AI-discovered ranked highlights"> AI Clips</button>
@@ -828,6 +833,19 @@
 
         <!-- Panel 3: Creative Inspector Drawer (Right) -->
         <div class="inspector-column">
+          <div class="full-ai-inspector-card" id="fullAiInspectorCard">
+            <div class="full-ai-card-header">
+              <div class="full-ai-card-title">
+                <span class="full-ai-badge">FULL AI</span>
+                <h4>AI Auto-Editing Suite</h4>
+              </div>
+              <button type="button" id="fullAiInspectorToggleBtn" class="pill-btn full-ai-toggle-btn active">
+                <span class="full-ai-glow-dot"></span>
+                <span class="full-ai-status">ON</span>
+              </button>
+            </div>
+            <p class="full-ai-desc">Engine 2.0 Auto-Framing, Kinetic Hormozi Pop, 140+ Emojis, Smart Callouts &amp; SFX.</p>
+          </div>
           <div id="editorSubPanels" class="editor-sub-panels">
             <div class="editor-tabs">
               <button class="editor-tab active" data-subtab="captions">📝 Caption Studio</button>
@@ -1415,6 +1433,21 @@
             <button type="button" id="pfeedNudgeStartPlus" class="pfeed-nudge-btn">+1s Start</button>
             <button type="button" id="pfeedNudgeEndMinus" class="pfeed-nudge-btn">-1s End</button>
             <button type="button" id="pfeedNudgeEndPlus" class="pfeed-nudge-btn">+1s End</button>
+          </div>
+        </div>
+
+        <div class="pfeed-block full-ai-pfeed-box" id="fullAiPfeedBox">
+          <div class="pfeed-ai-row">
+            <div>
+              <span class="pfeed-block-title" style="margin: 0; display: flex; align-items: center; gap: 6px;">
+                <span class="full-ai-badge">FULL AI</span> AI Auto-Edit
+              </span>
+              <span class="pfeed-ai-sub">YuNet framing, kinetic pop &amp; SFX</span>
+            </div>
+            <button type="button" id="pfeedFullAiToggleBtn" class="pill-btn full-ai-toggle-btn active">
+              <span class="full-ai-glow-dot"></span>
+              <span class="full-ai-status">ON</span>
+            </button>
           </div>
         </div>
 

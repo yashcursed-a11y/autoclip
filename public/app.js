@@ -2855,8 +2855,10 @@ $('#renderBtn').onclick = async () => {
 
   try {
     // Gather active framing and styling overrides
+    const isFullAi = typeof window.isFullAiEditActive === 'function' ? window.isFullAiEditActive() : true;
     const renderOptions = {
       ...state.currentJob.options,
+      fullAiEdit: isFullAi,
       captionsEnabled: true,
       captionPreset: $('#captionPresetSelect').value,
       captionStyle: {
@@ -3079,6 +3081,96 @@ $('#saveGeminiBtn').onclick = async () => {
   updateHeaderStatus();
   $('#geminiModal').classList.add('hidden');
 };
+
+// ========================================================
+// Master Full AI Auto-Editing Toggle System
+// ========================================================
+function showStudioToast(msg, isErr = false) {
+  let toast = document.getElementById('studioToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'studioToast';
+    toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(15,23,42,0.96);color:#fff;padding:10px 22px;border-radius:9999px;font-size:12px;font-weight:700;z-index:99999;box-shadow:0 8px 30px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.15);pointer-events:none;opacity:0;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);display:flex;align-items:center;gap:8px;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.borderColor = isErr ? 'rgba(239,68,68,0.6)' : 'rgba(0,255,136,0.6)';
+  toast.style.boxShadow = isErr ? '0 0 20px rgba(239,68,68,0.3)' : '0 0 20px rgba(0,255,136,0.3)';
+  toast.style.opacity = '1';
+  toast.style.transform = 'translateX(-50%) translateY(0)';
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(-50%) translateY(20px)';
+  }, 2600);
+}
+window.showStudioToast = showStudioToast;
+
+window.isFullAiEditActive = function() {
+  const saved = localStorage.getItem('autoclip.fullAiEdit');
+  return saved !== 'false'; // Default to ON
+};
+
+window.setFullAiEditActive = function(active) {
+  localStorage.setItem('autoclip.fullAiEdit', active ? 'true' : 'false');
+  updateAllFullAiButtons(active);
+  showStudioToast(active 
+    ? '⚡ Full AI Auto-Editing: ON (YuNet 5-Point Framing, Kinetic Pop, Smart Callouts & SFX Active)' 
+    : '⚪ Full AI Auto-Editing: OFF (Manual Mode Active - Exporting Raw Settings)');
+};
+
+window.toggleFullAiEdit = function() {
+  window.setFullAiEditActive(!window.isFullAiEditActive());
+};
+
+function updateAllFullAiButtons(active) {
+  const btns = [
+    document.getElementById('fullAiEditToggleBtn'),
+    document.getElementById('fullAiInspectorToggleBtn'),
+    document.getElementById('pfeedFullAiToggleBtn')
+  ];
+
+  btns.forEach(btn => {
+    if (!btn) return;
+    if (active) {
+      btn.classList.add('active');
+      const st = btn.querySelector('.full-ai-status');
+      if (st) st.textContent = 'ON';
+    } else {
+      btn.classList.remove('active');
+      const st = btn.querySelector('.full-ai-status');
+      if (st) st.textContent = 'OFF';
+    }
+  });
+
+  const cards = [
+    document.getElementById('fullAiInspectorCard'),
+    document.getElementById('fullAiPfeedBox')
+  ];
+  cards.forEach(card => {
+    if (!card) return;
+    if (active) card.classList.remove('disabled');
+    else card.classList.add('disabled');
+  });
+}
+
+function initFullAiToggleListeners() {
+  const btnWorkspace = document.getElementById('fullAiEditToggleBtn');
+  const btnInspector = document.getElementById('fullAiInspectorToggleBtn');
+  const btnPfeed = document.getElementById('pfeedFullAiToggleBtn');
+
+  if (btnWorkspace) btnWorkspace.onclick = (e) => { e.preventDefault(); window.toggleFullAiEdit(); };
+  if (btnInspector) btnInspector.onclick = (e) => { e.preventDefault(); window.toggleFullAiEdit(); };
+  if (btnPfeed) btnPfeed.onclick = (e) => { e.preventDefault(); window.toggleFullAiEdit(); };
+
+  updateAllFullAiButtons(window.isFullAiEditActive());
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initFullAiToggleListeners);
+} else {
+  initFullAiToggleListeners();
+}
 
 $('#sysStatusBtn').onclick = () => {
   if (typeof window.switchAppView === 'function') {

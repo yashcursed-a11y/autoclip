@@ -122,6 +122,21 @@
 
     scrollToClipIndex(initialIdx, false);
     setupKeyboardNavigation();
+
+    // Hook Full AI toggle button
+    const pfeedToggle = document.getElementById('pfeedFullAiToggleBtn');
+    if (pfeedToggle) {
+      pfeedToggle.onclick = (e) => {
+        e.preventDefault();
+        if (typeof window.toggleFullAiEdit === 'function') window.toggleFullAiEdit();
+      };
+      if (typeof window.isFullAiEditActive === 'function') {
+        const active = window.isFullAiEditActive();
+        pfeedToggle.classList.toggle('active', active);
+        const st = pfeedToggle.querySelector('.full-ai-status');
+        if (st) st.textContent = active ? 'ON' : 'OFF';
+      }
+    }
   }
 
   function renderClipsQueue(clips) {
