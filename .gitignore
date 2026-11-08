@@ -29,7 +29,7 @@ __pycache__/
 dist/
 models/
 
-# Scratch & Design Backups
+# Scratch & Design Backups & Caches
 work/*-backup/
 work/*.pre-*
 work/manual-preview*
@@ -39,6 +39,14 @@ work/website-*
 work/app.pre-timeline-fix.js
 work/build-theme-art.py
 work/bundle-font-packs.py
+work/framing-cache/
+work/vercel-cli-cache/
+work/autoclipin-direct-site/
+work/check-*.cjs
+work/minimal-*
+work/noir-*
+work/*.png
+work/*.svg
 
 # Curated website demonstration footage
 !website/marketing/media/*.mp4
