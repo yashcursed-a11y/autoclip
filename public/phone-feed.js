@@ -212,9 +212,9 @@
                 <span class="pfeed-action-label">Score</span>
               </button>
 
-              <button type="button" class="pfeed-rail-action-btn" data-action="edit-timeline" title="Open in Studio Timeline">
+              <button type="button" class="pfeed-rail-action-btn" data-action="edit-timeline" title="Edit in Studio Timeline (Optional)">
                 <div class="pfeed-action-circle">✂️</div>
-                <span class="pfeed-action-label">Timeline</span>
+                <span class="pfeed-action-label">Edit</span>
               </button>
 
               <button type="button" class="pfeed-rail-action-btn" data-action="copy-hook" title="Copy Clip Title & Hook">
@@ -617,12 +617,12 @@
       };
     });
 
-    // Back to Studio button
+    // Back to Ingest / New Video button
     const backBtn = document.getElementById('pfeedBackToStudioBtn');
     if (backBtn) {
       backBtn.onclick = () => {
         if (typeof window.switchAppView === 'function') {
-          window.switchAppView('studio');
+          window.switchAppView('ingest');
         }
       };
     }

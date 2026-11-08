@@ -114,7 +114,7 @@ function escapeHtml(str) {
     // Load recent valid job if present
     const validJob = state.jobs.find(j => (j.status === 'ready' || j.status === 'complete') && j.sourcePath);
     if (validJob) {
-      showJob(validJob, false);
+      showJob(validJob, false, 'ingest');
     } else {
       window.switchAppView('ingest');
     }
@@ -1397,12 +1397,15 @@ async function pollJob(jobId) {
         clearInterval(interval);
         createBtn.disabled = false;
         progressWrap.classList.add('hidden');
-        showJob(j, true);
+        showJob(j, true, 'phone_feed');
         renderJobs();
         $('#message').innerHTML = `
-          <span>✅ Stream processed! ${j.clips?.length || 0} viral moments detected.</span>
-          <button type="button" class="pill-btn lava-glow-btn" style="margin-left: 10px; padding: 4px 12px; font-size: 12px;" onclick="state.currentJob = state.jobs.find(x => x.id === '${j.id}'); window.switchAppView('watch'); loadStreamIntoCinema(state.currentJob);">
-            📺 Open in Stream Cinema
+          <span>✅ Stream processed! ${j.clips?.length || 0} viral moments ready to preview.</span>
+          <button type="button" class="pill-btn lava-glow-btn" style="margin-left: 10px; padding: 4px 12px; font-size: 12px;" onclick="state.currentJob = state.jobs.find(x => x.id === '${j.id}'); window.switchAppView('phone_feed');">
+            📱 Preview Clips in Phone Feed
+          </button>
+          <button type="button" class="pill-btn" style="margin-left: 6px; padding: 4px 12px; font-size: 12px; background: rgba(255,255,255,0.06);" onclick="state.currentJob = state.jobs.find(x => x.id === '${j.id}'); window.switchAppView('studio');">
+            ✏️ Edit in Studio (Optional)
           </button>
         `;
       } else if (j.status === 'failed' || j.status === 'cancelled') {
@@ -1440,10 +1443,10 @@ async function pollJob(jobId) {
 }
 
 // 5. Studio Workspace & Review
-function showJob(job, scrollToWorkspace = true) {
+function showJob(job, scrollToWorkspace = true, targetView = 'phone_feed') {
   state.currentJob = job;
-  if (typeof window.switchAppView === 'function') {
-    window.switchAppView('studio');
+  if (typeof window.switchAppView === 'function' && targetView) {
+    window.switchAppView(targetView);
   }
   const emptyState = $('#studioEmptyState');
   const ws = $('#workspace');
@@ -3127,7 +3130,8 @@ function updateAllFullAiButtons(active) {
   const btns = [
     document.getElementById('fullAiEditToggleBtn'),
     document.getElementById('fullAiInspectorToggleBtn'),
-    document.getElementById('pfeedFullAiToggleBtn')
+    document.getElementById('pfeedFullAiToggleBtn'),
+    document.getElementById('ingestFullAiToggleBtn')
   ];
 
   btns.forEach(btn => {
@@ -3145,7 +3149,8 @@ function updateAllFullAiButtons(active) {
 
   const cards = [
     document.getElementById('fullAiInspectorCard'),
-    document.getElementById('fullAiPfeedBox')
+    document.getElementById('fullAiPfeedBox'),
+    document.getElementById('ingestAutoEditCard')
   ];
   cards.forEach(card => {
     if (!card) return;
@@ -3158,10 +3163,12 @@ function initFullAiToggleListeners() {
   const btnWorkspace = document.getElementById('fullAiEditToggleBtn');
   const btnInspector = document.getElementById('fullAiInspectorToggleBtn');
   const btnPfeed = document.getElementById('pfeedFullAiToggleBtn');
+  const btnIngest = document.getElementById('ingestFullAiToggleBtn');
 
   if (btnWorkspace) btnWorkspace.onclick = (e) => { e.preventDefault(); window.toggleFullAiEdit(); };
   if (btnInspector) btnInspector.onclick = (e) => { e.preventDefault(); window.toggleFullAiEdit(); };
   if (btnPfeed) btnPfeed.onclick = (e) => { e.preventDefault(); window.toggleFullAiEdit(); };
+  if (btnIngest) btnIngest.onclick = (e) => { e.preventDefault(); window.toggleFullAiEdit(); };
 
   updateAllFullAiButtons(window.isFullAiEditActive());
 }
@@ -7873,14 +7880,22 @@ function setupMaxAutomateUI() {
             badge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
           }
           if (actDiv && !actDiv.hasChildNodes()) {
-            const openBtn = document.createElement('button');
-            openBtn.type = 'button';
-            openBtn.className = 'pill-btn lava-glow-btn';
-            openBtn.style.cssText = 'flex: 1; padding: 6px 10px; font-size: 11px; font-weight: 800; cursor: pointer;';
-            openBtn.textContent = '🎬 Open Studio';
-            openBtn.onclick = () => {
-              showJob(j, true);
-              window.switchAppView('studio');
+            const previewBtn = document.createElement('button');
+            previewBtn.type = 'button';
+            previewBtn.className = 'pill-btn lava-glow-btn';
+            previewBtn.style.cssText = 'flex: 1; padding: 6px 10px; font-size: 11px; font-weight: 800; cursor: pointer;';
+            previewBtn.textContent = '📱 Preview Clips';
+            previewBtn.onclick = () => {
+              showJob(j, true, 'phone_feed');
+            };
+
+            const studioBtn = document.createElement('button');
+            studioBtn.type = 'button';
+            studioBtn.className = 'pill-btn';
+            studioBtn.style.cssText = 'padding: 6px 10px; font-size: 11px; background: rgba(255,255,255,0.06); color: #cbd5e1;';
+            studioBtn.textContent = '✏️ Edit (Optional)';
+            studioBtn.onclick = () => {
+              showJob(j, true, 'studio');
             };
 
             const cinemaBtn = document.createElement('button');
@@ -7896,7 +7911,8 @@ function setupMaxAutomateUI() {
               }
             };
 
-            actDiv.appendChild(openBtn);
+            actDiv.appendChild(previewBtn);
+            actDiv.appendChild(studioBtn);
             actDiv.appendChild(cinemaBtn);
           }
           renderJobs();

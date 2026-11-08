@@ -28,7 +28,7 @@
     <!-- Left Slim Rail (Modern App Navigation) -->
     <aside class="app-rail">
       <div class="rail-top">
-        <a class="rail-logo" href="/" title="AUTOCLIPIN Studio v2.0">
+        <a class="rail-logo" href="/" title="AUTOCLIPIN Studio v2.1">
           <img class="studio-chrome-brand" src="/assets/brand/autoclipin-logo.webp" alt="AUTOCLIPIN" width="42" height="42">
           <span class="rail-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 10-12h-7l1-8Z"/></svg></span>
         </a>
@@ -43,13 +43,13 @@
             <span class="rail-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/></svg></span>
             <span class="rail-label">New</span>
           </button>
-          <button type="button" id="navStudioBtn" class="rail-btn" title="Page 2: Clip Studio (Big Screen CapCut Editing)">
+          <button type="button" id="navPhoneFeedBtn" class="rail-btn" title="Phone Feed Preview (TikTok / Reels 9:16 Vertical Scroll)">
+            <span class="rail-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="3"/><path d="M12 18h.01"/></svg></span>
+            <span class="rail-label">Preview</span>
+          </button>
+          <button type="button" id="navStudioBtn" class="rail-btn" title="Page 2: Clip Studio (Optional Manual Timeline Editing)">
             <span class="rail-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4zM9 5v14M4 10h5M4 15h5"/></svg></span>
             <span class="rail-label">Studio</span>
-          </button>
-          <button type="button" id="navPhoneFeedBtn" class="rail-btn" title="Page 3: Phone Feed Review (TikTok / Reels Vertical Scroll)">
-            <span class="rail-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="3"/><path d="M12 18h.01"/></svg></span>
-            <span class="rail-label">Feed</span>
           </button>
           <button type="button" id="navCaptionPhoneBtn" class="rail-btn" title="Page 3: Phone Caption Studio (Interactive Mobile Visualizer)">
             <span class="rail-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2ZM10 18h4"/></svg></span>
@@ -93,7 +93,7 @@
           </div>
         </div>
         <div class="topbar-right">
-          <button id="btnGithubUpdate" class="status-pill" title="GitHub Auto-Update Hub" style="display:inline-flex; align-items:center; gap:6px; cursor:pointer; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; font-weight:600; font-size: 11px; padding: 4px 10px; border-radius: 6px;"><span id="ghPillText">v2.0.0</span><span id="ghUpdateDot" style="width:6px; height:6px; border-radius:50%; background:#22c55e;"></span></button>
+          <button id="btnGithubUpdate" class="status-pill" title="GitHub Auto-Update Hub" style="display:inline-flex; align-items:center; gap:6px; cursor:pointer; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; font-weight:600; font-size: 11px; padding: 4px 10px; border-radius: 6px;"><span id="ghPillText">v2.1.0</span><span id="ghUpdateDot" style="width:6px; height:6px; border-radius:50%; background:#22c55e;"></span></button>
           <button id="topbarAiMcpBtn" class="status-pill" title="Model Context Protocol (MCP) Server" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; font-weight: 600; font-size: 11px; padding: 4px 10px; border-radius: 6px;">MCP Server</button>
           <button id="licenseStatusBtn" class="status-pill" style="background: rgba(232, 141, 40, 0.1); border: 1px solid rgba(232, 141, 40, 0.3); color: #ffaa33; font-weight: 700; font-size: 11px; padding: 4px 10px; border-radius: 6px;">
             <span id="licensePillIcon"></span>
@@ -638,10 +638,31 @@
         </div>
       </div>
 
+      <!-- Master AI Auto-Edit Control on Main Page -->
+      <div class="ingest-auto-edit-card" id="ingestAutoEditCard">
+        <div class="ingest-auto-edit-left">
+          <div class="ingest-auto-edit-badge-col">
+            <span class="full-ai-badge">FULL AI</span>
+            <span class="full-ai-pill-tag">AUTO-EDIT</span>
+          </div>
+          <div class="ingest-auto-edit-text">
+            <strong>⚡ Full AI Auto-Edit Generated Clips</strong>
+            <p>Automatically applies 9:16 YuNet face tracking, dynamic Hormozi kinetic word-pop subtitles with 140+ emojis, and audio energy SFX.</p>
+          </div>
+        </div>
+        <div class="ingest-auto-edit-right">
+          <button type="button" id="ingestFullAiToggleBtn" class="pill-btn full-ai-toggle-btn active" title="Toggle AI Auto-Editing on/off">
+            <span class="full-ai-glow-dot"></span>
+            <span class="full-ai-icon">⚡</span>
+            <span class="full-ai-text">AI AUTO-EDIT: <strong class="full-ai-status">ON</strong></span>
+          </button>
+        </div>
+      </div>
+
       <!-- Main Action -->
       <div class="action-bar" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 20px;">
         <button id="createJob" class="primary-btn render-btn" style="padding: 11px 26px; font-size: 13px; font-weight: 700; letter-spacing: -0.01em;">
-          <span>Analyze &amp; Open Timeline</span>
+          <span>Discover Moments &amp; Preview Clips</span>
         </button>
         <button id="launchAutoPilotBtn" type="button" class="pill-btn" title="Automated pipeline: Discover moments, render vertical clips &amp; queue for review">
           <span>Auto-Pilot Pipeline</span>
@@ -1326,15 +1347,15 @@
     <!-- Top Header -->
     <div class="pfeed-header">
       <div class="pfeed-header-left">
-        <button type="button" id="pfeedBackToStudioBtn" class="pill-btn mini-pill">← Back to Studio Timeline</button>
+        <button type="button" id="pfeedBackToStudioBtn" class="pill-btn mini-pill">← Ingest / New Video</button>
         <div class="pfeed-title-wrap">
-          <h2> Mobile Feed Review</h2>
-          <span class="pfeed-sub">Vertical TikTok &amp; Reels scroll simulator with active word-pop subtitles</span>
+          <h2>📱 Mobile Feed Preview</h2>
+          <span class="pfeed-sub">Vertical TikTok &amp; Reels preview simulator with active word-pop subtitles</span>
         </div>
       </div>
       <div class="pfeed-header-right">
         <span id="pfeedTotalBadge" class="pfeed-clip-count-badge">0 Clips</span>
-        <button type="button" onclick="window.switchAppView('studio')" class="pill-btn mini-pill"> Studio Editor</button>
+        <button type="button" onclick="window.switchAppView('studio')" class="pill-btn mini-pill" style="border: 1px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.06);" title="Open timeline editor for optional manual trimming & tracks">✏️ Edit in Studio (Optional)</button>
       </div>
     </div>
 
@@ -1453,6 +1474,9 @@
 
         <button type="button" onclick="document.querySelector('.pfeed-clip-slide [data-action=render-single]')?.click()" class="primary-btn lava-glow-btn" style="width: 100%; justify-content: center; padding: 10px; font-weight: 800;">
            Render Active Clip (9:16)
+        </button>
+        <button type="button" id="pfeedOpenStudioOptionalBtn" class="pill-btn" style="width: 100%; justify-content: center; padding: 9px; margin-top: 8px; font-size: 11px; font-weight: 700; color: #cbd5e1; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12);" onclick="window.switchAppView('studio')" title="Open timeline studio for manual cut, multi-track, or caption editing">
+          ✏️ Edit in Studio (Optional)
         </button>
       </div>
     </div>

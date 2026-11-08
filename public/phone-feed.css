@@ -857,3 +857,79 @@
   color: #94a3b8;
   margin-top: 2px;
 }
+
+/* Main Ingest Page Full AI Auto-Edit Card */
+.ingest-auto-edit-card {
+  margin: 20px 0 10px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.09) 0%, rgba(0, 240, 255, 0.05) 100%);
+  border: 1px solid rgba(0, 255, 136, 0.35);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.25s ease;
+}
+
+.ingest-auto-edit-card.disabled {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.ingest-auto-edit-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ingest-auto-edit-badge-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+
+.full-ai-pill-tag {
+  font-size: 8px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  background: rgba(255, 170, 0, 0.15);
+  border: 1px solid rgba(255, 170, 0, 0.4);
+  color: #ffaa00;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.ingest-auto-edit-text strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.ingest-auto-edit-text p {
+  margin: 3px 0 0 0;
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+@media (max-width: 680px) {
+  .ingest-auto-edit-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .ingest-auto-edit-right {
+    width: 100%;
+  }
+  .ingest-auto-edit-right .full-ai-toggle-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
