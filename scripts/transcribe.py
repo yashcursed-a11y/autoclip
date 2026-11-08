@@ -1,8 +1,17 @@
 import os
+# Strictly cap thread pools and memory allocations for 8GB RAM systems
+os.environ["OMP_NUM_THREADS"] = "2"
+os.environ["MKL_NUM_THREADS"] = "2"
+os.environ["OPENBLAS_NUM_THREADS"] = "2"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "2"
+os.environ["NUMEXPR_NUM_THREADS"] = "2"
+os.environ["CTRANSLATE2_MAX_THREAD_COUNT"] = "2"
+
 import sys
 import json
 import subprocess
 import traceback
+import gc
 import numpy as np
 
 # Ensure UTF-8 output on Windows consoles/pipes
@@ -84,7 +93,7 @@ def run_transcription():
     from faster_whisper import WhisperModel
 
     try:
-        model = WhisperModel(model_size, device="cpu", compute_type="int8")
+        model = WhisperModel(model_size, device="cpu", compute_type="int8", cpu_threads=2, num_workers=1)
     except Exception as e:
         del audio
         if os.path.exists(pcm_file):
@@ -179,6 +188,11 @@ def run_transcription():
                     seg_idx += 1
 
                 completed_chunks.add(c_idx)
+                # Free chunk generator and invoke garbage collection
+                try:
+                    del chunk_gen
+                    gc.collect()
+                except: pass
                 # Persist checkpoint to disk atomically
                 try:
                     tmp_cp = checkpoint_file + ".tmp"
@@ -226,7 +240,14 @@ def run_transcription():
         print(json.dumps({"error": err_msg}), flush=True)
         sys.exit(1)
     finally:
-        del audio
+        try:
+            del audio
+        except: pass
+        if 'model' in locals():
+            try:
+                del model
+            except: pass
+        gc.collect()
         if os.path.exists(pcm_file):
             try: os.unlink(pcm_file)
             except: pass

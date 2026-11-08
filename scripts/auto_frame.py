@@ -7,9 +7,14 @@ Features:
 - Cinematic Deadband smoothing (eliminates camera jitter)
 - Multi-face layout policy (single speaker, duo face-stack, group-fit)
 """
+import os
+os.environ["OMP_NUM_THREADS"] = "2"
+os.environ["MKL_NUM_THREADS"] = "2"
+os.environ["OPENCV_VIDEOIO_PRIORITY_MSMF"] = "0"
 import json
 import math
 import sys
+import gc
 from pathlib import Path
 import cv2
 import numpy as np
@@ -149,12 +154,13 @@ def analyze(source, start, end, aspect='9:16', policy='adaptive'):
 
         detector = cv2.FaceDetectorYN.create(str(model), '', (640, 360), 0.75, 0.3, 1000)
 
-        # Sampling step: ~2-3 samples per second for high tracking precision
-        step = max(0.35, duration / 120.0)
+        # Sampling step: ~1.5-2 samples per second (low memory overhead, high tracking precision)
+        step = max(0.45, duration / 80.0)
         samples = []
         previous = []
         previous_gray = None
         next_id = 1
+        frame_counter = 0
 
         for relative in np.arange(0, duration, step):
             cap.set(cv2.CAP_PROP_POS_MSEC, (start + relative) * 1000)
@@ -166,6 +172,12 @@ def analyze(source, start, end, aspect='9:16', policy='adaptive'):
             small_w = max(2, int(width * scale))
             small_h = max(2, int(height * scale))
             small = cv2.resize(frame, (small_w, small_h))
+            del frame  # Immediately free large uncompressed full-res frame
+
+            frame_counter += 1
+            if frame_counter % 20 == 0:
+                gc.collect()
+
             gray = cv2.cvtColor(small, cv2.COLOR_BGR2GRAY)
 
             # Detect scene cut / camera switch
@@ -318,8 +330,8 @@ def analyze(source, start, end, aspect='9:16', policy='adaptive'):
                     # Check horizontal shift against deadband
                     diff_x = abs(sample['crops'][0]['x'] - last['crops'][0]['x'])
 
-                    # Only create a refreshed segment if movement exceeded deadband AND duration >= 1.8s
-                    if diff_x > deadband_px and (sample['start'] - last['start']) >= 1.8 and len(segments) < 32:
+                    # Only create a refreshed segment if movement exceeded deadband AND duration >= 2.0s
+                    if diff_x > deadband_px and (sample['start'] - last['start']) >= 2.0 and len(segments) < 10:
                         # Apply Exponential Moving Average (EMA) easing to smooth camera motion
                         smoothed_crop = dict(sample['crops'][0])
                         smoothed_crop['x'] = int(round(last['crops'][0]['x'] * 0.35 + sample['crops'][0]['x'] * 0.65)) // 2 * 2
@@ -333,7 +345,7 @@ def analyze(source, start, end, aspect='9:16', policy='adaptive'):
             pending_key = key
 
             # Require at least 2 consecutive samples confirming the switch to avoid flash-cuts
-            if pending_count >= 2 and (sample['start'] - last['start']) >= 1.2 and len(segments) < 32:
+            if pending_count >= 2 and (sample['start'] - last['start']) >= 1.5 and len(segments) < 10:
                 segments.append(dict(sample))
                 pending_count = 0
 
@@ -359,7 +371,13 @@ def analyze(source, start, end, aspect='9:16', policy='adaptive'):
         }
 
     finally:
-        cap.release()
+        try:
+            cap.release()
+        except: pass
+        if 'detector' in locals():
+            try: del detector
+            except: pass
+        gc.collect()
 
 if __name__ == '__main__':
     try:

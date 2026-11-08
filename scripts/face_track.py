@@ -3,10 +3,16 @@ Single-clip face tracking & cinematic framing using YuNet 5-point neural landmar
 """
 import sys
 import os
+os.environ["OMP_NUM_THREADS"] = "2"
+os.environ["MKL_NUM_THREADS"] = "2"
+os.environ["OPENCV_VIDEOIO_PRIORITY_MSMF"] = "0"
 import json
+import gc
 from pathlib import Path
 import cv2
 import numpy as np
+
+cv2.setNumThreads(2)
 
 def compute_framing():
     if len(sys.argv) < 2:
@@ -85,6 +91,7 @@ def compute_framing():
 
             if detector is not None:
                 small = cv2.resize(frame, (small_w, small_h))
+                del frame  # Free full-res uncompressed frame immediately
                 detector.setInputSize((small_w, small_h))
                 _, detections = detector.detect(small)
 
@@ -151,7 +158,13 @@ def compute_framing():
         print(json.dumps(result))
 
     finally:
-        cap.release()
+        try:
+            cap.release()
+        except: pass
+        if 'detector' in locals():
+            try: del detector
+            except: pass
+        gc.collect()
 
 if __name__ == '__main__':
     compute_framing()

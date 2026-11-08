@@ -365,7 +365,8 @@
         };
       } else {
         video.pause();
-        video.removeAttribute('src'); // Free memory
+        video.removeAttribute('src');
+        video.load(); // Forces immediate media engine decoder buffer release
       }
     });
   }

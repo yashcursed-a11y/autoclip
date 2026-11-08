@@ -15,7 +15,7 @@
     "build:mac": "electron-builder --mac",
     "build:linux": "electron-builder --linux",
     "build:all": "electron-builder -mwl",
-    "server": "node server.js",
+    "server": "node --max-old-space-size=512 server.js",
     "check": "node --check server.js && node --check public/app.js && node --check electron-main.js",
     "test": "node test/e2e.test.js",
     "build:website": "npm --prefix website run build",
