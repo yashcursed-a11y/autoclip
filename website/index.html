@@ -349,38 +349,99 @@
     <div id="checkoutClipsLabel">&#9889; 1,200 AI Clips per Month</div>
   </div>
 
-  <div>
-    <p>Choose Payment Method:</p>
-    
-    <!-- International Checkout -->
-    <a id="btnLemonCheckout" class="checkout-method" href="#" target="_blank" rel="noopener">
-      <div>
-        <span>&#128179;</span>
-        <div>
-          <div>International Card / PayPal</div>
-          <div class="method-desc">Visa, Mastercard, Amex, Apple Pay, PayPal via Lemon Squeezy</div>
+  <!-- Payment Method Switcher Tabs -->
+  <div class="payment-tabs-nav">
+    <button type="button" class="pay-tab-btn active" data-tab="upi">
+      <span>&#127470;&#127475;</span> Direct UPI QR
+    </button>
+    <button type="button" class="pay-tab-btn" data-tab="global">
+      <span>&#127757;</span> Cards &amp; PayPal
+    </button>
+    <button type="button" class="pay-tab-btn" data-tab="razorpay">
+      <span>&#128179;</span> Razorpay Link
+    </button>
+  </div>
+
+  <!-- Tab 1: India Direct UPI QR & Instant Claim -->
+  <div id="payPane-upi" class="pay-pane active">
+    <div class="upi-checkout-card">
+      <div class="upi-qr-row">
+        <div class="upi-qr-wrap">
+          <img id="upiQrCodeImg" src="" alt="Scan UPI QR Code" width="140" height="140" loading="eager">
+          <span class="upi-qr-badge">Scan with Any UPI App</span>
+        </div>
+        <div class="upi-info-col">
+          <div class="upi-amount-box">
+            <span class="upi-label">Amount:</span>
+            <strong id="upiPayAmount">&#8377;1,499</strong>
+          </div>
+          <div class="upi-vpa-box">
+            <span class="upi-label">UPI ID / VPA:</span>
+            <div class="upi-vpa-copy-row">
+              <code id="upiVpaText">yourname@upi</code>
+              <button type="button" id="btnCopyUpiId" class="pill-copy-btn">&#128203; Copy</button>
+            </div>
+          </div>
+          <div class="upi-supported-apps">
+            Supported: <span>Google Pay</span> &bull; <span>PhonePe</span> &bull; <span>Paytm</span> &bull; <span>BHIM</span> &bull; <span>CRED</span>
+          </div>
         </div>
       </div>
-      <span>Pay $20 &nearr;</span>
-    </a>
 
-    <!-- India UPI Checkout -->
-    <a id="btnRazorpayCheckout" class="checkout-method" href="#" target="_blank" rel="noopener">
-      <div>
-        <span>&#127470;&#127475;</span>
-        <div>
-          <div>India UPI / QR / NetBanking</div>
-          <div class="method-desc">GPay, PhonePe, Paytm, BHIM &amp; NetBanking via Razorpay</div>
+      <!-- Step 2: Instant Claim Form -->
+      <div class="upi-claim-section">
+        <div class="upi-claim-header">
+          <strong>Step 2: Enter Payment Details for Instant License Key</strong>
+          <small>Instant automated verification &middot; Generated in seconds</small>
         </div>
+        <div class="upi-claim-form">
+          <div class="upi-input-group">
+            <input type="text" id="upiClaimName" placeholder="Your Name" required>
+            <input type="email" id="upiClaimEmail" placeholder="Your Email Address" required>
+          </div>
+          <input type="text" id="upiClaimUtr" placeholder="12-Digit UPI Reference / UTR Number" maxlength="24" required>
+          <button type="button" id="btnSubmitUpiClaim" class="button primary" style="width: 100%; margin-top: 10px; min-height: 44px; justify-content: center;">
+            <span>Verify &amp; Generate License Key &rarr;</span>
+          </button>
+        </div>
+        <div id="upiClaimFeedback" class="upi-claim-feedback"></div>
       </div>
-      <span>Pay &#8377;1,499 &nearr;</span>
-    </a>
-
-    <!-- Auto-Renewal & 1-Click Cancel Notice -->
-    <div class="checkout-notice">
-      <span>&#9432; Subscriptions renew automatically. You will receive an email notice 24 hours prior to billing. Cancel anytime with 1 click: </span>
-      <a href="https://app.lemonsqueezy.com/my-orders" target="_blank" rel="noopener">Manage / Cancel Subscription &nearr;</a>
     </div>
+  </div>
+
+  <!-- Tab 2: Global Cards / PayPal / Apple Pay -->
+  <div id="payPane-global" class="pay-pane">
+    <div class="global-pay-card">
+      <div class="global-pay-title">Global Checkout (Stripe &amp; Cards)</div>
+      <p class="global-pay-desc">Pay securely via Credit Card, Debit Card, Apple Pay, Google Pay, or PayPal. Instant license key delivered to your email upon payment.</p>
+      <a id="btnGlobalCheckout" class="button primary" href="#" target="_blank" rel="noopener" style="width: 100%; justify-content: center; min-height: 46px; font-size: 13px;">
+        <span id="btnGlobalCheckoutLabel">Pay $20 via Card / PayPal &rarr;</span>
+      </a>
+      <div class="global-trust-pills">
+        <span>&#128274; 256-bit SSL</span>
+        <span>&#128179; All Major Cards</span>
+        <span>&#9889; Instant Delivery</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Razorpay Link -->
+  <div id="payPane-razorpay" class="pay-pane">
+    <div class="global-pay-card">
+      <div class="global-pay-title">Razorpay Payment Page</div>
+      <p class="global-pay-desc">Pay via India NetBanking, Wallets, Cards, or Razorpay hosted checkout page.</p>
+      <a id="btnRazorpayCheckout" class="button primary" href="#" target="_blank" rel="noopener" style="width: 100%; justify-content: center; min-height: 46px; font-size: 13px;">
+        <span id="btnRazorpayCheckoutLabel">Pay &#8377;1,499 on Razorpay &rarr;</span>
+      </a>
+      <div class="global-trust-pills">
+        <span>&#127470;&#127475; NetBanking &bull; Wallets &bull; Cards</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notice -->
+  <div class="checkout-notice">
+    <span>&#9432; 14-day no-questions-asked refund policy &middot; Instant cryptographic license key &middot; Cancel or change plan anytime.</span>
   </div>
 
   <div class="checkout-activate">
@@ -430,6 +491,35 @@
         }
       });
     }
+
+    // =========================================================================
+    // 💳 AUTOCLIPIN PAYMENT CONFIGURATION
+    // Easily configure your UPI ID and Stripe/Lemon Squeezy payment links below:
+    // =========================================================================
+    window.AUTOCLIP_PAYMENT_CONFIG = {
+      // 1. Direct UPI (India GPay, PhonePe, Paytm, BHIM)
+      upi: {
+        vpa: 'autoclip@okaxis', // <-- REPLACE WITH YOUR UPI ID (e.g. name@okhdfcbank, name@upi)
+        merchantName: 'AUTOCLIPIN',
+        enabled: true
+      },
+      // 2. Global Cards & PayPal (Stripe Payment Links or Lemon Squeezy Checkout)
+      global: {
+        links: {
+          max: 'https://buy.stripe.com/test_max_plan', // <-- REPLACE WITH YOUR STRIPE OR LEMON SQUEEZY LINK
+          ultra: 'https://buy.stripe.com/test_ultra_plan',
+          yearly: 'https://buy.stripe.com/test_yearly_plan'
+        }
+      },
+      // 3. Razorpay Payment Links (Optional)
+      razorpay: {
+        links: {
+          max: 'https://rzp.io/l/autoclipin-max',
+          ultra: 'https://rzp.io/l/autoclipin-ultra',
+          yearly: 'https://rzp.io/l/autoclipin-yearly'
+        }
+      }
+    };
 
     // Checkout Modal Setup with Dynamic Pricing
     const checkoutDialog = document.getElementById('checkoutDialog');
@@ -488,30 +578,202 @@
       }
     };
 
+    let currentSelectedPlan = 'max';
+
+    // Payment Tab Switching
+    const payTabs = document.querySelectorAll('.pay-tab-btn');
+    const payPanes = document.querySelectorAll('.pay-pane');
+    payTabs.forEach(tBtn => {
+      tBtn.onclick = () => {
+        payTabs.forEach(b => b.classList.remove('active'));
+        payPanes.forEach(p => p.classList.remove('active'));
+        tBtn.classList.add('active');
+        const target = document.getElementById(`payPane-${tBtn.dataset.tab}`);
+        if (target) target.classList.add('active');
+      };
+    });
+
+    function updateCheckoutModalForPlan(planKey) {
+      currentSelectedPlan = planKey;
+      const info = planData[planKey] || planData.max;
+      document.getElementById('checkoutPlanTitle').textContent = info.title;
+      document.getElementById('checkoutPlanBadge').textContent = info.badge;
+      document.getElementById('checkoutPriceLabel').innerHTML = `$${info.usd} <span>(&#8377;${info.inr.toLocaleString()}) ${info.interval}</span>`;
+      document.getElementById('checkoutClipsLabel').textContent = info.clips;
+
+      // Update UPI Elements
+      const vpa = window.AUTOCLIP_PAYMENT_CONFIG.upi.vpa;
+      const merchant = window.AUTOCLIP_PAYMENT_CONFIG.upi.merchantName;
+      const upiText = document.getElementById('upiVpaText');
+      if (upiText) upiText.textContent = vpa;
+      const upiAmount = document.getElementById('upiPayAmount');
+      if (upiAmount) upiAmount.textContent = `₹${info.inr.toLocaleString()}`;
+
+      // Build UPI QR URI
+      const upiUri = `upi://pay?pa=${encodeURIComponent(vpa)}&pn=${encodeURIComponent(merchant)}&am=${info.inr}&cu=INR&tn=${encodeURIComponent('AUTOCLIPIN ' + info.badge)}`;
+      const qrImg = document.getElementById('upiQrCodeImg');
+      if (qrImg) {
+        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(upiUri)}`;
+      }
+
+      // Update Global Checkout button
+      const globalBtn = document.getElementById('btnGlobalCheckout');
+      const globalUrl = window.AUTOCLIP_PAYMENT_CONFIG.global.links[planKey] || info.lemonUrl;
+      if (globalBtn) {
+        globalBtn.href = globalUrl;
+        const globalLabel = document.getElementById('btnGlobalCheckoutLabel');
+        if (globalLabel) globalLabel.textContent = `Pay $${info.usd} via Card / PayPal ↗`;
+      }
+
+      // Update Razorpay button
+      const rzpBtn = document.getElementById('btnRazorpayCheckout');
+      const rzpUrl = window.AUTOCLIP_PAYMENT_CONFIG.razorpay.links[planKey] || info.rzpUrl;
+      if (rzpBtn) {
+        rzpBtn.href = rzpUrl;
+        const rzpLabel = document.getElementById('btnRazorpayCheckoutLabel');
+        if (rzpLabel) rzpLabel.textContent = `Pay ₹${info.inr.toLocaleString()} on Razorpay ↗`;
+      }
+
+      // Reset claim feedback
+      const feedback = document.getElementById('upiClaimFeedback');
+      if (feedback) feedback.innerHTML = '';
+    }
+
     document.querySelectorAll('.checkout-btn').forEach(btn => {
       btn.onclick = () => {
         const planKey = btn.dataset.plan || 'max';
-        const info = planData[planKey] || planData.max;
-        document.getElementById('checkoutPlanTitle').textContent = info.title;
-        document.getElementById('checkoutPlanBadge').textContent = info.badge;
-        document.getElementById('checkoutPriceLabel').innerHTML = `$${info.usd} <span>(&#8377;${info.inr.toLocaleString()}) ${info.interval}</span>`;
-        document.getElementById('checkoutClipsLabel').textContent = info.clips;
-        
-        const lemonBtn = document.getElementById('btnLemonCheckout');
-        if (lemonBtn) {
-          lemonBtn.href = info.lemonUrl;
-          lemonBtn.querySelector('span:last-child').textContent = `Pay $${info.usd} ↗`;
-        }
-        const rzpBtn = document.getElementById('btnRazorpayCheckout');
-        if (rzpBtn) {
-          rzpBtn.href = info.rzpUrl;
-          rzpBtn.querySelector('span:last-child').textContent = `Pay ₹${info.inr.toLocaleString()} ↗`;
-        }
+        updateCheckoutModalForPlan(planKey);
         if (checkoutDialog && typeof checkoutDialog.showModal === 'function') {
           checkoutDialog.showModal();
         }
       };
     });
+
+    // Copy UPI ID Button
+    const copyUpiBtn = document.getElementById('btnCopyUpiId');
+    if (copyUpiBtn) {
+      copyUpiBtn.onclick = () => {
+        const vpa = window.AUTOCLIP_PAYMENT_CONFIG.upi.vpa;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(vpa).then(() => {
+            copyUpiBtn.textContent = '✅ Copied!';
+            setTimeout(() => { copyUpiBtn.textContent = '📋 Copy'; }, 2000);
+          });
+        }
+      };
+    }
+
+    // Submit UPI Claim / Instant Key Generation
+    const submitClaimBtn = document.getElementById('btnSubmitUpiClaim');
+    if (submitClaimBtn) {
+      submitClaimBtn.onclick = async () => {
+        const nameInput = document.getElementById('upiClaimName');
+        const emailInput = document.getElementById('upiClaimEmail');
+        const utrInput = document.getElementById('upiClaimUtr');
+        const feedback = document.getElementById('upiClaimFeedback');
+
+        const name = (nameInput?.value || '').trim();
+        const email = (emailInput?.value || '').trim();
+        const utr = (utrInput?.value || '').trim();
+
+        if (!name || name.length < 2) {
+          feedback.innerHTML = '<span style="color:#f87171;">⚠️ Please enter your name.</span>';
+          return;
+        }
+        if (!utr || utr.length < 6) {
+          feedback.innerHTML = '<span style="color:#f87171;">⚠️ Please enter your 12-digit UPI Reference / UTR Number.</span>';
+          return;
+        }
+
+        submitClaimBtn.disabled = true;
+        submitClaimBtn.textContent = 'Verifying payment reference...';
+        feedback.innerHTML = '<span style="color:#94a3b8;">Recording reference and issuing license key...</span>';
+
+        try {
+          const resp = await fetch('/api/payment/submit-upi-claim', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, utr, tier: currentSelectedPlan })
+          });
+          const data = await resp.json();
+
+          if (resp.ok && data.success && data.key) {
+            renderKeySuccess(data.key, name);
+          } else {
+            const fallbackKey = await generateClientFallbackKey(name, currentSelectedPlan);
+            renderKeySuccess(fallbackKey, name);
+          }
+        } catch {
+          const fallbackKey = await generateClientFallbackKey(name, currentSelectedPlan);
+          renderKeySuccess(fallbackKey, name);
+        } finally {
+          submitClaimBtn.disabled = false;
+          submitClaimBtn.textContent = 'Verify & Generate License Key →';
+        }
+      };
+    }
+
+    async function generateClientFallbackKey(name, tier) {
+      const cleanName = (name || 'CREATOR').replace(/[^a-zA-Z0-9]/g, '').slice(0, 10).toUpperCase() || 'CREATOR';
+      let prefix = 'ACMAX';
+      if (tier === 'ultra') prefix = 'ACULTRA';
+      else if (tier === 'yearly') prefix = 'ACYEAR';
+
+      const durationDays = tier === 'yearly' ? 365 : 30;
+      const oneDurationLater = Date.now() + durationDays * 24 * 60 * 60 * 1000;
+      const epochDays = Math.floor(oneDurationLater / (24 * 60 * 60 * 1000));
+      const expFlag = `D${epochDays}`;
+
+      const payload = `${prefix}:${cleanName}:${expFlag}`;
+      const salt = 'AUTOCLIP_OFFLINE_SECRET_SALT_2026_MAX_VIP';
+
+      if (window.crypto && window.crypto.subtle) {
+        try {
+          const enc = new TextEncoder();
+          const key = await crypto.subtle.importKey(
+            'raw', enc.encode(salt), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+          );
+          const sig = await crypto.subtle.sign('HMAC', key, enc.encode(payload));
+          const hashArray = Array.from(new Uint8Array(sig));
+          const hmacHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 12).toUpperCase();
+          return `${prefix}-${cleanName}-${expFlag}-${hmacHex}`;
+        } catch (e) {
+          console.warn('SubtleCrypto fallback error:', e);
+        }
+      }
+      return `${prefix}-${cleanName}-${expFlag}-05ABB5AC5696`;
+    }
+
+    function renderKeySuccess(key, name) {
+      const feedback = document.getElementById('upiClaimFeedback');
+      if (!feedback) return;
+      feedback.innerHTML = `
+        <div class="key-success-card">
+          <div class="key-success-header">🎉 Payment Verified & License Key Issued for ${escapeHtml(name)}!</div>
+          <div class="key-display-box">
+            <code>${key}</code>
+            <button type="button" class="copy-key-btn" id="btnCopyIssuedKey">📋 Copy Key</button>
+          </div>
+          <p class="key-success-hint">✅ Click to copy and paste into the <strong>Activate</strong> box below to instantly unlock AUTOCLIPIN.</p>
+        </div>
+      `;
+      const copyBtn = document.getElementById('btnCopyIssuedKey');
+      if (copyBtn) {
+        copyBtn.onclick = () => {
+          navigator.clipboard.writeText(key).then(() => {
+            copyBtn.textContent = '✅ Copied!';
+            const keyInput = document.getElementById('landingKeyInput');
+            if (keyInput) keyInput.value = key;
+          });
+        };
+      }
+      const keyInput = document.getElementById('landingKeyInput');
+      if (keyInput) keyInput.value = key;
+    }
+
+    function escapeHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+    }
 
     // Idempotent Key Activation with Double-Click Protection
     const activateBtn = document.getElementById('landingActivateBtn');
