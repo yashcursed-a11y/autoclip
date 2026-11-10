@@ -378,9 +378,10 @@
           <div class="upi-vpa-box">
             <span class="upi-label">UPI ID / VPA:</span>
             <div class="upi-vpa-copy-row">
-              <code id="upiVpaText">yourname@upi</code>
+              <code id="upiVpaText">9183352545@ibl</code>
               <button type="button" id="btnCopyUpiId" class="pill-copy-btn">&#128203; Copy</button>
             </div>
+            <div style="font-size: 10px; color: #898995; margin-top: 4px;">Union Bank of India &middot; Primary receiving account</div>
           </div>
           <div class="upi-supported-apps">
             Supported: <span>Google Pay</span> &bull; <span>PhonePe</span> &bull; <span>Paytm</span> &bull; <span>BHIM</span> &bull; <span>CRED</span>
@@ -499,8 +500,10 @@
     window.AUTOCLIP_PAYMENT_CONFIG = {
       // 1. Direct UPI (India GPay, PhonePe, Paytm, BHIM)
       upi: {
-        vpa: 'autoclip@okaxis', // <-- REPLACE WITH YOUR UPI ID (e.g. name@okhdfcbank, name@upi)
+        vpa: '9183352545@ibl',
         merchantName: 'AUTOCLIPIN',
+        bankName: 'Union Bank of India',
+        qrImage: './marketing/media/upi-qr-clean.png',
         enabled: true
       },
       // 2. Global Cards & PayPal (Stripe Payment Links or Lemon Squeezy Checkout)
@@ -609,11 +612,14 @@
       const upiAmount = document.getElementById('upiPayAmount');
       if (upiAmount) upiAmount.textContent = `₹${info.inr.toLocaleString()}`;
 
-      // Build UPI QR URI
+      // Build UPI QR URI with exact plan amount
       const upiUri = `upi://pay?pa=${encodeURIComponent(vpa)}&pn=${encodeURIComponent(merchant)}&am=${info.inr}&cu=INR&tn=${encodeURIComponent('AUTOCLIPIN ' + info.badge)}`;
       const qrImg = document.getElementById('upiQrCodeImg');
       if (qrImg) {
-        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(upiUri)}`;
+        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=6&data=${encodeURIComponent(upiUri)}`;
+        qrImg.onerror = () => {
+          qrImg.src = window.AUTOCLIP_PAYMENT_CONFIG.upi.qrImage || './marketing/media/upi-qr-clean.png';
+        };
       }
 
       // Update Global Checkout button
