@@ -495,7 +495,7 @@ app.get('/api/payment/plans', (_req, res) => {
         clipLimit: 999999,
         unlimited: true,
         features: [
-          '🔥 UNLIMITED AI clips every month',
+          'UNLIMITED AI clips every month',
           'High-priority background processing',
           'Multi-account social media auto-posting',
           'Custom brand watermarks & background removal',
@@ -515,7 +515,7 @@ app.get('/api/payment/plans', (_req, res) => {
         clipLimit: 999999,
         unlimited: true,
         features: [
-          '👑 UNLIMITED AI clips for 365 Days',
+          'UNLIMITED AI clips for 365 Days',
           'All Ultra features included',
           'Commercial monetization license',
           'Early access to all upcoming AI models',
@@ -527,7 +527,7 @@ app.get('/api/payment/plans', (_req, res) => {
       }
     ],
     upiConfig: {
-      upiId: process.env.UPI_ID || 'autoclipin@upi',
+      upiId: process.env.UPI_ID || '9183352545@ibl',
       payeeName: 'AUTOCLIPIN Studio',
       qrEnabled: true
     }
