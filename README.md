@@ -1,4 +1,4 @@
-# 🎬 AUTOCLIPIN Pro Studio (v2.0)
+# AUTOCLIPIN Pro Studio (v2.1)
 
 **The autonomous, local-first short-form video clipping studio.**  
 Convert hours-long podcasts, streams, and YouTube videos into high-retention 9:16 vertical Shorts, TikToks, and Reels — tuned on algorithmic retention science.
@@ -7,14 +7,14 @@ Convert hours-long podcasts, streams, and YouTube videos into high-retention 9:1
 
 ---
 
-## 🚀 Cross-Platform Support (Windows, macOS, Linux & Docker)
+## Cross-Platform Support (Windows, macOS, Linux & Docker)
 
 AUTOCLIPIN runs natively across all major desktop and server operating systems:
 
-### 🪟 Windows (10 / 11)
-- **1-Click Installer**: Double-click `AUTOCLIPIN Setup 1.0.1.exe` in `dist/`.
-- **Portable Edition**: Run `AUTOCLIPIN 1.0.1.exe` directly without installing anything.
-- **Zero-Warning ZIP**: Extract `AUTOCLIPIN-Windows-v1.0.1.zip` (bypasses all browser download blocks).
+### Windows (10 / 11)
+- **1-Click Installer**: Double-click `AUTOCLIPIN-Setup-2.1.0.exe` in `dist/`.
+- **Portable Edition**: Run `AUTOCLIPIN-Portable-2.1.0.exe` directly without installing anything.
+- **Standalone ZIP**: Extract `AUTOCLIPIN-Windows-v2.1.0.zip`.
 - **Run from Source**:
   ```powershell
   npm install
@@ -23,7 +23,7 @@ AUTOCLIPIN runs natively across all major desktop and server operating systems:
 
 ---
 
-### 🍎 macOS (Intel & Apple Silicon M1/M2/M3/M4)
+### macOS (Intel & Apple Silicon M1/M2/M3/M4)
 Run the automated one-click macOS setup:
 ```bash
 chmod +x setup-mac.sh
@@ -31,7 +31,7 @@ chmod +x setup-mac.sh
 ```
 *What it does:*
 1. Automatically installs FFmpeg and Python 3 via Homebrew if needed.
-2. Creates a Python virtual environment and installs `faster-whisper` (leveraging Apple Silicon NEON Accelerate hardware for 5x faster transcription).
+2. Sets up the local speech transcription and rendering environment.
 3. Installs Node packages and launches the native desktop studio.
 
 To compile a native `.dmg` installer:
@@ -41,15 +41,15 @@ npm run build:mac
 
 ---
 
-### 🐧 Linux (Ubuntu, Debian, Fedora, Arch, Pop!_OS)
+### Linux (Ubuntu, Debian, Fedora, Arch, Pop!_OS)
 Run the automated one-click Linux setup:
 ```bash
 chmod +x setup-linux.sh
 ./setup-linux.sh
 ```
 *What it does:*
-1. Auto-detects package managers (`apt`, `dnf`, `pacman`) and installs FFmpeg, Python, and Node.
-2. Installs `faster-whisper`, OpenCV, and `yt-dlp`.
+1. Auto-detects package managers (`apt`, `dnf`, `pacman`) and installs required build dependencies.
+2. Sets up local speech recognition, visual processing, and media tools.
 3. Launches the studio.
 
 To compile a standalone `.AppImage` or `.deb`:

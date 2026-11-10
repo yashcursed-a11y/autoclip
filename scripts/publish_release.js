@@ -16,7 +16,7 @@ const TAG_NAME = `v${VERSION}`;
 const RELEASE_TITLE = `AutoClip v${VERSION} - Windows Release`;
 const RELEASE_BODY = `## AutoClip Studio v${VERSION}
 
-Complete autonomous clipping studio with YuNet 5-point neural face tracking, kinetic typography, and direct phone preview flow.
+Complete autonomous clipping studio with smart neural face tracking, kinetic typography, and direct phone preview flow.
 
 ### What's New in v${VERSION}
 - Full AI Auto-Edit Toggle on Main Page: Generate, trim, crop, and polish viral highlights directly from the start.
@@ -25,8 +25,8 @@ Complete autonomous clipping studio with YuNet 5-point neural face tracking, kin
   - Starter Free Pass: 70 reels every week (100% free with automatic weekly reset).
   - AUTOCLIPIN Max ($20 / ₹1,499/mo): 50 reels per day (~1,500 reels/month).
   - Ultra Studio ($50/mo) & Yearly VIP ($200/yr): Unlimited 4K vertical exports.
-- Engine 2.1 YuNet Neural Face Tracking: Dynamic 9:16 auto-framing with smooth tracking.
-- Minimal UI Edition: Clean, distraction-free editing layout with ambient motion background.
+- Smart Neural Face Tracking: Dynamic 9:16 auto-framing with smooth speaker centering.
+- Minimal UI Default: Clean, distraction-free editing layout with ambient motion background.
 - Direct UPI QR Checkout: Instant activation via UPI ID (9183352545@ibl) and Union Bank of India.
 
 ### Download & Install
