@@ -3529,7 +3529,7 @@ function setupSchedulerControls() {
   window.switchAppView = (view) => {
     state.scheduler.activeView = view;
     const activePlayer = {studio:'previewVideo',captions:'cpsPhoneVideo',watch:'cinemaVideo',phone_feed:''}[view];
-    document.querySelectorAll('video').forEach(player => {
+    document.querySelectorAll('video:not([data-autoclip-background])').forEach(player => {
       if (player.id !== activePlayer && !player.paused) player.pause();
     });
     if (railIngest) railIngest.classList.toggle('active', view === 'ingest');
@@ -7306,22 +7306,22 @@ function renderLicenseStatus() {
       statusBtn.style.background = 'rgba(255, 221, 0, 0.15)';
       statusBtn.style.color = '#ffdd00';
     }
-    if (pillIcon) pillIcon.textContent = '👑';
+    if (pillIcon) pillIcon.textContent = '';
     if (pillText) pillText.textContent = 'AUTOCLIPIN Max';
 
     if (tierBadge) {
       if (lic.tier === 'ultra') {
-        tierBadge.textContent = '🔥 AUTOCLIPIN Ultra (Unlimited)';
+        tierBadge.textContent = 'AUTOCLIPIN Ultra (Unlimited)';
         tierBadge.style.background = 'rgba(168, 85, 247, 0.2)';
         tierBadge.style.color = '#c084fc';
         tierBadge.style.borderColor = 'rgba(168, 85, 247, 0.4)';
       } else if (lic.tier === 'yearly') {
-        tierBadge.textContent = '👑 Yearly VIP Pass (365 Days)';
+        tierBadge.textContent = 'Yearly VIP Pass (365 Days)';
         tierBadge.style.background = 'rgba(234, 179, 8, 0.2)';
         tierBadge.style.color = '#facc15';
         tierBadge.style.borderColor = 'rgba(234, 179, 8, 0.4)';
       } else {
-        tierBadge.textContent = '⚡ AUTOCLIPIN Max (1,200 Clips/mo)';
+        tierBadge.textContent = 'AUTOCLIPIN Max (1,200 Clips/mo)';
         tierBadge.style.background = 'rgba(59, 130, 246, 0.2)';
         tierBadge.style.color = '#60a5fa';
         tierBadge.style.borderColor = 'rgba(59, 130, 246, 0.4)';
@@ -7348,11 +7348,11 @@ function renderLicenseStatus() {
       statusBtn.style.background = 'rgba(255, 68, 68, 0.15)';
       statusBtn.style.color = '#ff5555';
     }
-    if (pillIcon) pillIcon.textContent = '🔒';
+    if (pillIcon) pillIcon.textContent = '';
     if (pillText) pillText.textContent = 'Pass Expired';
 
     if (tierBadge) {
-      tierBadge.textContent = '🔒 Free Pass Expired';
+      tierBadge.textContent = 'Free Pass Expired';
       tierBadge.style.background = 'rgba(255, 68, 68, 0.2)';
       tierBadge.style.color = '#ff5555';
       tierBadge.style.borderColor = 'rgba(255, 68, 68, 0.4)';
@@ -7373,11 +7373,11 @@ function renderLicenseStatus() {
       statusBtn.style.background = 'rgba(0, 240, 255, 0.12)';
       statusBtn.style.color = '#00f0ff';
     }
-    if (pillIcon) pillIcon.textContent = '⚡';
+    if (pillIcon) pillIcon.textContent = '';
     if (pillText) pillText.textContent = `${used}/${limit} Clips (${lic.trialDaysRemaining || 30}d)`;
 
     if (tierBadge) {
-      tierBadge.textContent = '⚡ Free 30-Day Pass';
+      tierBadge.textContent = 'Free 30-Day Pass';
       tierBadge.style.background = 'rgba(0, 240, 255, 0.15)';
       tierBadge.style.color = '#00f0ff';
       tierBadge.style.borderColor = 'rgba(0, 240, 255, 0.3)';

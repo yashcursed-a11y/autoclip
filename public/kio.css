@@ -1,0 +1,125 @@
+/* KIO / slate equipment trays. Canonical tokens; mapped to the shared layout adapter. */
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio]{
+ --kio-base:#0c1114;--kio-panel:#18232a;--kio-raised:#263740;--kio-well:#101a20;
+ --kio-text:#f4f5f1;--kio-secondary:#bac6c9;--kio-silver:#cbd3d1;--kio-on-silver:#162126;
+ --kio-border:#82979e40;--kio-focus:#e0e9e7;--kio-danger:#ffb6ac;
+ --kio-radius:22px;--kio-control-radius:10px;--kio-gap:12px;
+ --kio-body:'Space Grotesk','Segoe UI',sans-serif;--kio-heading:'Bricolage Grotesque','Segoe UI',sans-serif;
+ --m-base:var(--kio-base);--m-panel:var(--kio-panel);--m-raised:var(--kio-raised);--m-field:var(--kio-well);
+ --m-ink:var(--kio-text);--m-muted:var(--kio-secondary);--m-line:var(--kio-border);--m-accent:var(--kio-silver);--m-accent-ink:var(--kio-on-silver);
+ --m-shadow:inset 0 1px 0 #e8f3f40d,0 10px 28px #0003;
+ --theme-font:var(--kio-body);--theme-heading-font:var(--kio-heading);
+ color-scheme:dark;font-size:13px;line-height:1.45;
+ scrollbar-color:var(--kio-secondary) var(--kio-well);scrollbar-width:thin;
+}
+body[data-ui-style=kio],body[data-ui-style=kio] *{scrollbar-color:var(--kio-secondary) var(--kio-well);scrollbar-width:thin}
+body[data-ui-style=kio] ::-webkit-scrollbar{width:7px;height:7px}
+body[data-ui-style=kio] ::-webkit-scrollbar-track{background:var(--kio-well)}
+body[data-ui-style=kio] ::-webkit-scrollbar-thumb{background:var(--kio-secondary);border:2px solid var(--kio-well);border-radius:8px}
+/* Shell: a labelled equipment dock, not the icon capsule. */
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] .app-rail{width:148px!important;min-width:148px!important;padding:20px 12px 14px!important;background:var(--kio-base)!important;gap:10px}
+body[data-ui-style=kio] .rail-top{align-items:flex-start!important;width:100%;gap:12px!important}
+body[data-ui-style=kio] .kio-identity{display:flex;flex-direction:column;gap:1px;margin:0 8px 12px}
+body[data-ui-style=kio] .kio-edition{font:650 25px/1 var(--kio-heading);letter-spacing:-1px;color:var(--kio-text)}
+body[data-ui-style=kio] .kio-edition-caption{font:10px/1.5 var(--kio-body);color:var(--kio-secondary);margin-top:5px}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] .rail-logo{margin-left:7px;width:29px!important;height:29px!important;border-radius:9px!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] .rail-btn{flex-direction:row!important;justify-content:flex-start!important;gap:11px!important;height:43px!important;min-height:43px!important;border-radius:12px!important;padding:9px 11px!important;color:var(--kio-secondary)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] .rail-btn .rail-label{font:500 12px/1.2 var(--theme-font)!important;white-space:nowrap!important;text-align:left!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] .rail-btn .rail-icon{width:19px;height:19px;flex:0 0 19px}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] .rail-btn.active{background:var(--kio-raised)!important;color:var(--kio-text)!important;border-color:var(--kio-border)!important;box-shadow:inset 0 1px #fff1,0 4px 10px #0003!important}
+body[data-ui-style=kio] .rail-btn .rail-label:after{display:none!important}
+body[data-ui-style=kio] .minimal-flow{display:none!important}
+body[data-ui-style=kio] .kio-rail-settings{width:100%;margin-top:8px}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] .kio-rail-settings .companion-customize-trigger{width:100%;min-height:36px;font-size:11px!important;justify-content:center}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] .studio-topbar{height:56px!important;min-height:56px!important;padding:8px 24px!important;border-bottom:1px solid var(--kio-border)!important}
+body[data-ui-style=kio] .studio-topbar .topbar-project-info{font-size:11px}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] :is(button,input,select,textarea){font-size:12px}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] :is(.primary-btn,.primary-pill,#createJob,#renderBtn){background:var(--kio-silver)!important;color:var(--kio-on-silver)!important;border:1px solid var(--kio-focus)!important;border-radius:var(--kio-control-radius)!important;font-weight:650!important;box-shadow:inset 0 1px #fff8,0 3px 8px #0003!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] :is(.primary-btn,.primary-pill,#createJob,#renderBtn) :is(span,svg){color:inherit!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] :is(.pill-btn,.mode-btn,.editor-tab,.manual-button,.ct-btn){background:var(--kio-raised)!important;border-color:var(--kio-border)!important;border-radius:var(--kio-control-radius)!important;color:var(--kio-text)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] :is(button,input,select,textarea):focus-visible{outline:2px solid var(--kio-focus)!important;outline-offset:3px}
+body[data-ui-style=kio] :is(button,input,select,textarea):disabled{cursor:not-allowed!important}
+body[data-ui-style=kio] textarea{resize:none;min-height:90px}
+/* Create: source + framing tray at left; a continuous output-settings tray at right. */
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #ingestView{max-width:1500px;padding:28px 28px 24px!important}
+body[data-ui-style=kio] #ingestView .pro-ingest-top{padding-bottom:22px!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #ingestView .pro-ingest-top h1{font:650 36px/1.08 var(--theme-heading-font)!important;letter-spacing:-1.4px!important}
+body[data-ui-style=kio] #ingestView .pro-ingest-top p{font-size:12px!important;line-height:1.5}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #setupSection .project-create-layout{grid-template-columns:minmax(0,1fr) 330px!important;grid-template-areas:'source options' 'framing options' 'extras extras' 'actions actions'!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;gap:var(--kio-gap)!important}
+body[data-ui-style=kio] #setupSection .project-source-column{grid-area:source;min-width:0}
+body[data-ui-style=kio] #setupSection .project-settings-column{grid-area:options;min-width:0;background:var(--kio-panel)!important;border:1px solid var(--kio-border)!important;border-radius:var(--kio-radius)!important;padding:20px!important;align-self:stretch}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #setupSection .source-card{background:var(--kio-panel)!important;border:1px solid var(--kio-border)!important;border-radius:var(--kio-radius)!important;padding:16px!important;margin:0!important}
+body[data-ui-style=kio] #setupSection .source-section-label{font-size:11px;color:var(--kio-secondary)}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #setupSection #dropZone{height:190px!important;min-height:190px!important;margin:12px 0 0!important;padding:24px!important;background:var(--kio-well)!important;border:1px dashed var(--kio-border)!important;border-radius:15px!important;gap:8px!important}
+body[data-ui-style=kio] #dropZone strong{font:600 18px/1.3 var(--theme-heading-font)!important}
+body[data-ui-style=kio] #dropZone :is(small,.muted){font-size:12px!important}
+body[data-ui-style=kio] #setupSection .settings-grid{grid-template-columns:1fr!important;gap:14px!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #setupSection .settings-grid>label{font-size:11px!important;text-transform:none!important;letter-spacing:0!important;color:var(--kio-secondary)!important;gap:6px}
+body[data-ui-style=kio] #setupSection .settings-grid :is(input,select){height:37px!important;font-size:12px!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #setupSection .new-framing-section{padding:16px!important;background:var(--kio-panel)!important;border-radius:var(--kio-radius)!important;border-color:var(--kio-border)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #setupSection .new-framing-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] .new-framing-grid .new-framing-card{min-height:60px!important;height:60px!important;border-radius:12px!important;background:var(--kio-well)!important;border-color:var(--kio-border)!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:9px!important;padding:9px!important;transform:none!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] .new-framing-card[aria-pressed=true]{background:var(--kio-raised)!important;border-color:var(--kio-silver)!important;box-shadow:inset 0 0 0 1px var(--kio-silver)!important}
+body[data-ui-style=kio] .new-framing-card :is(strong,.new-framing-title){font-size:11px!important;color:var(--kio-text)!important;text-align:left}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #fileName{display:block!important;flex:0 0 auto!important;min-height:22px!important;height:auto!important;line-height:1.4!important;max-width:100%;margin:0!important}
+body[data-ui-style=kio] .minimal-framing-details>summary{font-size:10px!important}
+body[data-ui-style=kio] .minimal-setup-extras{background:transparent!important;border:0!important;gap:8px!important;padding:0!important}
+body[data-ui-style=kio] .minimal-setup-extras>details{background:var(--kio-panel)!important;border:1px solid var(--kio-border)!important;border-radius:13px!important;padding:10px 12px!important}
+body[data-ui-style=kio] .minimal-setup-extras summary{font-size:11px!important}
+body[data-ui-style=kio] #setupSection .action-bar{padding:0!important;border:0!important;background:none!important;gap:10px!important;box-shadow:none!important}
+body[data-ui-style=kio] #setupSection .action-bar>button{min-height:43px!important;border-radius:12px!important;font-size:12px!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] :is(#setupSection #createJob,#workspace #renderBtn){background:var(--kio-silver)!important;color:var(--kio-on-silver)!important;border-radius:12px!important}
+/* Editor: equipment panels around an uninterrupted cinema surface. */
+body[data-ui-style=kio] #workspace .workspace-header{min-height:54px!important;flex-basis:54px!important;height:54px!important;padding:7px 20px!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #workspace #jobTitle{font:600 17px/1.3 var(--theme-heading-font)!important;max-width:28vw}
+body[data-ui-style=kio] #workspace #jobSub{font-size:10px!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #workspace .studio-layout-capcut{padding:12px 20px 16px!important;gap:8px!important;grid-template-rows:minmax(0,1fr) 5px clamp(190px,25vh,250px) 16px!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #workspace .studio-main-viewport{grid-template-columns:200px minmax(0,1fr) 258px;gap:var(--kio-gap)!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #workspace .studio-main-viewport.library-closed{grid-template-columns:0 minmax(0,1fr) 258px}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #workspace .studio-main-viewport.inspector-closed{grid-template-columns:200px minmax(0,1fr) 0}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #workspace .studio-main-viewport.library-closed.inspector-closed{grid-template-columns:0 minmax(0,1fr) 0}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #workspace :is(.candidates-column,.preview-column,.inspector-column,.full-width-timeline){border-radius:var(--kio-radius)!important;border-color:var(--kio-border)!important}
+body[data-ui-style=kio] #workspace .canvas-header-bar{min-height:36px;flex-basis:36px;padding:5px 10px!important}
+body[data-ui-style=kio] #workspace .editor-playback{min-height:44px;flex-basis:44px}
+body[data-ui-style=kio] #workspace :is(.editor-library-tab,.ct-btn,.manual-button){font-size:11px!important;min-height:29px!important}
+body[data-ui-style=kio] #workspace .manual-cut-row small{font-size:9px!important}
+body[data-ui-style=kio] #workspace .inspector-column label{font-size:11px!important}
+body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #workspace .manual-range-bar{flex-wrap:nowrap!important;align-items:center!important;height:40px!important;min-height:40px!important;max-height:none!important;flex:0 0 40px!important;overflow:visible!important;padding:4px 12px!important;row-gap:4px}
+body[data-ui-style=kio] #workspace .manual-range-bar label{display:flex!important;align-items:center!important;gap:6px!important}
+body[data-ui-style=kio] #workspace .manual-range-bar input{height:28px!important;min-height:28px!important;max-width:130px!important}
+body[data-ui-style=kio] #workspace .ruler-time-label{font-size:10px!important;color:var(--kio-secondary)!important}
+/* Connected screens and modal surfaces use the same trays and readable contrast. */
+body[data-ui-style=kio] :is(.minimal-desk-panel,.minimal-finish-tools button,.system-card,.companion-customize-card,.studio-hub-panel,.minimal-project-library){border-radius:var(--kio-radius)!important;border-color:var(--kio-border)!important;background:var(--kio-panel)!important;color:var(--kio-text)!important}
+body[data-ui-style=kio] :is(.customize-page h3,.scheduler-header h2,.pfeed-header h2){font-family:var(--theme-heading-font)!important}
+body[data-ui-style=kio] .minimal-finish-tools button small{color:var(--kio-secondary)!important;font-size:12px!important}
+.ui-style-preview.preview-kio{background:#0c1114!important;border:1px solid #82979e40!important;border-radius:14px!important;overflow:hidden}
+.ui-style-preview.preview-kio i{background:#263740!important;color:#f4f5f1!important;width:28%!important;border-right:1px solid #82979e40!important;font:600 10px 'Space Grotesk',sans-serif!important}
+.ui-style-preview.preview-kio>span{left:34%!important;top:20%!important;width:42%!important;height:45%!important;background:#18232a!important;border-radius:10px!important;color:#cbd3d1!important}
+.ui-style-preview.preview-kio b{background:#263740!important;left:33%!important;bottom:14%!important;width:59%!important;height:16%!important;border-radius:5px!important}
+.ui-style-preview.preview-kio em{position:absolute;right:5%;top:20%;width:14%;height:45%;background:#263740;border-radius:6px}
+@media(max-width:1180px){
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] .app-rail{width:126px!important;min-width:126px!important;padding-left:9px!important;padding-right:9px!important}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #ingestView{padding:18px!important}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #setupSection .project-create-layout{grid-template-columns:minmax(0,1fr) 290px!important}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #workspace .studio-main-viewport{grid-template-columns:156px minmax(0,1fr) 210px;gap:8px!important}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #workspace .studio-main-viewport.library-closed{grid-template-columns:0 minmax(0,1fr) 210px}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #workspace .studio-main-viewport.inspector-closed{grid-template-columns:156px minmax(0,1fr) 0}
+ body[data-ui-style=kio] #workspace .workspace-meta{flex-basis:100px!important}
+ body[data-ui-style=kio] #workspace #btnSwitchToPhoneFeed{display:none!important}
+ body[data-ui-style=kio] #workspace .workspace-controls{gap:4px!important}
+}
+@media(max-height:760px){
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] .app-rail{padding-top:12px!important}
+ body[data-ui-style=kio] .kio-identity{margin-bottom:0}
+ body[data-ui-style=kio] .kio-edition-caption{display:none}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] .rail-btn{height:39px!important;min-height:39px!important}
+ body[data-ui-style=kio] #ingestView .pro-ingest-top{padding-bottom:14px!important}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #ingestView .pro-ingest-top h1{font-size:30px!important}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #setupSection #dropZone{height:126px!important;min-height:126px!important;padding:10px!important;gap:4px!important}
+ body[data-ui-style=kio] #dropZone .drop-icon{display:none!important}
+ body[data-ui-style=kio] #setupSection .project-settings-column{padding:16px!important}
+ body[data-ui-style=kio] #setupSection .settings-grid{gap:10px!important}
+ body.studio-noir.workspace-redesign.composed-studio[data-ui-style=kio] #workspace .studio-layout-capcut{grid-template-rows:minmax(0,1fr) 5px 180px 14px!important}
+}
+@media(prefers-reduced-motion:reduce){body[data-ui-style=kio] *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(forced-colors:active){body[data-ui-style=kio] *{scrollbar-color:auto}body[data-ui-style=kio] button{border:1px solid ButtonText!important}}

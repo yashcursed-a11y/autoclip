@@ -45,6 +45,7 @@ work/autoclipin-direct-site/
 work/check-*.cjs
 work/minimal-*
 work/noir-*
+work/kio-*
 work/*.png
 work/*.svg
 

@@ -68,7 +68,7 @@
   libraryHeader.append(libraryTitle,libraryClose);library.append(libraryHeader);
   library.addEventListener('click',event=>{if(event.target===library)library.close();});
   document.getElementById('railHistoryBtn')?.addEventListener('click',event=>{
-    if(document.body.dataset.uiStyle!=='minimal')return;
+    if(document.body.dataset.uiStyle !== 'minimal')return;
     event.preventDefault();event.stopImmediatePropagation();if(!library.open)library.showModal();
   },true);
   const desk = document.createElement('div');

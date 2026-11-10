@@ -3,7 +3,7 @@
   const nav=document.querySelector('.customize-nav'),pages=document.querySelector('.customize-pages');if(!nav||!pages)return;
   const styles=[
     {id:'modern',name:'Modern Studio',note:'Capsule navigation, soft panels and floating tools.',toolbar:'side',menu:'radial'},
-    {id:'minimal',name:'Minimal',note:'Compact graphite workspace. Grouped setup, soft controls and a full-size editing desk.',toolbar:'side',menu:'grid'},
+    {id:'minimal',name:'Minimal',note:'Your red-horse film background with clear, dark studio panels.',toolbar:'side',menu:'grid'},
     {id:'retro95',name:'Retro ’95',note:'Classic desktop windows, bevels and pixel icons.',toolbar:'side',menu:'grid'},
 
   ];
@@ -21,7 +21,12 @@
   const tab=document.createElement('button');tab.type='button';tab.dataset.page='ui-styles';tab.textContent='UI Styles';nav.insertBefore(tab,nav.querySelector('[data-page=themes]'));
   nav.querySelectorAll('button').forEach(button=>button.onclick=()=>{pages.querySelectorAll('.customize-page').forEach(n=>n.hidden=n.dataset.page!==button.dataset.page);nav.querySelectorAll('button').forEach(n=>n.setAttribute('aria-current',n===button?'page':'false'));});
   let prefs={style:'modern',classic:true};try{prefs={...prefs,...JSON.parse(localStorage.getItem('autoclip.uiStyle')||'{}')};}catch{}
+  if(prefs.style==='kio')prefs.style='minimal';
   if(!styles.some(style=>style.id===prefs.style))prefs.style='modern';
+  // A local preview link explicitly selects an existing UI; normal launches keep the saved choice.
+  const requestedStyle=new URLSearchParams(window.location.search).get('ui');
+  const previewStyle=requestedStyle==='kio'?'minimal':requestedStyle;
+  if(styles.some(style=>style.id===previewStyle))prefs.style=previewStyle;
   const palette=page.querySelector('#retroClassicPalette');
   // Original pixel drawings; existing SVG icons are retained for Modern.
   const drawings={

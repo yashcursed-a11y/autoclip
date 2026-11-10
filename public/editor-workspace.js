@@ -174,7 +174,7 @@
   // Clicking the image toggles playback; caption/framing overlays keep their own actions.
   video.addEventListener('click',()=>play.click());
   document.addEventListener('visibilitychange',()=>{
-    if(document.hidden)document.querySelectorAll('video').forEach(player=>{if(!player.paused)player.pause();});
+    if(document.hidden)document.querySelectorAll('video:not([data-autoclip-background])').forEach(player=>{if(!player.paused)player.pause();});
   });
 
   // In-session undo/redo for clip edits. Restores the same clip data used by exports.
