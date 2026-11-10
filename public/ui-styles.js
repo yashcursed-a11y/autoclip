@@ -2,10 +2,9 @@
 (() => {
   const nav=document.querySelector('.customize-nav'),pages=document.querySelector('.customize-pages');if(!nav||!pages)return;
   const styles=[
+    {id:'minimal',name:'Minimal',note:'Ambient motion film background with clear, dark studio panels.',toolbar:'side',menu:'grid'},
     {id:'modern',name:'Modern Studio',note:'Capsule navigation, soft panels and floating tools.',toolbar:'side',menu:'radial'},
-    {id:'minimal',name:'Minimal',note:'Your red-horse film background with clear, dark studio panels.',toolbar:'side',menu:'grid'},
     {id:'retro95',name:'Retro ’95',note:'Classic desktop windows, bevels and pixel icons.',toolbar:'side',menu:'grid'},
-
   ];
   const page=document.createElement('section');page.className='customize-page ui-styles-page';page.dataset.page='ui-styles';page.hidden=true;
   page.innerHTML='<h3>UI Styles</h3><p>Change the structure of your studio, from modern creative software to the early web.</p><div class="ui-style-options" role="group" aria-label="Interface style"><button type="button" data-ui-choice="modern"><span class="ui-style-preview preview-modern"><i>AutoClip</i><span>▶</span><b></b></span><strong>Modern Studio</strong><small>Soft panels, capsule navigation, floating tools.</small></button><button type="button" data-ui-choice="retro95"><span class="ui-style-preview preview-retro"><i>AutoClip.exe</i><span>▶</span><b></b></span><strong>Retro ’95</strong><small>Desktop windows, bevelled buttons, pixel icons and blue links.</small></button></div><label class="bot-setting"><span>Classic ’95 colors<small>Turn off to combine retro controls with your selected theme.</small></span><input type="checkbox" id="retroClassicPalette" checked></label><p class="ui-style-status" role="status" aria-live="polite"></p>';
@@ -20,9 +19,18 @@
   pages.append(page);
   const tab=document.createElement('button');tab.type='button';tab.dataset.page='ui-styles';tab.textContent='UI Styles';nav.insertBefore(tab,nav.querySelector('[data-page=themes]'));
   nav.querySelectorAll('button').forEach(button=>button.onclick=()=>{pages.querySelectorAll('.customize-page').forEach(n=>n.hidden=n.dataset.page!==button.dataset.page);nav.querySelectorAll('button').forEach(n=>n.setAttribute('aria-current',n===button?'page':'false'));});
-  let prefs={style:'modern',classic:true};try{prefs={...prefs,...JSON.parse(localStorage.getItem('autoclip.uiStyle')||'{}')};}catch{}
+  let prefs={style:'minimal',classic:true};
+  try{
+    const saved=JSON.parse(localStorage.getItem('autoclip.uiStyle')||'{}');
+    if(saved&&saved.style)prefs.style=saved.style;
+    if(saved&&typeof saved.classic==='boolean')prefs.classic=saved.classic;
+  }catch{}
+  if(!localStorage.getItem('autoclip.uiStyle.v2.1')){
+    prefs.style='minimal';
+    try{localStorage.setItem('autoclip.uiStyle.v2.1','true');}catch{}
+  }
   if(prefs.style==='kio')prefs.style='minimal';
-  if(!styles.some(style=>style.id===prefs.style))prefs.style='modern';
+  if(!styles.some(style=>style.id===prefs.style))prefs.style='minimal';
   // A local preview link explicitly selects an existing UI; normal launches keep the saved choice.
   const requestedStyle=new URLSearchParams(window.location.search).get('ui');
   const previewStyle=requestedStyle==='kio'?'minimal':requestedStyle;
