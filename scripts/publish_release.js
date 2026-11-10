@@ -14,20 +14,23 @@ const VERSION = pkg.version || '1.0.1';
 const REPO_NAME = 'autoclip';
 const TAG_NAME = `v${VERSION}`;
 const RELEASE_TITLE = `AutoClip v${VERSION} - Windows Release`;
-const RELEASE_BODY = `## ⚡ AutoClip Studio v${VERSION}
+const RELEASE_BODY = `## AutoClip Studio v${VERSION}
 
-Upgraded UI, Advanced Adaptive Framing & Timeline Engine.
+Complete autonomous clipping studio with YuNet 5-point neural face tracking, kinetic typography, and direct phone preview flow.
 
-### 🌟 What's New in v${VERSION}
-- **Adaptive Framing Suite**: Upgraded smart framing, blur backgrounds & dynamic crop presets.
-- **Refined Studio UI**: Upgraded visual styling, glassmorphism and enhanced micro-interactions.
-- **CapCut Full-Screen Editing Studio**: Live timeline scrubbing, frame cutting (\`[S]\`), trim handles, and delete (\`[Del]\`).
-- **30-Day Free Pass**: 100 free clip exports per week.
-- **Phone Caption Studio**: Real-time kinetic subtitles with 6 viral presets.
-- **Offline Rating Engine v3**: 100% local video analysis with zero cloud dependency.
+### What's New in v${VERSION}
+- Full AI Auto-Edit Toggle on Main Page: Generate, trim, crop, and polish viral highlights directly from the start.
+- Direct Phone Preview Feed: Instant vertical preview with optional CapCut-style timeline studio editing.
+- Updated Rate Structure:
+  - Starter Free Pass: 70 reels every week (100% free with automatic weekly reset).
+  - AUTOCLIPIN Max ($20 / ₹1,499/mo): 50 reels per day (~1,500 reels/month).
+  - Ultra Studio ($50/mo) & Yearly VIP ($200/yr): Unlimited 4K vertical exports.
+- Engine 2.1 YuNet Neural Face Tracking: Dynamic 9:16 auto-framing with smooth tracking.
+- Minimal UI Edition: Clean, distraction-free editing layout with ambient motion background.
+- Direct UPI QR Checkout: Instant activation via UPI ID (9183352545@ibl) and Union Bank of India.
 
-### ⬇️ Download & Install
-Download **AutoClip-Setup-${VERSION}.exe** below and double-click to install on Windows.`;
+### Download & Install
+Download **AUTOCLIPIN-Setup-${VERSION}.exe** or the standalone portable package below and launch on Windows 10/11.`;
 
 const SETUP_CANDIDATES = [
   path.join(__dirname, '..', 'dist', `AUTOCLIPIN Setup ${VERSION}.exe`),
