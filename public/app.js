@@ -7321,25 +7321,25 @@ function renderLicenseStatus() {
         tierBadge.style.color = '#facc15';
         tierBadge.style.borderColor = 'rgba(234, 179, 8, 0.4)';
       } else {
-        tierBadge.textContent = 'AUTOCLIPIN Max (1,200 Clips/mo)';
+        tierBadge.textContent = 'AUTOCLIPIN Max (50 Reels/day · 1,500/mo)';
         tierBadge.style.background = 'rgba(59, 130, 246, 0.2)';
         tierBadge.style.color = '#60a5fa';
         tierBadge.style.borderColor = 'rgba(59, 130, 246, 0.4)';
       }
     }
     if (holderTitle) holderTitle.textContent = `${lic.holder || 'Creator'} (${lic.tierName || 'Pro Unlocked'})`;
-    if (subtitle) subtitle.textContent = lic.isUnlimited ? 'Unlimited 4K vertical exports active' : '1,200 Monthly clip quota active';
+    if (subtitle) subtitle.textContent = lic.isUnlimited ? 'Unlimited 4K vertical exports active' : '50 Reels/day allowance active (1,500 monthly quota)';
     if (daysLeft) {
       daysLeft.textContent = lic.isLifetime ? '∞' : Math.max(0, Math.ceil(((lic.keyExpiresAt || 0) - Date.now()) / (24 * 60 * 60 * 1000)));
       daysLeft.style.color = '#ffdd00';
     }
     if (quotaText) {
       quotaText.textContent = lic.isUnlimited 
-        ? `${lic.clipsExportedThisMonth || lic.clipsExportedThisWeek || 0} clips (Unlimited)`
-        : `${lic.clipsExportedThisMonth || 0} / 1,200 clips used this month`;
+        ? `${lic.clipsExportedThisMonth || lic.clipsExportedThisWeek || 0} reels (Unlimited)`
+        : `${lic.clipsExportedThisMonth || 0} / 1,500 reels used this month (50/day allowance)`;
     }
     if (quotaBar) {
-      quotaBar.style.width = lic.isUnlimited ? '100%' : Math.min(100, Math.round(((lic.clipsExportedThisMonth || 0) / 1200) * 100)) + '%';
+      quotaBar.style.width = lic.isUnlimited ? '100%' : Math.min(100, Math.round(((lic.clipsExportedThisMonth || 0) / 1500) * 100)) + '%';
     }
     if (resetText) resetText.textContent = lic.isUnlimited ? 'No caps on exports' : 'Resets every 30 days';
   } else if (lic.isExpired) {
@@ -7365,7 +7365,7 @@ function renderLicenseStatus() {
   } else {
     // Active 30-day Free Trial
     const used = lic.clipsExportedThisWeek || 0;
-    const limit = lic.weeklyLimit || 100;
+    const limit = lic.weeklyLimit || 70;
     const pct = Math.min(100, Math.round((used / limit) * 100));
 
     if (statusBtn) {
@@ -7374,7 +7374,7 @@ function renderLicenseStatus() {
       statusBtn.style.color = '#00f0ff';
     }
     if (pillIcon) pillIcon.textContent = '';
-    if (pillText) pillText.textContent = `${used}/${limit} Clips (${lic.trialDaysRemaining || 30}d)`;
+    if (pillText) pillText.textContent = `${used}/${limit} Reels (${lic.trialDaysRemaining || 30}d)`;
 
     if (tierBadge) {
       tierBadge.textContent = 'Free 30-Day Pass';
@@ -7383,12 +7383,12 @@ function renderLicenseStatus() {
       tierBadge.style.borderColor = 'rgba(0, 240, 255, 0.3)';
     }
     if (holderTitle) holderTitle.textContent = `${lic.holder || 'Creator'} Pass`;
-    if (subtitle) subtitle.textContent = '100 free clips every week for your first month';
+    if (subtitle) subtitle.textContent = '70 free reels every week for your first month';
     if (daysLeft) {
       daysLeft.textContent = String(lic.trialDaysRemaining ?? 30);
       daysLeft.style.color = '#00f0ff';
     }
-    if (quotaText) quotaText.textContent = `${used} / ${limit} clips used`;
+    if (quotaText) quotaText.textContent = `${used} / ${limit} reels used`;
     if (quotaBar) quotaBar.style.width = `${pct}%`;
     if (resetText) resetText.textContent = `Resets in ${lic.daysUntilWeeklyReset || 7} day(s)`;
   }
