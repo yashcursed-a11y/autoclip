@@ -59,4 +59,8 @@
 .global-pay-title{font-size:15px;font-weight:600;color:#fff;margin-bottom:6px}
 .global-pay-desc{font-size:11px;color:#9494a0;line-height:1.6;margin:0 auto 16px;max-width:380px}
 .global-trust-pills{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;font-size:9.5px;color:#898995;margin-top:16px}
+.tab-badge-unavl{font-size:8px;font-weight:700;padding:2px 5px;border-radius:3px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#7e808a;text-transform:uppercase;letter-spacing:.3px;margin-left:4px}
+.unavl-badge{display:inline-block;font-size:9px;font-weight:700;padding:4px 9px;border-radius:4px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.28);color:#f87171;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.unavl-card{border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.015)}
+.disabled-unavl-btn{width:100%;justify-content:center;min-height:44px;font-size:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:#73737e;cursor:not-allowed;border-radius:5px;font-family:Syne,sans-serif;font-weight:600}
 @media(max-width:550px){.upi-qr-row{flex-direction:column;align-items:center;text-align:center}.upi-input-group{grid-template-columns:1fr}.payment-tabs-nav{flex-direction:column}}

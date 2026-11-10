@@ -43,13 +43,13 @@
     <div class="price">$20<span>/ month</span></div>
     <p>Scale your channels with consistent daily shorts.</p>
     <ul>
-      <li>⚡ <strong>1,200 AI clips</strong> / month</li>
+      <li><strong>1,200 AI clips</strong> / month</li>
       <li>Full 1080p 60fps vertical exports</li>
       <li>Dynamic face-tracking auto-crop</li>
       <li>All 8 viral kinetic caption presets</li>
       <li>Social media auto-publisher</li>
     </ul>
-    <button class="button primary checkout-btn" data-plan="max" data-price="20" data-inr="1499">Get Max — $20/mo <span>↗</span></button>
+    <button class="button primary checkout-btn" data-plan="max" data-price="20" data-inr="1499">Get Max — $20/mo <span>&rarr;</span></button>
   </article>
 
   <article class="price-card featured">
@@ -59,13 +59,13 @@
     <div class="price">$50<span>/ month</span></div>
     <p>For high-volume clippers and viral agencies.</p>
     <ul>
-      <li>🔥 <strong>UNLIMITED AI clips</strong> every month</li>
+      <li><strong>UNLIMITED AI clips</strong> every month</li>
       <li>High-priority GPU rendering queue</li>
       <li>Multi-account parallel auto-posting</li>
       <li>Custom brand watermark clean & inject</li>
       <li>VIP private Discord community</li>
     </ul>
-    <button class="button primary checkout-btn" data-plan="ultra" data-price="50" data-inr="3999">Get Ultra — $50/mo <span>↗</span></button>
+    <button class="button primary checkout-btn" data-plan="ultra" data-price="50" data-inr="3999">Get Ultra — $50/mo <span>&rarr;</span></button>
   </article>
 
   <article class="price-card">
@@ -75,13 +75,13 @@
     <div class="price">$200<span>/ year</span></div>
     <p>The ultimate creator investment. Unlimited for 365 days.</p>
     <ul>
-      <li>👑 <strong>UNLIMITED AI clips for 1 Full Year</strong></li>
+      <li><strong>UNLIMITED AI clips for 1 Full Year</strong></li>
       <li>All Ultra Studio features unlocked</li>
       <li>Commercial monetization license</li>
       <li>Early access to future AI voice models</li>
       <li>Direct 1-on-1 developer onboarding</li>
     </ul>
-    <button class="button primary checkout-btn" data-plan="yearly" data-price="200" data-inr="15999">Get Yearly — $200/yr <span>👑</span></button>
+    <button class="button primary checkout-btn" data-plan="yearly" data-price="200" data-inr="15999">Get Yearly — $200/yr <span>&rarr;</span></button>
   </article>
 </div>
 <p id="pricingNote" class="pricing-note">All paid plans include instant license key delivery. Payments are secured via Lemon Squeezy (International Cards, PayPal, Apple Pay) and Razorpay / UPI for India.</p></section>
@@ -346,19 +346,19 @@
   <div class="checkout-box">
     <span id="checkoutPlanBadge" class="plan-status available">POPULAR</span>
     <div id="checkoutPriceLabel" class="price">$20 <span>(&#8377;1,499) / month</span></div>
-    <div id="checkoutClipsLabel">&#9889; 1,200 AI Clips per Month</div>
+    <div id="checkoutClipsLabel">1,200 AI Clips per Month</div>
   </div>
 
   <!-- Payment Method Switcher Tabs -->
   <div class="payment-tabs-nav">
     <button type="button" class="pay-tab-btn active" data-tab="upi">
-      <span>&#127470;&#127475;</span> Direct UPI QR
+      Direct UPI QR (Instant)
     </button>
     <button type="button" class="pay-tab-btn" data-tab="global">
-      <span>&#127757;</span> Cards &amp; PayPal
+      International Cards <span class="tab-badge-unavl">Unavailable</span>
     </button>
     <button type="button" class="pay-tab-btn" data-tab="razorpay">
-      <span>&#128179;</span> Razorpay Link
+      Razorpay <span class="tab-badge-unavl">Unavailable</span>
     </button>
   </div>
 
@@ -379,7 +379,7 @@
             <span class="upi-label">UPI ID / VPA:</span>
             <div class="upi-vpa-copy-row">
               <code id="upiVpaText">9183352545@ibl</code>
-              <button type="button" id="btnCopyUpiId" class="pill-copy-btn">&#128203; Copy</button>
+              <button type="button" id="btnCopyUpiId" class="pill-copy-btn">Copy</button>
             </div>
             <div style="font-size: 10px; color: #898995; margin-top: 4px;">Union Bank of India &middot; Primary receiving account</div>
           </div>
@@ -410,32 +410,32 @@
     </div>
   </div>
 
-  <!-- Tab 2: Global Cards / PayPal / Apple Pay -->
+  <!-- Tab 2: Global Cards / PayPal / Apple Pay (Currently Unavailable) -->
   <div id="payPane-global" class="pay-pane">
-    <div class="global-pay-card">
-      <div class="global-pay-title">Global Checkout (Stripe &amp; Cards)</div>
-      <p class="global-pay-desc">Pay securely via Credit Card, Debit Card, Apple Pay, Google Pay, or PayPal. Instant license key delivered to your email upon payment.</p>
-      <a id="btnGlobalCheckout" class="button primary" href="#" target="_blank" rel="noopener" style="width: 100%; justify-content: center; min-height: 46px; font-size: 13px;">
-        <span id="btnGlobalCheckoutLabel">Pay $20 via Card / PayPal &rarr;</span>
-      </a>
-      <div class="global-trust-pills">
-        <span>&#128274; 256-bit SSL</span>
-        <span>&#128179; All Major Cards</span>
-        <span>&#9889; Instant Delivery</span>
+    <div class="global-pay-card unavl-card">
+      <div class="unavl-badge">Currently Unavailable</div>
+      <div class="global-pay-title">International Cards &amp; PayPal</div>
+      <p class="global-pay-desc">International checkout via Stripe and Lemon Squeezy is currently undergoing merchant verification. Please use Direct UPI QR for instant license activation.</p>
+      <button type="button" class="disabled-unavl-btn" disabled>
+        Currently Unavailable
+      </button>
+      <div style="margin-top: 14px; text-align: center;">
+        <button type="button" onclick="document.querySelector('.pay-tab-btn[data-tab=upi]').click()" style="background: none; border: none; color: #a4a6ac; text-decoration: underline; cursor: pointer; font-size: 11px;">&larr; Switch to Direct UPI QR (Active &amp; Instant)</button>
       </div>
     </div>
   </div>
 
-  <!-- Tab 3: Razorpay Link -->
+  <!-- Tab 3: Razorpay Link (Currently Unavailable) -->
   <div id="payPane-razorpay" class="pay-pane">
-    <div class="global-pay-card">
-      <div class="global-pay-title">Razorpay Payment Page</div>
-      <p class="global-pay-desc">Pay via India NetBanking, Wallets, Cards, or Razorpay hosted checkout page.</p>
-      <a id="btnRazorpayCheckout" class="button primary" href="#" target="_blank" rel="noopener" style="width: 100%; justify-content: center; min-height: 46px; font-size: 13px;">
-        <span id="btnRazorpayCheckoutLabel">Pay &#8377;1,499 on Razorpay &rarr;</span>
-      </a>
-      <div class="global-trust-pills">
-        <span>&#127470;&#127475; NetBanking &bull; Wallets &bull; Cards</span>
+    <div class="global-pay-card unavl-card">
+      <div class="unavl-badge">Currently Unavailable</div>
+      <div class="global-pay-title">Razorpay Gateway</div>
+      <p class="global-pay-desc">Razorpay automated gateway onboarding is currently in review. Please use Direct UPI QR for instant license generation.</p>
+      <button type="button" class="disabled-unavl-btn" disabled>
+        Currently Unavailable
+      </button>
+      <div style="margin-top: 14px; text-align: center;">
+        <button type="button" onclick="document.querySelector('.pay-tab-btn[data-tab=upi]').click()" style="background: none; border: none; color: #a4a6ac; text-decoration: underline; cursor: pointer; font-size: 11px;">&larr; Switch to Direct UPI QR (Active &amp; Instant)</button>
       </div>
     </div>
   </div>
@@ -494,7 +494,7 @@
     }
 
     // =========================================================================
-    // 💳 AUTOCLIPIN PAYMENT CONFIGURATION
+    // AUTOCLIPIN PAYMENT CONFIGURATION
     // Easily configure your UPI ID and Stripe/Lemon Squeezy payment links below:
     // =========================================================================
     window.AUTOCLIP_PAYMENT_CONFIG = {
@@ -662,8 +662,8 @@
         const vpa = window.AUTOCLIP_PAYMENT_CONFIG.upi.vpa;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(vpa).then(() => {
-            copyUpiBtn.textContent = '✅ Copied!';
-            setTimeout(() => { copyUpiBtn.textContent = '📋 Copy'; }, 2000);
+            copyUpiBtn.textContent = 'Copied!';
+            setTimeout(() => { copyUpiBtn.textContent = 'Copy'; }, 2000);
           });
         }
       };
@@ -683,11 +683,11 @@
         const utr = (utrInput?.value || '').trim();
 
         if (!name || name.length < 2) {
-          feedback.innerHTML = '<span style="color:#f87171;">⚠️ Please enter your name.</span>';
+          feedback.innerHTML = '<span style="color:#f87171;">Please enter your name.</span>';
           return;
         }
         if (!utr || utr.length < 6) {
-          feedback.innerHTML = '<span style="color:#f87171;">⚠️ Please enter your 12-digit UPI Reference / UTR Number.</span>';
+          feedback.innerHTML = '<span style="color:#f87171;">Please enter your 12-digit UPI Reference / UTR Number.</span>';
           return;
         }
 
@@ -755,19 +755,19 @@
       if (!feedback) return;
       feedback.innerHTML = `
         <div class="key-success-card">
-          <div class="key-success-header">🎉 Payment Verified & License Key Issued for ${escapeHtml(name)}!</div>
+          <div class="key-success-header">Payment verified. License key issued for ${escapeHtml(name)}:</div>
           <div class="key-display-box">
             <code>${key}</code>
-            <button type="button" class="copy-key-btn" id="btnCopyIssuedKey">📋 Copy Key</button>
+            <button type="button" class="copy-key-btn" id="btnCopyIssuedKey">Copy Key</button>
           </div>
-          <p class="key-success-hint">✅ Click to copy and paste into the <strong>Activate</strong> box below to instantly unlock AUTOCLIPIN.</p>
+          <p class="key-success-hint">Click to copy and paste into the <strong>Activate</strong> box below to instantly unlock AUTOCLIPIN.</p>
         </div>
       `;
       const copyBtn = document.getElementById('btnCopyIssuedKey');
       if (copyBtn) {
         copyBtn.onclick = () => {
           navigator.clipboard.writeText(key).then(() => {
-            copyBtn.textContent = '✅ Copied!';
+            copyBtn.textContent = 'Copied!';
             const keyInput = document.getElementById('landingKeyInput');
             if (keyInput) keyInput.value = key;
           });
