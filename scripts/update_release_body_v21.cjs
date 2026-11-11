@@ -26,7 +26,8 @@ Complete autonomous clipping studio with smart neural face tracking, kinetic typ
 - **Direct PhonePe / UPI QR Checkout**: Instant activation via UPI ID (9183352545@ibl) and Union Bank of India.
 
 ### Downloads
-- **AUTOCLIPIN-v2.1.0-Complete-All-Engines-Windows.zip** (Recommended, ~404 MB): Complete standalone folder with all engines and models pre-bundled. Extract and run \`Launch-AutoClip.bat\` or \`AUTOCLIPIN.exe\`.
+- **AUTOCLIPIN-v2.1.0-Ultimate-Creator-Bundle-Windows.zip** (Recommended, ~100% Self-Contained): The ultimate offline creator bundle. Includes the complete standalone Python AI runtime, all speech transcription models, neural face tracking, and FFmpeg rendering engines in one single folder. Extract and double-click \`Launch-AutoClip.bat\` or \`AUTOCLIPIN.exe\`. Zero Python or external dependencies needed.
+- **AUTOCLIPIN-v2.1.0-Complete-All-Engines-Windows.zip** (404 MB): Lightweight standalone folder with pre-bundled FFmpeg, models, and binaries.
 - **AUTOCLIPIN-Setup-2.1.0.exe** (125 MB): Standard Windows installer with desktop and start menu shortcuts.
 - **AUTOCLIPIN-Portable-2.1.0.exe** (113 MB): Single executable zero-install portable edition.
 `;

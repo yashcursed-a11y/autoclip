@@ -34,6 +34,24 @@ for (const dir of potentialBinDirs) {
   }
 }
 
+// Prepend bundled Python to PATH and set HF cache if present
+const potentialPyDirs = [
+  path.join(ROOT, 'python'),
+  path.join(path.dirname(process.execPath), 'python'),
+  path.join(process.resourcesPath || '', 'python')
+];
+for (const pydir of potentialPyDirs) {
+  if (fs.existsSync(pydir) && !process.env.PATH.includes(pydir)) {
+    process.env.PATH = `${pydir}${path.delimiter}${path.join(pydir, 'Scripts')}${path.delimiter}${process.env.PATH}`;
+  }
+}
+
+const bundledHfCache = path.join(ROOT, 'cache', 'huggingface');
+if (fs.existsSync(bundledHfCache) && !process.env.HF_HOME) {
+  process.env.HF_HOME = bundledHfCache;
+  process.env.HF_HUB_OFFLINE = '1';
+}
+
 const {
   getJobs,
   getJob,

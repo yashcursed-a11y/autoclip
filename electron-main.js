@@ -16,6 +16,17 @@ for (const dir of potentialBinDirs) {
   }
 }
 
+const potentialPyDirs = [
+  path.join(__dirname, 'python'),
+  path.join(path.dirname(process.execPath), 'python'),
+  path.join(process.resourcesPath || '', 'python')
+];
+for (const pydir of potentialPyDirs) {
+  if (fs.existsSync(pydir) && !process.env.PATH.includes(pydir)) {
+    process.env.PATH = `${pydir}${path.delimiter}${path.join(pydir, 'Scripts')}${path.delimiter}${process.env.PATH}`;
+  }
+}
+
 let mainWindow = null;
 const PORT = process.env.PORT || 4173;
 const APP_ZOOM_STEPS = [.6,.67,.75,.8,.9,1,1.1,1.25,1.5];
