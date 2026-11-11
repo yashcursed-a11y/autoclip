@@ -93,7 +93,14 @@ def run_transcription():
     from faster_whisper import WhisperModel
 
     try:
-        model = WhisperModel(model_size, device="cpu", compute_type="int8", cpu_threads=2, num_workers=1)
+        # Check for bundled local offline model first
+        repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        local_model_candidate = os.path.join(repo_root, "models", f"whisper-{model_size}")
+        if os.path.exists(local_model_candidate) and os.path.exists(os.path.join(local_model_candidate, "model.bin")):
+            model_target = local_model_candidate
+        else:
+            model_target = model_size
+        model = WhisperModel(model_target, device="cpu", compute_type="int8", cpu_threads=2, num_workers=1)
     except Exception as e:
         del audio
         if os.path.exists(pcm_file):

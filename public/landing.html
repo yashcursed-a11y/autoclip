@@ -135,9 +135,9 @@
 <section class="download section" id="download" aria-labelledby="downloadTitle">
   <div class="download-heading"><div><p class="eyebrow">06 / GET AUTOCLIPIN</p><h2 id="downloadTitle">Download the studio.<br><em>Everything in one package.</em></h2></div><p>Get the complete AUTOCLIPIN suite.<br>All AI tools, facial tracking, and clipping features included.</p></div>
   <div class="download-release"><span class="download-badge">WINDOWS · v2.1.0</span><a class="text-link" href="https://github.com/yashcursed-a11y/autoclip/releases" target="_blank" rel="noopener">Release notes ↗</a></div>
-  <div class="download-packages" style="display: flex; justify-content: center; max-width: 620px; margin: 0 auto;">
-    <article class="download-package recommended" style="width: 100%;"><div class="package-meta"><span>01 / COMPLETE PACKAGE</span><span>v2.1.0</span></div><h3>Download once.<br>Start creating.</h3><p>Includes the full AUTOCLIPIN studio with smart face tracking, kinetic captions, and all AI clipping tools.</p><ul><li>Complete desktop studio package</li><li>Smart neural face tracking &amp; 9:16 auto-framing</li><li>Hormozi kinetic pop subtitles &amp; 140+ emojis</li><li>One-click Full AI auto-editing on main page</li><li>Direct Phone Preview Feed with optional timeline studio</li><li>No complicated setup — ready to run</li></ul><a class="button primary" id="btnDownloadWholeThing" href="https://github.com/yashcursed-a11y/autoclip/releases/latest" style="font-size: 15px; padding: 13px 28px;">Download AUTOCLIPIN <span>↓</span></a><small>Windows · Version 2.1.0 · Complete Studio</small></article>
-  </div><p class="download-footnote">Download the package, extract the folder, and launch AUTOCLIPIN. Keep the accompanying files together.</p>
+  <div class="download-packages" style="display: flex; justify-content: center; max-width: 680px; margin: 0 auto;">
+    <article class="download-package recommended" style="width: 100%;"><div class="package-meta"><span>01 / COMPLETE ALL-ENGINES PACKAGE</span><span>v2.1.0</span></div><h3>Download once.<br>Start creating.</h3><p>Includes the full AUTOCLIPIN studio with all video engines, offline speech AI, smart neural face tracking, and kinetic captions bundled in a single folder.</p><ul><li>Complete desktop studio — all engines included in one folder</li><li>Pre-bundled video rendering &amp; audio extraction engines</li><li>Pre-bundled stream ingestion &amp; neural face tracking models</li><li>Pre-bundled offline speech recognition model</li><li>Zero external installations needed — extract and click Launch-AutoClip.bat</li></ul><a class="button primary" id="btnDownloadWholeThing" href="https://github.com/yashcursed-a11y/autoclip/releases/download/v2.1.0/AUTOCLIPIN-v2.1.0-Complete-All-Engines-Windows.zip" style="font-size: 15px; padding: 13px 28px;">Download All-In-One Package (404 MB) <span>↓</span></a><div style="display: flex; justify-content: center; gap: 14px; margin-top: 12px; font-size: 12px;"><a href="https://github.com/yashcursed-a11y/autoclip/releases/download/v2.1.0/AUTOCLIPIN-Setup-2.1.0.exe" style="color: #cbd5e1; text-decoration: underline;">Installer (.exe, 125 MB)</a><span>&bull;</span><a href="https://github.com/yashcursed-a11y/autoclip/releases/download/v2.1.0/AUTOCLIPIN-Portable-2.1.0.exe" style="color: #cbd5e1; text-decoration: underline;">Portable (.exe, 113 MB)</a><span>&bull;</span><a href="https://github.com/yashcursed-a11y/autoclip/releases/latest" style="color: #38bdf8; text-decoration: underline;">View All GitHub Assets &rarr;</a></div><small style="display: block; margin-top: 8px;">Windows 10/11 (64-bit) &middot; Version 2.1.0 &middot; 100% Offline Standalone</small></article>
+  </div><p class="download-footnote">Download the all-in-one zip, extract the folder to your PC, and double-click <strong>Launch-AutoClip.bat</strong> or <strong>AUTOCLIPIN.exe</strong>. All engines and models are already inside the folder.</p>
 </section>
 
 <section class="faq section">
@@ -501,9 +501,9 @@
       // 1. Direct UPI (India GPay, PhonePe, Paytm, BHIM)
       upi: {
         vpa: '9183352545@ibl',
-        merchantName: 'AUTOCLIPIN',
-        bankName: 'Union Bank of India',
-        qrImage: './marketing/media/upi-qr-clean.png',
+        merchantName: 'AutoClip Pro Studio',
+        bankName: 'Union Bank of India - 9766',
+        qrImage: './assets/upi-qr.jpg',
         enabled: true
       },
       // 2. Global Cards & PayPal (Stripe Payment Links or Lemon Squeezy Checkout)
@@ -616,10 +616,7 @@
       const upiUri = `upi://pay?pa=${encodeURIComponent(vpa)}&pn=${encodeURIComponent(merchant)}&am=${info.inr}&cu=INR&tn=${encodeURIComponent('AUTOCLIPIN ' + info.badge)}`;
       const qrImg = document.getElementById('upiQrCodeImg');
       if (qrImg) {
-        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=6&data=${encodeURIComponent(upiUri)}`;
-        qrImg.onerror = () => {
-          qrImg.src = window.AUTOCLIP_PAYMENT_CONFIG.upi.qrImage || './marketing/media/upi-qr-clean.png';
-        };
+        qrImg.src = window.AUTOCLIP_PAYMENT_CONFIG.upi.qrImage || './assets/upi-qr.jpg';
       }
 
       // Update Global Checkout button

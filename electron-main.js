@@ -4,6 +4,18 @@ const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const http = require('http');
 
+// Prepend bundled binaries to PATH so child processes inherit FFmpeg, FFprobe, and yt-dlp
+const potentialBinDirs = [
+  path.join(__dirname, 'bin'),
+  path.join(path.dirname(process.execPath), 'bin'),
+  path.join(process.resourcesPath || '', 'bin')
+];
+for (const dir of potentialBinDirs) {
+  if (fs.existsSync(dir) && !process.env.PATH.includes(dir)) {
+    process.env.PATH = `${dir}${path.delimiter}${process.env.PATH}`;
+  }
+}
+
 let mainWindow = null;
 const PORT = process.env.PORT || 4173;
 const APP_ZOOM_STEPS = [.6,.67,.75,.8,.9,1,1.1,1.25,1.5];

@@ -21,6 +21,19 @@ const {
   TOKENS_DIR
 } = require('./lib/config');
 
+// Prepend bundled engines and binaries to PATH so FFmpeg, FFprobe, and yt-dlp work standalone
+const potentialBinDirs = [
+  path.join(ROOT, 'bin'),
+  path.join(path.dirname(process.execPath), 'bin'),
+  path.join(process.resourcesPath || '', 'bin'),
+  path.join(ROOT, '..', 'bin')
+];
+for (const dir of potentialBinDirs) {
+  if (fs.existsSync(dir) && !process.env.PATH.includes(dir)) {
+    process.env.PATH = `${dir}${path.delimiter}${process.env.PATH}`;
+  }
+}
+
 const {
   getJobs,
   getJob,
